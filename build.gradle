@@ -64,6 +64,7 @@ subprojects {
         mavenLocal()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
+        maven { url "http://dl.bintray.com/ona/kujaku" }
     }
 
     // Improve build server performance by allowing disabling of pre-dexing

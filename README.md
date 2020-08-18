@@ -2,6 +2,8 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-client-goldsmith/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-client-goldsmith?branch=master)
 
+[![Travis build](https://travis-ci.com/OpenSRP/opensrp-client-goldsmith.svg?branch=master)
+
 ## Living Goods
 This is a CHW application powered by OpenSRP with the CHW actions driven by dynamic tasking
 
