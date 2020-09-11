@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">OpenSRP Client Goldsmith</string>
+    <string name="app_name">OpenSRP CHW Goldsmith</string>
+
+    <!-- Bottom Navigation -->
+    <string name="my_tasks">My Tasks</string>
+    <string name="my_clients">My Clients</string>
+    <string name="my_performance">My Performance</string>
+    <string name="training">Training</string>
+
 </resources>

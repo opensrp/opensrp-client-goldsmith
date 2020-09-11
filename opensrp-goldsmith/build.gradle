@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android'
 
 buildscript {
     repositories {
@@ -12,7 +13,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$androidToolsBuildGradle"
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.3'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1'
         classpath 'io.fabric.tools:gradle:1.31.2'
     }
 }
@@ -133,6 +134,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api 'org.smartregister:opensrp-client-tasking:0.0.3-SNAPSHOT'
+    implementation (project(':configurable-register-and-profiles')){
+        transitive = true
+        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
+    }
 
     api('org.smartregister:opensrp-client-family:1.3.0-SNAPSHOT@aar') {
         transitive = true
@@ -230,6 +235,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 
 coveralls {
     jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/merged.xml"
+    sourceDirs = ["$project.projectDir/src/main/java"]
 }
 
 tasks.coveralls {

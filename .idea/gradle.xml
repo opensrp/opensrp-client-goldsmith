@@ -10,6 +10,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/chw-core" />
+            <option value="$PROJECT_DIR$/configurable-register-and-profiles" />
             <option value="$PROJECT_DIR$/opensrp-goldsmith" />
           </set>
         </option>

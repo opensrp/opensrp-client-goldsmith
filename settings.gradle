@@ -1,2 +1,4 @@
+include ':configurable-register-and-profiles'
+include ':chw-core'
 rootProject.name='opensrp-client-goldsmith'
 include ':opensrp-goldsmith'
