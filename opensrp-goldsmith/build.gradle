@@ -133,7 +133,7 @@ tasks.withType(Test) {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api 'org.smartregister:opensrp-client-tasking:0.0.3-SNAPSHOT'
+    // api 'org.smartregister:opensrp-client-tasking:0.0.3-SNAPSHOT'
     implementation (project(':configurable-register-and-profiles')){
         transitive = true
         exclude group: 'com.rengwuxian.materialedittext', module: 'library'
