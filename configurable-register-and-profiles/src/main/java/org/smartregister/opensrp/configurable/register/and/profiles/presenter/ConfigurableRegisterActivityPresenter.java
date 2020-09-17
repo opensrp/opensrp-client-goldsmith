@@ -9,28 +9,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.opensrp.configurable.register.and.profiles.R;
-import org.smartregister.opensrp.configurable.register.and.profiles.contract.ConfigurableRegisterActivityContract;
 import org.smartregister.opensrp.configurable.register.and.profiles.interactor.ConfigurableRegisterInteractor;
-import org.smartregister.opensrp.configurable.register.and.profiles.pojo.RegisterParams;
+import org.smartregister.view.contract.RegisterParams;
+import org.smartregister.view.contract.BaseRegisterContract;
+import org.smartregister.view.contract.ConfigurableRegisterActivityContract;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 import timber.log.Timber;
 
-public abstract class ConfigurableRegisterActivityPresenter implements ConfigurableRegisterActivityContract.Presenter, ConfigurableRegisterActivityContract.InteractorCallBack {
+public abstract class ConfigurableRegisterActivityPresenter implements BaseRegisterContract.Presenter, ConfigurableRegisterActivityContract.InteractorCallBack {
 
-    protected WeakReference<ConfigurableRegisterActivityContract.View> viewWeakReference;
+    protected WeakReference<BaseRegisterContract.View> viewWeakReference;
     protected ConfigurableRegisterActivityContract.Interactor interactor;
     protected ConfigurableRegisterActivityContract.Model model;
 
-    public ConfigurableRegisterActivityPresenter(ConfigurableRegisterActivityContract.View view, ConfigurableRegisterActivityContract.Model model) {
+    public ConfigurableRegisterActivityPresenter(BaseRegisterContract.View view, ConfigurableRegisterActivityContract.Model model) {
         viewWeakReference = new WeakReference<>(view);
         interactor = createInteractor();
         this.model = model;
     }
 
-    private ConfigurableRegisterActivityContract.View getView() {
+    private BaseRegisterContract.View getView() {
         if (viewWeakReference != null) {
             return viewWeakReference.get();
         } else {
@@ -72,7 +73,8 @@ public abstract class ConfigurableRegisterActivityPresenter implements Configura
 
     @Override
     public ConfigurableRegisterActivityContract.Interactor createInteractor() {
-        return new ConfigurableRegisterInteractor();
+        //return new ConfigurableRegisterInteractor();
+        return null;
     }
 
     @Override

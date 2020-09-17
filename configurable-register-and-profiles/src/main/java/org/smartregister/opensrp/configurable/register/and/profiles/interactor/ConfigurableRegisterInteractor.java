@@ -1,10 +1,9 @@
 package org.smartregister.opensrp.configurable.register.and.profiles.interactor;
 
 import org.apache.commons.lang3.tuple.Triple;
-import org.smartregister.opensrp.configurable.register.and.profiles.ConfigurableRegisterLibrary;
-import org.smartregister.opensrp.configurable.register.and.profiles.contract.ConfigurableRegisterActivityContract;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.AppExecutors;
+import org.smartregister.view.contract.ConfigurableRegisterActivityContract;
 
 public abstract class ConfigurableRegisterInteractor implements ConfigurableRegisterActivityContract.Interactor {
 

@@ -6,8 +6,8 @@ import android.content.Intent;
 import androidx.fragment.app.Fragment;
 
 import org.json.JSONObject;
-import org.smartregister.opensrp.configurable.register.and.profiles.contract.ConfigurableRegisterActivityContract;
 import org.smartregister.view.activity.BaseRegisterActivity;
+import org.smartregister.view.contract.ConfigurableRegisterActivityContract;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 import java.util.List;

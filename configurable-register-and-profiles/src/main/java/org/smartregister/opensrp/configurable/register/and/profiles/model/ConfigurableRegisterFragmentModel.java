@@ -1,24 +1,24 @@
 package org.smartregister.opensrp.configurable.register.and.profiles.model;
 
 import org.json.JSONArray;
-import org.smartregister.configurableviews.model.Field;
-import org.smartregister.configurableviews.model.View;
-import org.smartregister.configurableviews.model.ViewConfiguration;
 import org.smartregister.domain.Response;
-import org.smartregister.opensrp.configurable.register.and.profiles.contract.ConfigurableRegisterFragmentContract;
+import org.smartregister.view.contract.BaseRegisterFragmentContract;
+import org.smartregister.view.contract.IField;
+import org.smartregister.view.contract.IView;
+import org.smartregister.view.contract.IViewConfiguration;
 
 import java.util.List;
 import java.util.Set;
 
-public class ConfigurableRegisterFragmentModel implements ConfigurableRegisterFragmentContract.Model {
+public class ConfigurableRegisterFragmentModel implements BaseRegisterFragmentContract.Model {
 
     @Override
-    public ViewConfiguration getViewConfiguration(String viewConfigurationIdentifier) {
+    public IViewConfiguration getViewConfiguration(String viewConfigurationIdentifier) {
         return null;
     }
 
     @Override
-    public Set<View> getRegisterActiveColumns(String viewConfigurationIdentifier) {
+    public Set<IView> getRegisterActiveColumns(String viewConfigurationIdentifier) {
         return null;
     }
 
@@ -33,12 +33,12 @@ public class ConfigurableRegisterFragmentModel implements ConfigurableRegisterFr
     }
 
     @Override
-    public String getFilterText(List<Field> filterList, String filter) {
+    public String getFilterText(List<IField> filterList, String filter) {
         return null;
     }
 
     @Override
-    public String getSortText(Field sortField) {
+    public String getSortText(IField sortField) {
         return null;
     }
 

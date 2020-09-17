@@ -1,11 +1,10 @@
 package org.smartregister.opensrp.configurable.register.and.profiles.model;
 
 import org.smartregister.configurableviews.ConfigurableViewsLibrary;
-
 import org.smartregister.location.helper.LocationHelper;
-import org.smartregister.opensrp.configurable.register.and.profiles.contract.ConfigurableRegisterActivityContract;
 import org.smartregister.opensrp.configurable.register.and.profiles.util.Utils;
 import org.smartregister.util.FormUtils;
+import org.smartregister.view.contract.ConfigurableRegisterActivityContract;
 
 import java.util.List;
 
