@@ -9,6 +9,7 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$/../opensrp-client-chw/opensrp-chw" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/chw-core" />
             <option value="$PROJECT_DIR$/configurable-register-and-profiles" />

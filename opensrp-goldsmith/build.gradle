@@ -173,6 +173,18 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-immunization'
     }
 
+    implementation('org.smartregister:opensrp-client-chw-core:1.4.9-SNAPSHOT@aar') {
+        transitive = true
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'androidx.legacy', module: 'legacy-support-v4'
+        exclude group: 'androidx.appcompat', module: 'appcompat'
+        exclude group: 'androidx.constraintlayout', module: 'constraintlayout'
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
+    }
+    //Do not upgrade to 1.1.0 due to compatibility issues
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

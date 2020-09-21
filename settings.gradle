@@ -2,3 +2,7 @@ include ':configurable-register-and-profiles'
 include ':chw-core'
 rootProject.name='opensrp-client-goldsmith'
 include ':opensrp-goldsmith'
+
+
+include ':opensrp-chw'
+project(":opensrp-chw").projectDir = new File("../opensrp-client-chw/opensrp-chw")
