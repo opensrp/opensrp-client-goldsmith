@@ -1,13 +1,16 @@
 package org.smartregister.opensrp.configurable.register.and.profiles.presenter;
 
 import org.smartregister.configurableviews.model.Field;
-import org.smartregister.opensrp.configurable.register.and.profiles.contract.ConfigurableRegisterFragmentContract;
+import org.smartregister.view.contract.BaseRegisterFragmentContract;
+import org.smartregister.view.contract.ConfigurableRegisterFragmentContract;
+import org.smartregister.view.contract.IField;
 
 import java.util.List;
 
-public class ConfigurableRegisterFragmentPresenter implements ConfigurableRegisterFragmentContract.Presenter {
+public class ConfigurableRegisterFragmentPresenter implements BaseRegisterFragmentContract.Presenter {
+
     @Override
-    public void updateSortAndFilter(List<Field> filterList, Field sortField) {
+    public void updateSortAndFilter(List<IField> list, IField iField) {
 
     }
 

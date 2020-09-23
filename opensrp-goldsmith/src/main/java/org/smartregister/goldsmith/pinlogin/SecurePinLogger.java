@@ -10,9 +10,9 @@ import androidx.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.smartregister.CoreLibrary;
-import org.smartregister.chw.application.ChwApplication;
-import org.smartregister.chw.util.Utils;
+import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.service.UserService;
+import org.smartregister.util.Utils;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -93,14 +93,14 @@ public class SecurePinLogger implements PinLogger {
     @Nullable
     @Override
     public String loggedInUser() {
-        try {
+        /*try {
             String values = Utils.getPrefferedName();
             if (StringUtils.isNotBlank(values))
                 return values.split(" ")[0];
 
         } catch (Exception e) {
             Timber.v(e);
-        }
+        }*/
         return null;
     }
 
@@ -154,7 +154,7 @@ public class SecurePinLogger implements PinLogger {
     @Override
     public void autoLogin(@NotNull EventListener listener) {
         ChwApplication application = (ChwApplication) ChwApplication.getInstance();
-        application.getAppExecutors();
+        /*application.getAppExecutors();
 
         Runnable runnable = () -> {
 
@@ -181,7 +181,7 @@ public class SecurePinLogger implements PinLogger {
                 application.getAppExecutors().mainThread().execute(() -> listener.onError(ex));
             }
         };
-        application.getAppExecutors().diskIO().execute(runnable);
+        application.getAppExecutors().diskIO().execute(runnable);*/
     }
 
     private UserService getUserService() {

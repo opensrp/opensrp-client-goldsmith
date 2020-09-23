@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:screenOrientation="portrait"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:replace="android:theme"
+        android:name=".ChwApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ClientRegisterActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

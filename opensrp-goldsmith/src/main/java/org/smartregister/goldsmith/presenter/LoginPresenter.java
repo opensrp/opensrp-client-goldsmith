@@ -9,14 +9,12 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 
-import org.smartregister.chw.R;
-import org.smartregister.chw.application.ChwApplication;
 import org.smartregister.chw.core.utils.ImageLoaderRequest;
-import org.smartregister.chw.interactor.LoginInteractor;
 import org.smartregister.configurableviews.model.LoginConfiguration;
 import org.smartregister.configurableviews.model.ViewConfiguration;
 import org.smartregister.configurableviews.util.Constants;
 import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.interactor.LoginInteractor;
 import org.smartregister.login.model.BaseLoginModel;
 import org.smartregister.login.presenter.BaseLoginPresenter;

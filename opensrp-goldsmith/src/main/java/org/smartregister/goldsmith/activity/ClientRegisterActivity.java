@@ -9,6 +9,8 @@ import org.smartregister.family.presenter.BaseFamilyRegisterPresenter;
 import org.smartregister.goldsmith.fragment.ClientRegisterFragment;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
+import java.util.Map;
+
 public class ClientRegisterActivity extends BaseFamilyRegisterActivity {
 
     @Override
@@ -29,5 +31,10 @@ public class ClientRegisterActivity extends BaseFamilyRegisterActivity {
     @Override
     protected Fragment[] getOtherFragments() {
         return new Fragment[0];
+    }
+
+    @Override
+    public void startFormActivity(String s, String s1, Map<String, String> map) {
+
     }
 }
