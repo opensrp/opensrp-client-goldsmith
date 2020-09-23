@@ -4,19 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 
-import org.smartregister.chw.R;
-import org.smartregister.chw.application.ChwApplication;
-import org.smartregister.chw.fragment.ChooseLoginMethodFragment;
-import org.smartregister.chw.fragment.PinLoginFragment;
-import org.smartregister.chw.presenter.LoginPresenter;
-import org.smartregister.chw.util.Utils;
 import org.smartregister.family.util.Constants;
+import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.pinlogin.PinLogger;
 import org.smartregister.goldsmith.pinlogin.PinLoginUtil;
 import org.smartregister.goldsmith.presenter.LoginPresenter;
-import org.smartregister.growthmonitoring.service.intent.WeightForHeightIntentService;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.task.SaveTeamLocationsTask;
 import org.smartregister.util.Utils;
@@ -114,8 +108,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     }
 
     private void startHome(boolean remote) {
-        Intent intent = new Intent(this, ChwApplication.getApplicationFlavor().launchChildClientsAtLogin() ?
-                ChildRegisterActivity.class : FamilyRegisterActivity.class);
+        Intent intent = new Intent(this, ClientRegisterActivity.class);
         intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
         startActivity(intent);
     }
@@ -144,10 +137,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
     private void processWeightForHeightZscoreCSV() {
         AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
-        if (ChwApplication.getApplicationFlavor().hasChildSickForm() && !allSharedPreferences.getPreference(WFH_CSV_PARSED).equals("true")) {
+        /*if (ChwApplication.getApplicationFlavor().hasChildSickForm() && !allSharedPreferences.getPreference(WFH_CSV_PARSED).equals("true")) {
             WeightForHeightIntentService.startParseWFHZScores(this);
             allSharedPreferences.savePreference(WFH_CSV_PARSED, "true");
-        }
+        }*/
     }
 
 }

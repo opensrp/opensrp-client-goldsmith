@@ -11,6 +11,7 @@ import org.smartregister.view.contract.ConfigurableRegisterActivityContract;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 import java.util.List;
+import java.util.Map;
 
 public class ConfigurableRegisterActivity extends BaseRegisterActivity implements ConfigurableRegisterActivityContract.View {
 
@@ -28,6 +29,11 @@ public class ConfigurableRegisterActivity extends BaseRegisterActivity implement
     @Override
     protected Fragment[] getOtherFragments() {
         return new Fragment[0];
+    }
+
+    @Override
+    public void startFormActivity(String s, String s1, Map<String, String> map) {
+
     }
 
     @Override
