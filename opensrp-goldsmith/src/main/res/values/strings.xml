@@ -1,14 +1,10 @@
 <resources>
     <string name="app_name">OpenSRP CHW Goldsmith</string>
 
-    <!-- Bottom Navigation -->
-    <string name="my_tasks">My Tasks</string>
-    <string name="my_clients">My Clients</string>
-    <string name="my_performance">My Performance</string>
-    <string name="training">Training</string>
-    <string name="logo">logo</string>
+    <!-- LOGIN -->
+    <string name="logo">LOGO</string>
+    <string name="login_title">GOLDSMITH CHW</string>
+    <string name="app_version">Version: %1$s</string>
 
-    <string name="login_title">USAID Boresha Afya  \n WAJA app</string>
-    <string name="hello_blank_fragment">Hello Blank Fragment</string>
 
 </resources>
