@@ -5,6 +5,10 @@
     <string name="logo">LOGO</string>
     <string name="login_title">GOLDSMITH CHW</string>
     <string name="app_version">Version: %1$s</string>
+    <string name="username">Enter username</string>
+    <string name="password">Enter password</string>
+    <string name="show_password_text">Show password</string>
 
+    <string name="hello_blank_fragment">Blank fragment</string>
 
 </resources>
