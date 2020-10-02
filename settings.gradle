@@ -6,3 +6,7 @@ include ':opensrp-goldsmith'
 
 include ':opensrp-chw'
 project(":opensrp-chw").projectDir = new File("../opensrp-client-chw/opensrp-chw")
+
+
+include ':opensrp-app'
+project(":opensrp-app").projectDir = new File("../opensrp-client-core/opensrp-app")

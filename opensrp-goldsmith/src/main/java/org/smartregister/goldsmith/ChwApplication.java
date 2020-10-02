@@ -1,13 +1,10 @@
 package org.smartregister.goldsmith;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
-import com.evernote.android.job.JobManager;
 import com.vijay.jsonwizard.NativeFormLibrary;
 
 import org.greenrobot.eventbus.EventBus;
@@ -16,21 +13,17 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
-import org.smartregister.P2POptions;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.configs.CoreAllClientsRegisterRowOptions;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.loggers.CrashlyticsTree;
 import org.smartregister.chw.core.provider.CoreAllClientsRegisterQueryProvider;
-import org.smartregister.chw.core.service.CoreAuthorizationService;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.chw.fp.FpLibrary;
 import org.smartregister.chw.malaria.MalariaLibrary;
 import org.smartregister.chw.pnc.PncLibrary;
-import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.family.FamilyLibrary;
@@ -44,7 +37,7 @@ import org.smartregister.opd.configuration.OpdConfiguration;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
-import org.smartregister.view.activity.DrishtiApplication;
+import org.smartregister.tasking.TaskingLibrary;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,7 +102,8 @@ public class ChwApplication extends CoreChwApplication {
         }
 
         // create a folder for guidebooks
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        /*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 prepareGuideBooksFolder();
             }
@@ -139,13 +133,14 @@ public class ChwApplication extends CoreChwApplication {
         GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
         growthMonitoringConfig.setWeightForHeightZScoreFile("weight_for_height.csv");
         GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);
-/*
+        /*
         if (hasReferrals()) {
             //Setup referral library
             ReferralLibrary.init(this);
             ReferralLibrary.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
             ReferralLibrary.getInstance().setDatabaseVersion(BuildConfig.DATABASE_VERSION);
-        }*/
+        }
+        */
 
         OpdLibrary.init(context, getRepository(),
                 new OpdConfiguration.Builder(CoreAllClientsRegisterQueryProvider.class)
@@ -162,6 +157,7 @@ public class ChwApplication extends CoreChwApplication {
         // set up processor
         //FamilyLibrary.getInstance().setClientProcessorForJava(ChwClientProcessor.getInstance(getApplicationContext()));
         NativeFormLibrary.getInstance().setClientFormDao(CoreLibrary.getInstance().context().getClientFormRepository());
+        TaskingLibrary.init();
     }
 
 

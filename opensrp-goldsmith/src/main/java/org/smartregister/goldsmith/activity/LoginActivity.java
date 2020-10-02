@@ -13,6 +13,7 @@ import org.smartregister.goldsmith.pinlogin.PinLoginUtil;
 import org.smartregister.goldsmith.presenter.LoginPresenter;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.task.SaveTeamLocationsTask;
+import org.smartregister.tasking.activity.TaskRegisterActivity;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
 import org.smartregister.view.contract.BaseLoginContract;
@@ -108,7 +109,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     }
 
     private void startHome(boolean remote) {
-        Intent intent = new Intent(this, ClientRegisterActivity.class);
+        Intent intent = new Intent(this, TaskRegisterActivity.class);
         intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
         startActivity(intent);
     }
