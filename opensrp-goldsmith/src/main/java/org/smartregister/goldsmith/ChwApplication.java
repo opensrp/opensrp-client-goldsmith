@@ -1,6 +1,7 @@
 package org.smartregister.goldsmith;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -9,6 +10,7 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
 import com.vijay.jsonwizard.NativeFormLibrary;
+import com.vijay.jsonwizard.domain.Form;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,6 +37,8 @@ import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.domain.FamilyMetadata;
+import org.smartregister.goldsmith.activity.LoginActivity;
+import org.smartregister.goldsmith.repository.ChwRepository;
 import org.smartregister.growthmonitoring.GrowthMonitoringConfig;
 import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
@@ -44,6 +48,7 @@ import org.smartregister.opd.configuration.OpdConfiguration;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.repository.Repository;
 import org.smartregister.view.activity.DrishtiApplication;
 
 import java.util.ArrayList;
@@ -61,7 +66,6 @@ public class ChwApplication extends CoreChwApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
 
         mInstance = this;
         context = Context.getInstance();
@@ -108,15 +112,6 @@ public class ChwApplication extends CoreChwApplication {
             saveLanguage(Locale.FRENCH.getLanguage());
         }
 
-        // create a folder for guidebooks
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                prepareGuideBooksFolder();
-            }
-        } else {
-            prepareGuideBooksFolder();
-        }*/
-
         EventBus.getDefault().register(this);
     }
 
@@ -132,13 +127,14 @@ public class ChwApplication extends CoreChwApplication {
         FamilyLibrary.init(context, getMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         AncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         PncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
-        MalariaLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
-        FpLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
-        // Init Reporting library
+        //MalariaLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
+        //FpLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ReportingLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
+
         GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
         growthMonitoringConfig.setWeightForHeightZScoreFile("weight_for_height.csv");
         GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);
+
 /*
         if (hasReferrals()) {
             //Setup referral library
@@ -159,15 +155,41 @@ public class ChwApplication extends CoreChwApplication {
 
         LocationHelper.init(new ArrayList<>(Arrays.asList(BuildConfig.HEALTH_FACILITY_LEVELS)), BuildConfig.DEFAULT_LOCATION);
 
+        // Set display date format for date pickers in native forms
+        /*Form form = new Form();
+        form.setDatePickerDisplayFormat("dd MMM yyyy");*/
+
         // set up processor
         //FamilyLibrary.getInstance().setClientProcessorForJava(ChwClientProcessor.getInstance(getApplicationContext()));
         NativeFormLibrary.getInstance().setClientFormDao(CoreLibrary.getInstance().context().getClientFormRepository());
     }
 
+    @Override
+    public Repository getRepository() {
+        try {
+            if (repository == null) {
+                repository = new ChwRepository(getInstance().getApplicationContext(), context);
+            }
+        } catch (UnsatisfiedLinkError e) {
+            Timber.e(e);
+        }
+        return repository;
+    }
 
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();
         preferences.savePreference(AllConstants.DRISHTI_BASE_URL, BuildConfig.opensrp_url);
+    }
+
+    @Override
+    public void logoutCurrentUser() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        getApplicationContext().startActivity(intent);
+        context.userService().logoutSession();
     }
 
     @Override
