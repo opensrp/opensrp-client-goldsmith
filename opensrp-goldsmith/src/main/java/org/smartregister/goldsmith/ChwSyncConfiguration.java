@@ -81,16 +81,14 @@ public class ChwSyncConfiguration extends SyncConfiguration {
         return true;
     }
 
-
-
     @Override
     public String getOauthClientId() {
-        return "goldsmith-stage-android";
+        return BuildConfig.OAUTH_CLIENT_ID;
     }
 
     @Override
     public String getOauthClientSecret() {
-        return "114f6151-30c8-4db7-ba24-4585ac964b35";
+        return BuildConfig.OAUTH_CLIENT_SECRET;
     }
 
     @Override
