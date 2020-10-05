@@ -76,5 +76,10 @@
       <option name="name" value="maven9" />
       <option name="url" value="https://maven.fabric.io/public" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven8" />
+      <option name="name" value="maven8" />
+      <option name="url" value="https://maven.google.com" />
+    </remote-repository>
   </component>
 </project>
