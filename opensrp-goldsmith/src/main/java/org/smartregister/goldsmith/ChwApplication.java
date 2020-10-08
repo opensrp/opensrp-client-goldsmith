@@ -5,6 +5,7 @@ import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.evernote.android.job.JobManager;
 import com.vijay.jsonwizard.NativeFormLibrary;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,6 +29,8 @@ import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.domain.FamilyMetadata;
+import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
+import org.smartregister.goldsmith.repository.GoldsmithRepository;
 import org.smartregister.growthmonitoring.GrowthMonitoringConfig;
 import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
@@ -37,6 +40,7 @@ import org.smartregister.opd.configuration.OpdConfiguration;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.repository.Repository;
 import org.smartregister.tasking.TaskingLibrary;
 
 import java.util.ArrayList;
@@ -83,7 +87,7 @@ public class ChwApplication extends CoreChwApplication {
         this.jsonSpecHelper = new JsonSpecHelper(this);
 
         //init Job Manager
-        //JobManager.create(this).addJobCreator(new ChwJobCreator());
+        JobManager.create(this).addJobCreator(new GoldsmithJobCreator());
 
         initOfflineSchedules();
 
@@ -157,7 +161,7 @@ public class ChwApplication extends CoreChwApplication {
         // set up processor
         //FamilyLibrary.getInstance().setClientProcessorForJava(ChwClientProcessor.getInstance(getApplicationContext()));
         NativeFormLibrary.getInstance().setClientFormDao(CoreLibrary.getInstance().context().getClientFormRepository());
-        TaskingLibrary.init();
+        TaskingLibrary.init(new GoldsmithTaskingLibraryConfiguration());
     }
 
 
@@ -194,6 +198,19 @@ public class ChwApplication extends CoreChwApplication {
 
             ChildAlertService.updateAlerts(visit.getBaseEntityId());*/
         }
+    }
+
+    @Override
+    public Repository getRepository() {
+        try {
+            if (repository == null) {
+                repository = new GoldsmithRepository(getInstance().getApplicationContext(), context);
+            }
+        } catch (UnsatisfiedLinkError e) {
+            Timber.e(e, "Error on getRepository: ");
+
+        }
+        return repository;
     }
 
 }

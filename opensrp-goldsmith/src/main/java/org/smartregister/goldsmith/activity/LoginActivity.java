@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.smartregister.CoreLibrary;
 import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
@@ -105,11 +106,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             startHome(remote);
         }
 
-        finish();
+        //finish();
     }
 
     private void startHome(boolean remote) {
-        Intent intent = new Intent(this, TaskRegisterActivity.class);
+        Intent intent = new Intent(this, GoldsmithTaskRegister.class);
         intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
         startActivity(intent);
     }

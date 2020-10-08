@@ -6,7 +6,6 @@ import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
 import org.smartregister.family.fragment.BaseFamilyRegisterFragment;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.provider.FamilyRegisterProvider;
-import org.smartregister.view.contract.IView;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 import java.util.HashMap;

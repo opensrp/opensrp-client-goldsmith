@@ -9,15 +9,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Location;
 import org.smartregister.domain.Task;
+import org.smartregister.goldsmith.BuildConfig;
+import org.smartregister.goldsmith.R;
 import org.smartregister.tasking.adapter.TaskRegisterAdapter;
+import org.smartregister.tasking.configuration.TaskRegisterV2Configuration;
 import org.smartregister.tasking.contract.BaseContract;
 import org.smartregister.tasking.contract.BaseDrawerContract;
 import org.smartregister.tasking.contract.BaseFormFragmentContract;
@@ -25,17 +31,29 @@ import org.smartregister.tasking.model.BaseTaskDetails;
 import org.smartregister.tasking.model.CardDetails;
 import org.smartregister.tasking.model.TaskDetails;
 import org.smartregister.tasking.model.TaskFilterParams;
+import org.smartregister.tasking.util.CardDetailsUtil;
 import org.smartregister.tasking.util.TaskingLibraryConfiguration;
-import org.smartregister.tasking.viewholder.TaskRegisterViewHolder;
+import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
 import org.smartregister.util.AppExecutors;
+import org.smartregister.util.Utils;
 
 import java.util.List;
 import java.util.Map;
+
+import timber.log.Timber;
 
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 02-10-2020.
  */
 public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfiguration {
+
+    private AppExecutors appExecutors = new AppExecutors();
+    private TaskRegisterConfiguration taskRegisterConfiguration;
+
+    public GoldsmithTaskingLibraryConfiguration() {
+        taskRegisterConfiguration = new TaskRegisterV2Configuration();
+    }
+
     @NonNull
     @Override
     public Pair<Drawable, String> getActionDrawable(Context context, TaskDetails taskDetails) {
@@ -50,7 +68,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     @NonNull
     @Override
     public Float getLocationBuffer() {
-        return null;
+        return 1f;
     }
 
     @Override
@@ -65,12 +83,12 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public int getResolveLocationTimeoutInSeconds() {
-        return 0;
+        return 3;
     }
 
     @Override
     public String getAdminPasswordNotNearStructures() {
-        return null;
+        return "admin-password";
     }
 
     @Override
@@ -85,17 +103,25 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public String getCurrentLocationId() {
-        return null;
+        return CoreLibrary.getInstance()
+                .context()
+                .allSharedPreferences()
+                .fetchUserLocalityId(
+                        CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
     }
 
     @Override
     public String getCurrentOperationalAreaId() {
-        return null;
+        return CoreLibrary.getInstance()
+                .context()
+                .allSharedPreferences()
+                .fetchUserLocalityId(
+                        CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
     }
 
     @Override
     public Integer getDatabaseVersion() {
-        return null;
+        return BuildConfig.DATABASE_VERSION;
     }
 
     @Override
@@ -105,7 +131,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public Boolean displayDistanceScale() {
-        return null;
+        return false;
     }
 
     @Override
@@ -259,14 +285,34 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     }
 
     @Override
-    public void onTaskRegisterBindViewHolder(@NonNull Context context, @NonNull TaskRegisterViewHolder taskRegisterViewHolder, @NonNull View.OnClickListener onClickListener, @NonNull TaskDetails taskDetails, int i) {
+    public void onTaskRegisterBindViewHolder(@NonNull Context context, @NonNull RecyclerView.ViewHolder taskRegisterViewHolder, @NonNull View.OnClickListener onClickListener, @NonNull TaskDetails taskDetails, int i) {
+        if (taskRegisterViewHolder instanceof PrioritizedTaskRegisterViewHolder) {
+            PrioritizedTaskRegisterViewHolder taskViewHolder = (PrioritizedTaskRegisterViewHolder) taskRegisterViewHolder;
 
+            String taskTitle = "";
+
+            if ("pnc_visit".equals(taskDetails.getTaskCode())) {
+                taskTitle = "PNC Visit Day 2";
+            }
+
+            taskViewHolder.setTaskIcon(R.drawable.ic_temp_pnc_visit_icon);
+            int entityAgeInYrs = Utils.getAgeFromDate(taskDetails.getClient().getDetails().get("dob"));
+            String entityName = taskDetails.getClient().getDetails().get("first_name")+ " "
+                    + taskDetails.getClient().getDetails().get("last_name") + ", " + entityAgeInYrs;
+            taskViewHolder.setTaskEntityName(entityName);
+            taskViewHolder.setTaskTitle(taskTitle);
+            taskViewHolder.setTaskRelativeTimeAssigned("Assigned today");
+            taskViewHolder.setAction(R.drawable.ic_action_walk, "3 km", onClickListener);
+
+        } else {
+            Timber.i("The RecyclerView.ViewHolder is not an instance of PrioritizedTaskRegisterViewHolder");
+        }
     }
 
     @NonNull
     @Override
     public AppExecutors getAppExecutors() {
-        return null;
+        return appExecutors;
     }
 
     @Override
@@ -282,5 +328,10 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     @Override
     public Map<String, Object> getServerConfigs() {
         return null;
+    }
+
+    @Override
+    public TaskRegisterConfiguration getTasksRegisterConfiguration() {
+        return taskRegisterConfiguration;
     }
 }
