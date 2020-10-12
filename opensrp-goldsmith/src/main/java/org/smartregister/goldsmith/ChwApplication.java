@@ -1,16 +1,13 @@
 package org.smartregister.goldsmith;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
-import com.evernote.android.job.JobManager;
 import com.vijay.jsonwizard.NativeFormLibrary;
-import com.vijay.jsonwizard.domain.Form;
+import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -18,26 +15,28 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
-import org.smartregister.P2POptions;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.configs.CoreAllClientsRegisterRowOptions;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.loggers.CrashlyticsTree;
 import org.smartregister.chw.core.provider.CoreAllClientsRegisterQueryProvider;
-import org.smartregister.chw.core.service.CoreAuthorizationService;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
-import org.smartregister.chw.fp.FpLibrary;
-import org.smartregister.chw.malaria.MalariaLibrary;
 import org.smartregister.chw.pnc.PncLibrary;
-import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
+import org.smartregister.configuration.ActivityStarter;
+import org.smartregister.configuration.ModuleConfiguration;
+import org.smartregister.configuration.ModuleFormProcessor;
+import org.smartregister.configuration.ModuleMetadata;
 import org.smartregister.family.FamilyLibrary;
+import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.domain.FamilyMetadata;
 import org.smartregister.goldsmith.activity.LoginActivity;
+import org.smartregister.goldsmith.configuration.AllClientsRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.AllClientsRegisterRowOptions;
+import org.smartregister.goldsmith.provider.AllClientsRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.ChwRepository;
 import org.smartregister.growthmonitoring.GrowthMonitoringConfig;
 import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
@@ -50,6 +49,7 @@ import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
 import org.smartregister.view.activity.DrishtiApplication;
+import org.smartregister.view.activity.FormActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -162,6 +162,31 @@ public class ChwApplication extends CoreChwApplication {
         // set up processor
         //FamilyLibrary.getInstance().setClientProcessorForJava(ChwClientProcessor.getInstance(getApplicationContext()));
         NativeFormLibrary.getInstance().setClientFormDao(CoreLibrary.getInstance().context().getClientFormRepository());
+    }
+
+    public void initializeAllClientsRegister() {
+        ModuleConfiguration allClientsConfiguration = new ModuleConfiguration.Builder(
+                "All Clients",
+                AllClientsRegisterQueryProvider.class,
+                null,
+                AllClientsRegisterActivityStarter.class
+        ).setModuleMetadata(new ModuleMetadata(
+                "",
+                "",
+                "",
+                "",
+                null,
+                "",
+                FormActivity.class,
+                BaseFamilyProfileActivity.class,
+                false,
+                ""
+        )).setModuleFormProcessorClass(ModuleFormProcessor.class)
+                .setRegisterRowOptions(AllClientsRegisterRowOptions.class)
+                .setJsonFormActivity(JsonFormActivity.class)
+                .setBottomNavigationEnabled(false)
+                .build();
+        CoreLibrary.getInstance().addModuleConfiguration(false, "All Clients", allClientsConfiguration);
     }
 
     @Override
