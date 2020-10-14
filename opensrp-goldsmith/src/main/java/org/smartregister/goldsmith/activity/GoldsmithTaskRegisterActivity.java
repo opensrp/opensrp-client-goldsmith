@@ -2,6 +2,7 @@ package org.smartregister.goldsmith.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
@@ -58,6 +59,16 @@ public class GoldsmithTaskRegister extends TaskRegisterActivity implements Resul
     private void checkAndRequestLocationPermissions() {
         if (!Permissions.check(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
             Permissions.request(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        if (!Permissions.check(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            checkAndRequestLocationPermissions();
+        } else {
+            LocationSettingsHelper.checkLocationEnabled(this, this);
+            super.onCreate(savedInstanceState);
         }
     }
 }
