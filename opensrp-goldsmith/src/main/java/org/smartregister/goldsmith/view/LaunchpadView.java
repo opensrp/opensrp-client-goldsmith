@@ -24,6 +24,7 @@ public class LaunchpadView extends LinearLayout {
     private TextView itemTitleTv;
     private TextView itemDescriptionTv;
     private ImageView itemIconIv;
+    private float itemIconSize;
 
     public LaunchpadView(Context context) {
         super(context);
@@ -55,7 +56,8 @@ public class LaunchpadView extends LinearLayout {
         try {
             itemTitle = a.getString(R.styleable.LaunchpadView_itemTitle);
             itemDescription = a.getString(R.styleable.LaunchpadView_itemDescription);
-            itemIcon = a.getInteger(R.styleable.LaunchpadView_itemIcon, 0);
+            itemIcon = a.getResourceId(R.styleable.LaunchpadView_itemIcon, 0);
+            itemIconSize = a.getDimensionPixelSize(R.styleable.LaunchpadView_itemIconSize, 0);
         } finally {
             a.recycle();
         }
@@ -81,6 +83,13 @@ public class LaunchpadView extends LinearLayout {
 
         if (getItemIcon() != 0) {
             itemIconIv.setImageDrawable(getContext().getDrawable(getItemIcon()));
+        }
+
+        if (getItemIconSize() != 0) {
+            LayoutParams params = (LayoutParams) itemIconIv.getLayoutParams();
+            params.width = (int) getItemIconSize();
+            params.height = (int) getItemIconSize();
+            itemIconIv.setLayoutParams(params);
         }
     }
 
@@ -108,5 +117,11 @@ public class LaunchpadView extends LinearLayout {
         this.itemDescription = itemDescription;
     }
 
+    public float getItemIconSize() {
+        return itemIconSize;
+    }
 
+    public void setItemIconSize(float itemIconSize) {
+        this.itemIconSize = itemIconSize;
+    }
 }

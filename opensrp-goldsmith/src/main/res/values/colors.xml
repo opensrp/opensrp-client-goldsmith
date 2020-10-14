@@ -7,4 +7,5 @@
 
     <color name="goldsmithToolbarColor">#005084</color>
     <color name="goldsmithColorPrimary">#003353</color>
+    <color name="launchpad_bg">#f5f8fa</color>
 </resources>

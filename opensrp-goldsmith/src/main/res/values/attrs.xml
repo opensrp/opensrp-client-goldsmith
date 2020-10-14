@@ -3,6 +3,7 @@
     <declare-styleable name="LaunchpadView">
         <attr name="itemTitle" format="string"/>
         <attr name="itemIcon" format="reference"/>
+        <attr name="itemIconSize" format="dimension"/>
         <attr name="itemDescription" format="string"/>
     </declare-styleable>
 </resources>
