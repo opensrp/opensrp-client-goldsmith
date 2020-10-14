@@ -32,6 +32,7 @@ import org.smartregister.tasking.model.CardDetails;
 import org.smartregister.tasking.model.TaskDetails;
 import org.smartregister.tasking.model.TaskFilterParams;
 import org.smartregister.tasking.util.CardDetailsUtil;
+import org.smartregister.tasking.util.Constants;
 import org.smartregister.tasking.util.TaskingLibraryConfiguration;
 import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
 import org.smartregister.util.AppExecutors;
@@ -185,8 +186,8 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     }
 
     @Override
-    public String mainSelect(String s) {
-        return null;
+    public String generateTaskRegisterSelectQuery(String mainCondition) {
+        return String.format("SELECT * FROM %s INNER JOIN %s WHERE %s", Constants.DatabaseKeys.TASK_TABLE, Constants.DatabaseKeys.EVENT_TABLE, mainCondition);
     }
 
     @Override
@@ -295,15 +296,20 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
                 taskTitle = "PNC Visit Day 2";
             }
 
-            taskViewHolder.setTaskIcon(R.drawable.ic_temp_pnc_visit_icon);
+            // TODO: Show the icon based on priority and task type
+            taskViewHolder.setTaskIcon(R.drawable.pnc_03);
+
             int entityAgeInYrs = Utils.getAgeFromDate(taskDetails.getClient().getDetails().get("dob"));
             String entityName = taskDetails.getClient().getDetails().get("first_name")+ " "
                     + taskDetails.getClient().getDetails().get("last_name") + ", " + entityAgeInYrs;
             taskViewHolder.setTaskEntityName(entityName);
             taskViewHolder.setTaskTitle(taskTitle);
             taskViewHolder.setTaskRelativeTimeAssigned("Assigned today");
-            taskViewHolder.setAction(R.drawable.ic_action_walk, "3 km", onClickListener);
 
+            // TODO: Show the calculated distance in metres or KM
+            // TODO: Switch between the call icon & the walk icon
+
+            taskViewHolder.setAction(R.drawable.ic_directions_walk, "3 km", onClickListener);
         } else {
             Timber.i("The RecyclerView.ViewHolder is not an instance of PrioritizedTaskRegisterViewHolder");
         }

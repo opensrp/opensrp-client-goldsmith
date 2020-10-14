@@ -1,11 +1,13 @@
 package org.smartregister.goldsmith.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.smartregister.CoreLibrary;
+import androidx.annotation.Nullable;
+
 import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
@@ -14,17 +16,20 @@ import org.smartregister.goldsmith.pinlogin.PinLoginUtil;
 import org.smartregister.goldsmith.presenter.LoginPresenter;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.task.SaveTeamLocationsTask;
-import org.smartregister.tasking.activity.TaskRegisterActivity;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
 import org.smartregister.view.contract.BaseLoginContract;
+
+import io.ona.kujaku.utils.Permissions;
 
 
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
     public static final String TAG = BaseLoginActivity.class.getCanonicalName();
     private static final String WFH_CSV_PARSED = "WEIGHT_FOR_HEIGHT_CSV_PARSED";
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 983;
 
     private PinLogger pinLogger = PinLoginUtil.getPinLogger();
+    private boolean startHomeRemotely;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +115,14 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     }
 
     private void startHome(boolean remote) {
-        Intent intent = new Intent(this, GoldsmithTaskRegister.class);
-        intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
-        startActivity(intent);
+        if (!Permissions.check(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            startHomeRemotely = remote;
+            Permissions.request(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            Intent intent = new Intent(this, GoldsmithTaskRegisterActivity.class);
+            intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
+            startActivity(intent);
+        }
     }
 
     private void startPinHome(boolean remote) {
@@ -145,4 +155,12 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }*/
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            startHome(startHomeRemotely);
+        }
+    }
 }

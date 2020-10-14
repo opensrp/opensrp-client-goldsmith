@@ -20,9 +20,7 @@ import io.ona.kujaku.utils.Permissions;
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 02-10-2020.
  */
-public class GoldsmithTaskRegister extends TaskRegisterActivity implements ResultCallback<LocationSettingsResult> {
-
-    private int LOCATION_PERMISSION_REQUEST_CODE = 983;
+public class GoldsmithTaskRegisterActivity extends TaskRegisterActivity implements ResultCallback<LocationSettingsResult> {
 
     @Override
     public void startFamilyRegistration(BaseTaskDetails baseTaskDetails) {
@@ -36,8 +34,8 @@ public class GoldsmithTaskRegister extends TaskRegisterActivity implements Resul
 
     @Override
     public void onResume() {
-        checkAndRequestLocationPermissions();
-        LocationSettingsHelper.checkLocationEnabled(this, this);
+        /*checkAndRequestLocationPermissions();
+        LocationSettingsHelper.checkLocationEnabled(this, this);*/
 
         super.onResume();
     }
@@ -51,24 +49,14 @@ public class GoldsmithTaskRegister extends TaskRegisterActivity implements Resul
     protected void onActivityResultExtended(int requestCode, int resultCode, Intent data) {
         super.onActivityResultExtended(requestCode, resultCode, data);
         
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+        if (requestCode == LoginActivity.LOCATION_PERMISSION_REQUEST_CODE) {
             checkAndRequestLocationPermissions();
         }
     }
 
     private void checkAndRequestLocationPermissions() {
         if (!Permissions.check(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            Permissions.request(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        if (!Permissions.check(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            checkAndRequestLocationPermissions();
-        } else {
-            LocationSettingsHelper.checkLocationEnabled(this, this);
-            super.onCreate(savedInstanceState);
+            Permissions.request(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LoginActivity.LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
 }
