@@ -119,7 +119,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             startHomeRemotely = remote;
             Permissions.request(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
-            Intent intent = new Intent(this, GoldsmithTaskRegisterActivity.class);
+            Intent intent = new Intent(this, LaunchpadActivity.class);
             intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
             startActivity(intent);
         }
