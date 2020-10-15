@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import org.smartregister.CoreLibrary;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.view.LaunchpadView;
 
@@ -28,6 +29,16 @@ public class LaunchpadActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LaunchpadActivity.this, GoldsmithTaskRegisterActivity.class);
                 startIntent(intent, startingIntent);
+            }
+        });
+
+
+        LaunchpadView myChwsClients  = findViewById(R.id.launchpadAct_myChws);
+        myChwsClients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CoreLibrary.getInstance()
+                        .startRegisterActivity(LaunchpadActivity.this);
             }
         });
 

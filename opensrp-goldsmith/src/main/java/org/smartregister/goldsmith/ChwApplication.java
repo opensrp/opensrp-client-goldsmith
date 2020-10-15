@@ -6,6 +6,7 @@ import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.evernote.android.job.JobManager;
 import com.vijay.jsonwizard.NativeFormLibrary;
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 
@@ -127,6 +128,8 @@ public class ChwApplication extends CoreChwApplication {
         }*/
 
         EventBus.getDefault().register(this);
+
+        initializeAllClientsRegister();
     }
 
 
@@ -187,7 +190,7 @@ public class ChwApplication extends CoreChwApplication {
                 AllClientsRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
                 "",
-                "",
+                "ec_family_member",
                 "",
                 "",
                 null,
@@ -201,19 +204,7 @@ public class ChwApplication extends CoreChwApplication {
                 .setJsonFormActivity(JsonFormActivity.class)
                 .setBottomNavigationEnabled(false)
                 .build();
-        CoreLibrary.getInstance().addModuleConfiguration(false, "All Clients", allClientsConfiguration);
-    }
-
-    @Override
-    public Repository getRepository() {
-        try {
-            if (repository == null) {
-                repository = new ChwRepository(getInstance().getApplicationContext(), context);
-            }
-        } catch (UnsatisfiedLinkError e) {
-            Timber.e(e);
-        }
-        return repository;
+        CoreLibrary.getInstance().addModuleConfiguration(true, "All Clients", allClientsConfiguration);
     }
 
     public void setOpenSRPUrl() {

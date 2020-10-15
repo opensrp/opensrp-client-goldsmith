@@ -10,7 +10,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-
+<!--
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -20,7 +20,7 @@
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:textSize">@dimen/login_font_size</item>
         <item name="colorControlActivated">@color/colorPrimaryDark</item>
-    </style>
+    </style>-->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
