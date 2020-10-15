@@ -115,9 +115,9 @@ public abstract class ConfigurableRegisterActivityPresenter implements BaseRegis
         if (getView() != null)
             getView().displayShortToast(R.string.no_unique_id);
     }
-
+/*
     @Override
     public void onRegistrationSaved(@NonNull RegisterParams registerParams, @Nullable List<EventClient> clientList) {
 
-    }
+    }*/
 }
