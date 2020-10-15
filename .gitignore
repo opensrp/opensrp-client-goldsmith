@@ -2,6 +2,15 @@
 .gradle
 /local.properties
 .idea/
+.classpath
+.project
+bin/
+gen/
+out/
+target/
+local.properties
+classes/
+tmp/
 .DS_Store
 /build
 /captures

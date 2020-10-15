@@ -5,4 +5,5 @@
     <dimen name="login_build_text_view_textSize">100dp</dimen>
     <dimen name="login_view_component_height">52dp</dimen>
     <dimen name="login_font_size">14sp</dimen>
+    <!--<dimen name="login_font_size">16sp</dimen>-->
 </resources>

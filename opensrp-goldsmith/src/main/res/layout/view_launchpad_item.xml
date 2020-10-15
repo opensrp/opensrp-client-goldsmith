@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="@drawable/rectangle_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/launchpadItem_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="19sp"
+        android:textColor="@color/goldsmith_blue"
+        tools:text="My Tasks"/>
+
+    <ImageView
+        android:id="@+id/launchpadItem_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/goldsmith_blue"
+        android:layout_marginTop="20dp"
+        tools:src="@android:drawable/ic_menu_my_calendar"/>
+
+    <TextView
+        android:id="@+id/launchpadItem_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        tools:text="My Tasks"/>
+
+</LinearLayout>

@@ -42,20 +42,21 @@ public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContr
                 return;
             }
 
-            ViewConfiguration loginView = ChwApplication.getJsonSpecHelper().getConfigurableView(jsonString);
+            /*ViewConfiguration loginView = ChwApplication.getJsonSpecHelper().getConfigurableView(jsonString);
             LoginConfiguration metadata = (LoginConfiguration) loginView.getMetadata();
-            LoginConfiguration.Background background = metadata.getBackground();
+            LoginConfiguration.Background background = metadata.getBackground();*/
 
             CheckBox showPasswordCheckBox = getLoginView().getActivityContext().findViewById(R.id.login_show_password_checkbox);
             TextView showPasswordTextView = getLoginView().getActivityContext().findViewById(R.id.login_show_password_text_view);
-            if (!metadata.getShowPasswordCheckbox()) {
+            //if (!metadata.getShowPasswordCheckbox()) {
+            if (false) {
                 showPasswordCheckBox.setVisibility(View.GONE);
                 showPasswordTextView.setVisibility(View.GONE);
             } else {
                 showPasswordCheckBox.setVisibility(View.VISIBLE);
                 showPasswordTextView.setVisibility(View.VISIBLE);
             }
-
+/*
             if (background.getOrientation() != null && background.getStartColor() != null && background.getEndColor() != null) {
                 View loginLayout = getLoginView().getActivityContext().findViewById(R.id.login_layout);
                 GradientDrawable gradientDrawable = new GradientDrawable();
@@ -72,7 +73,7 @@ public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContr
                 ImageLoaderRequest.getInstance(getLoginView().getActivityContext()).getImageLoader()
                         .get(metadata.getLogoUrl(), ImageLoader.getImageListener(imageView,
                                 R.drawable.ic_who_logo, R.drawable.ic_who_logo)).getBitmap();
-            }
+            }*/
 
         } catch (Exception e) {
             Timber.e(e);

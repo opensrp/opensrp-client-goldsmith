@@ -38,6 +38,8 @@ import org.smartregister.goldsmith.configuration.AllClientsRegisterActivityStart
 import org.smartregister.goldsmith.configuration.AllClientsRegisterRowOptions;
 import org.smartregister.goldsmith.provider.AllClientsRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.ChwRepository;
+import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
+import org.smartregister.goldsmith.repository.GoldsmithRepository;
 import org.smartregister.growthmonitoring.GrowthMonitoringConfig;
 import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
@@ -50,6 +52,8 @@ import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
 import org.smartregister.view.activity.DrishtiApplication;
 import org.smartregister.view.activity.FormActivity;
+import org.smartregister.repository.Repository;
+import org.smartregister.tasking.TaskingLibrary;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -94,7 +98,7 @@ public class ChwApplication extends CoreChwApplication {
         this.jsonSpecHelper = new JsonSpecHelper(this);
 
         //init Job Manager
-        //JobManager.create(this).addJobCreator(new ChwJobCreator());
+        JobManager.create(this).addJobCreator(new GoldsmithJobCreator());
 
         initOfflineSchedules();
 
@@ -111,6 +115,16 @@ public class ChwApplication extends CoreChwApplication {
         if (language.equals(Locale.FRENCH.getLanguage())) {
             saveLanguage(Locale.FRENCH.getLanguage());
         }
+
+        // create a folder for guidebooks
+        /*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                prepareGuideBooksFolder();
+            }
+        } else {
+            prepareGuideBooksFolder();
+        }*/
 
         EventBus.getDefault().register(this);
     }
@@ -134,14 +148,14 @@ public class ChwApplication extends CoreChwApplication {
         GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
         growthMonitoringConfig.setWeightForHeightZScoreFile("weight_for_height.csv");
         GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);
-
-/*
+        /*
         if (hasReferrals()) {
             //Setup referral library
             ReferralLibrary.init(this);
             ReferralLibrary.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
             ReferralLibrary.getInstance().setDatabaseVersion(BuildConfig.DATABASE_VERSION);
-        }*/
+        }
+        */
 
         OpdLibrary.init(context, getRepository(),
                 new OpdConfiguration.Builder(CoreAllClientsRegisterQueryProvider.class)
@@ -162,6 +176,7 @@ public class ChwApplication extends CoreChwApplication {
         // set up processor
         //FamilyLibrary.getInstance().setClientProcessorForJava(ChwClientProcessor.getInstance(getApplicationContext()));
         NativeFormLibrary.getInstance().setClientFormDao(CoreLibrary.getInstance().context().getClientFormRepository());
+        TaskingLibrary.init(new GoldsmithTaskingLibraryConfiguration());
     }
 
     public void initializeAllClientsRegister() {
@@ -245,6 +260,19 @@ public class ChwApplication extends CoreChwApplication {
 
             ChildAlertService.updateAlerts(visit.getBaseEntityId());*/
         }
+    }
+
+    @Override
+    public Repository getRepository() {
+        try {
+            if (repository == null) {
+                repository = new GoldsmithRepository(getInstance().getApplicationContext(), context);
+            }
+        } catch (UnsatisfiedLinkError e) {
+            Timber.e(e, "Error on getRepository: ");
+
+        }
+        return repository;
     }
 
 }

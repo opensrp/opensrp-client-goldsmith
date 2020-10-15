@@ -160,7 +160,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 
-    // api 'org.smartregister:opensrp-client-tasking:0.0.3-SNAPSHOT'
+    implementation (project(':opensrp-tasking')) {
+    //api ('org.smartregister:opensrp-client-tasking:0.0.3.2-SNAPSHOT') {
+        exclude group: 'com.ibm.fhir', module: 'fhir-model'
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
+    }
     implementation (project(':configurable-register-and-profiles')){
         transitive = true
         exclude group: 'com.rengwuxian.materialedittext', module: 'library'
@@ -174,6 +178,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
         exclude group: 'org.smartregister', module: 'opensrp-client-configurable-views'
         exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }
 
     api('org.smartregister:opensrp-client-immunization:1.4.48-SNAPSHOT@aar') {
@@ -181,6 +186,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
         exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }
 
     api('org.smartregister:opensrp-client-chw-anc:1.0.6-SNAPSHOT@aar') {
@@ -190,6 +196,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
         exclude group: 'org.smartregister', module: 'opensrp-client-configurable-views'
         exclude group: 'org.smartregister', module: 'opensrp-client-immunization'
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }
 
     api('org.smartregister:opensrp-client-chw-pnc:1.0.2-SNAPSHOT@aar') {
@@ -200,9 +207,10 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
         exclude group: 'org.smartregister', module: 'opensrp-client-configurable-views'
         exclude group: 'org.smartregister', module: 'opensrp-client-immunization'
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }
 
-    implementation('org.smartregister:opensrp-client-chw-core:1.5.6-alpha-SNAPSHOT@aar') {
+    implementation('org.smartregister:opensrp-client-core:2.1.2.2-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'androidx.legacy', module: 'legacy-support-v4'
@@ -212,6 +220,20 @@ dependencies {
         exclude group: 'com.rengwuxian.materialedittext', module: 'library'
         exclude group: 'org.smartregister', module: 'opensrp-client-simprints'
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
+    }
+
+    implementation('org.smartregister:opensrp-client-chw-core:1.5.6-alpha-SNAPSHOT@aar') {
+    //implementation('org.smartregister:opensrp-client-chw-core:1.5.5.1-SNAPSHOT@aar') {
+        transitive = true
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'androidx.legacy', module: 'legacy-support-v4'
+        exclude group: 'androidx.appcompat', module: 'appcompat'
+        exclude group: 'androidx.constraintlayout', module: 'constraintlayout'
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
+        exclude group: 'org.smartregister', module: 'opensrp-client-simprints'
+        exclude group: 'com.ibm.fhir', module: 'fhir-model'
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }
     //Do not upgrade to 1.1.0 due to compatibility issues
     implementation 'androidx.appcompat:appcompat:1.0.2'
