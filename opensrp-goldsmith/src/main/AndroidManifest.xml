@@ -30,6 +30,21 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:launchMode="singleTask"
+            android:name=".activity.FamilyWizardFormActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:theme="@style/AppThemeNoActionBarAndTitle"/>
+
+        <service android:name="org.smartregister.sync.intent.PullUniqueIdsIntentService" />
+        <service android:name="org.smartregister.sync.intent.ExtendedSyncIntentService" />
+        <service android:name="org.smartregister.sync.intent.SyncLocationsByLevelAndTagsIntentService" />
+        <service android:name="org.smartregister.sync.intent.DocumentConfigurationIntentService" />
+        <service android:name="org.smartregister.sync.intent.ValidateIntentService" />
+        <service android:name="org.smartregister.service.ImageUploadSyncService" />
+        <service android:name="org.smartregister.sync.intent.PlanIntentService" />
     </application>
 
 </manifest>

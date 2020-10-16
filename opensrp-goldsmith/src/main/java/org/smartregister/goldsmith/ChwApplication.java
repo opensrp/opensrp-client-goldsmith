@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
@@ -23,22 +25,29 @@ import org.smartregister.chw.core.configs.CoreAllClientsRegisterRowOptions;
 import org.smartregister.chw.core.loggers.CrashlyticsTree;
 import org.smartregister.chw.core.provider.CoreAllClientsRegisterQueryProvider;
 import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.chw.core.utils.FormUtils;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.chw.pnc.PncLibrary;
 import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
-import org.smartregister.configuration.ActivityStarter;
 import org.smartregister.configuration.ModuleConfiguration;
 import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.configuration.ModuleMetadata;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.domain.FamilyMetadata;
+import org.smartregister.family.util.Constants;
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.goldsmith.activity.FamilyProfileActivity;
+import org.smartregister.goldsmith.activity.FamilyWizardFormActivity;
 import org.smartregister.goldsmith.activity.LoginActivity;
 import org.smartregister.goldsmith.configuration.AllClientsRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.AllClientsRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.AllFamiliesFormProcessor;
+import org.smartregister.goldsmith.configuration.AllFamiliesRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.AllFamiliesRegisterRowOptions;
 import org.smartregister.goldsmith.provider.AllClientsRegisterQueryProvider;
-import org.smartregister.goldsmith.repository.ChwRepository;
+import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
 import org.smartregister.growthmonitoring.GrowthMonitoringConfig;
@@ -51,13 +60,13 @@ import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
-import org.smartregister.view.activity.DrishtiApplication;
 import org.smartregister.view.activity.FormActivity;
-import org.smartregister.repository.Repository;
 import org.smartregister.tasking.TaskingLibrary;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
@@ -67,6 +76,8 @@ import timber.log.Timber;
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 21-09-2020.
  */
 public class ChwApplication extends CoreChwApplication {
+
+    private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
 
     @Override
     public void onCreate() {
@@ -129,7 +140,9 @@ public class ChwApplication extends CoreChwApplication {
 
         EventBus.getDefault().register(this);
 
+        locationTagsConfiguration = new LocationTagsConfiguration();
         initializeAllClientsRegister();
+        initializeAllFamiliesRegister();
     }
 
 
@@ -193,7 +206,7 @@ public class ChwApplication extends CoreChwApplication {
                 "ec_family_member",
                 "",
                 "",
-                null,
+                locationTagsConfiguration,
                 "",
                 FormActivity.class,
                 BaseFamilyProfileActivity.class,
@@ -204,7 +217,33 @@ public class ChwApplication extends CoreChwApplication {
                 .setJsonFormActivity(JsonFormActivity.class)
                 .setBottomNavigationEnabled(false)
                 .build();
-        CoreLibrary.getInstance().addModuleConfiguration(true, "All Clients", allClientsConfiguration);
+        CoreLibrary.getInstance().addModuleConfiguration(false, "all-clients", allClientsConfiguration);
+    }
+
+
+    public void initializeAllFamiliesRegister() {
+        ModuleConfiguration allFamiliesConfiguration = new ModuleConfiguration.Builder(
+                "All Families",
+                AllFamiliesRegisterQueryProvider.class,
+                new ConfigViewsLib(),
+                AllFamiliesRegisterActivityStarter.class
+        ).setModuleMetadata(new ModuleMetadata(
+                "family_register",
+                "ec_family",
+                "Family Registration",
+                null,
+                null,
+                "all-families",
+                FormActivity.class,
+                BaseFamilyProfileActivity.class,
+                false,
+                ""
+        )).setModuleFormProcessorClass(AllFamiliesFormProcessor.class)
+                .setRegisterRowOptions(AllFamiliesRegisterRowOptions.class)
+                .setJsonFormActivity(FamilyWizardFormActivity.class)
+                .setBottomNavigationEnabled(false)
+                .build();
+        CoreLibrary.getInstance().addModuleConfiguration(true, "all-families", allFamiliesConfiguration);
     }
 
     public void setOpenSRPUrl() {
@@ -225,7 +264,13 @@ public class ChwApplication extends CoreChwApplication {
 
     @Override
     public FamilyMetadata getMetadata() {
-        return null;
+        FamilyMetadata metadata = FormUtils.getFamilyMetadata(new FamilyProfileActivity(), getDefaultLocationLevel(), getFacilityHierarchy(), getFamilyLocationFields());
+
+        HashMap<String, String> setting = new HashMap<>();
+        setting.put(Constants.CustomConfig.FAMILY_FORM_IMAGE_STEP, JsonFormUtils.STEP1);
+        setting.put(Constants.CustomConfig.FAMILY_MEMBER_FORM_IMAGE_STEP, JsonFormUtils.STEP2);
+        metadata.setCustomConfigs(setting);
+        return metadata;
     }
 
     @Override
@@ -264,6 +309,48 @@ public class ChwApplication extends CoreChwApplication {
 
         }
         return repository;
+    }
+
+
+    static class ConfigViewsLib implements ModuleConfiguration.ConfigurableViewsLibrary {
+
+        @Override
+        public void registerViewConfigurations(List<String> viewIdentifiers) {
+
+        }
+
+        @Override
+        public void unregisterViewConfigurations(List<String> viewIdentifiers) {
+
+        }
+    }
+
+
+    static class LocationTagsConfiguration implements org.smartregister.configuration.LocationTagsConfiguration {
+
+        @NonNull
+        @Override
+        public ArrayList<String> getAllowedLevels() {
+            return new ArrayList<String>(Arrays.asList("Country", "County"));
+        }
+
+        @NonNull
+        @Override
+        public String getDefaultLocationLevel() {
+            return "County";
+        }
+
+        @NonNull
+        @Override
+        public ArrayList<String> getLocationLevels() {
+            return new ArrayList<>(Arrays.asList("Country", "County"));
+        }
+
+        @NonNull
+        @Override
+        public ArrayList<String> getHealthFacilityLevels() {
+            return new ArrayList<String>(Arrays.asList("County"));
+        }
     }
 
 }
