@@ -63,6 +63,38 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
         return SampleAppJsonFormUtils.getFormAsJson(form, formName, entityId, currentLocationId, injectedFieldValues);
     }
 
+    @Override
+    public boolean saveFormImages(Client client, List<Event> list, String jsonString) {
+
+        if (client != null || (list != null && list.size() > 1 && list.get(0) != null)) {
+            String providerId = list.get(0).getProviderId();
+            String imageLocation = null;
+
+            if (client.getIdentifier("opensrp_id").toLowerCase().contains("family")) {
+                String familyStep = Utils.getCustomConfigs(Constants.CustomConfig.FAMILY_FORM_IMAGE_STEP);
+
+                imageLocation = (StringUtils.isBlank(familyStep)) ?
+                        JsonFormUtils.getFieldValue(jsonString, Constants.KEY.PHOTO) :
+                        JsonFormUtils.getFieldValue(jsonString, familyStep, Constants.KEY.PHOTO);
+
+            } else {
+                String familyMemberStep = Utils.getCustomConfigs(Constants.CustomConfig.FAMILY_MEMBER_FORM_IMAGE_STEP);
+
+                imageLocation = (StringUtils.isBlank(familyMemberStep)) ?
+                        JsonFormUtils.getFieldValue(jsonString, JsonFormUtils.STEP2, Constants.KEY.PHOTO) :
+                        JsonFormUtils.getFieldValue(jsonString, familyMemberStep, Constants.KEY.PHOTO);
+            }
+
+            if (StringUtils.isNotBlank(imageLocation)) {
+                JsonFormUtils.saveImage(providerId, client.getBaseEntityId(), imageLocation);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     public HashMap<Client, List<Event>> getEventClientHashMap(@NonNull List<FamilyEventClient> familyEventClients) {
         HashMap<Client, List<Event>> clientEventHashMap = new HashMap<>();
 

@@ -25,4 +25,9 @@ public class AllClientsFormProcessor implements ModuleFormProcessor {
     public JSONObject getFormAsJson(@NonNull JSONObject form, @NonNull String formName, @NonNull String entityId, @NonNull String currentLocationId, @Nullable HashMap<String, String> injectedFieldValues) throws JSONException {
         return null;
     }
+
+    @Override
+    public boolean saveFormImages(Client client, List<Event> list, String s) {
+        return false;
+    }
 }
