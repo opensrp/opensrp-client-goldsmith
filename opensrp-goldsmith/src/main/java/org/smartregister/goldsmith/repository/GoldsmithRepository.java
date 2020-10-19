@@ -1,3 +1,4 @@
+
 package org.smartregister.goldsmith.repository;
 
 import android.content.Context;
@@ -11,6 +12,7 @@ import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.repository.CampaignRepository;
 import org.smartregister.repository.ClientFormRepository;
+import org.smartregister.repository.ClientRelationshipRepository;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.ManifestRepository;
@@ -46,6 +48,7 @@ public class GoldsmithRepository extends Repository {
         ConfigurableViewsRepository.createTable(database);
         EventClientRepository.createTable(database, EventClientRepository.Table.client, EventClientRepository.client_column.values());
         EventClientRepository.createTable(database, event, EventClientRepository.event_column.values());
+        ClientRelationshipRepository.createTable(database);
 
         CampaignRepository.createTable(database);
         TaskRepository.createTable(database);
