@@ -2,8 +2,6 @@ package org.smartregister.goldsmith.configuration;
 
 import android.database.Cursor;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,9 +11,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configuration.BaseRegisterRowOptions;
 import org.smartregister.goldsmith.R;
 import org.smartregister.holders.BaseRegisterViewHolder;
-import org.smartregister.util.Utils;
 import org.smartregister.view.contract.SmartRegisterClient;
-import org.smartregister.view.customcontrols.CustomFontTextView;
 
 public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions {
 
@@ -60,7 +56,7 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions {
 
     @Override
     public int getCustomViewLayoutId() {
-        return R.layout.family_register_list_row;
+        return R.layout.goldsmith_family_register_list_row;
     }
 
     public static void fillValue(@Nullable TextView v, @NonNull String value) {
@@ -72,27 +68,34 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions {
     public static class ViewHolder extends BaseRegisterViewHolder {
         public TextView patientName;
         public TextView villageTown;
-        public Button dueButton;
+        public TextView distanceFromProvider;
+        public TextView tasksDesc;
         public View patientColumn;
         public View memberIcon;
 
         public View registerColumns;
-        public View dueWrapper;
+        public View tasksActionWrapper;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            patientName = itemView.findViewById(org.smartregister.family.R.id.patient_name);
+            patientName = itemView.findViewById(R.id.patient_name);
+            distanceFromProvider = itemView.findViewById(R.id.client_distance_from_provider);
+            tasksDesc = itemView.findViewById(R.id.tv_tasks_content);
 
-            villageTown = itemView.findViewById(org.smartregister.family.R.id.village_town);
-            dueButton = itemView.findViewById(org.smartregister.family.R.id.due_button);
+            villageTown = itemView.findViewById(R.id.village_town);
 
-            patientColumn = itemView.findViewById(org.smartregister.family.R.id.patient_column);
+            patientColumn = itemView.findViewById(R.id.patient_column);
 
-            memberIcon = itemView.findViewById(org.smartregister.family.R.id.member_icon_layout);
+            memberIcon = itemView.findViewById(R.id.member_icon_layout);
 
-            registerColumns = itemView.findViewById(org.smartregister.family.R.id.register_columns);
-            dueWrapper = itemView.findViewById(org.smartregister.family.R.id.due_button_wrapper);
+            registerColumns = itemView.findViewById(R.id.register_columns);
+            tasksActionWrapper = itemView.findViewById(R.id.task_action_wrapper);
+        }
+
+        private void setDistanceFromProvider(String distanceMKm) {
+            tasksActionWrapper.setVisibility(View.VISIBLE);
+            distanceFromProvider.setText(distanceMKm);
         }
 
     }
