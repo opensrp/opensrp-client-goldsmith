@@ -81,28 +81,27 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
 
     @Override
     public void onClick(View view) {
-
         if (view != null) {
             String viewType = (String) view.getTag(org.smartregister.R.id.VIEW_TYPE);
-            CommonPersonObjectClient patient = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
-
+            CommonPersonObjectClient patientClient = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
             if (RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
-
+                // Go to tasks?
             } else if (RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
-
-                Context context = CoreLibrary.getInstance().context().applicationContext();
-                Intent intent = new Intent(context, Utils.metadata().profileActivity);
-                intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, patient.getCaseId());
-                intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.FAMILY_HEAD, false));
-                intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.PRIMARY_CAREGIVER, false));
-                intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, false));
-                intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.FIRST_NAME, false));
-                //intent.putExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, goToDuePage);
-
-                // TODO: Finish this connection to the family profile
-                startActivity(intent);
+                goToFamilyProfile(patientClient);
             }
         }
+    }
+
+    private void goToFamilyProfile(CommonPersonObjectClient patientClient) {
+        Context context = CoreLibrary.getInstance().context().applicationContext();
+        Intent intent = new Intent(context, Utils.metadata().profileActivity);
+        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, patientClient.getCaseId());
+        intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.FAMILY_HEAD, false));
+        intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.PRIMARY_CAREGIVER, false));
+        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, false));
+        intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.FIRST_NAME, false));
+        intent.putExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false);
+        context.startActivity(intent);
     }
 
     public static class ViewHolder extends BaseRegisterViewHolder {
@@ -139,7 +138,6 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
         }
 
     }
-
 
 
     public interface RegisterViewConstants {
