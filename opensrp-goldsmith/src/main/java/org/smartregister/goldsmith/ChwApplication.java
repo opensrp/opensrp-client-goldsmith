@@ -242,6 +242,7 @@ public class ChwApplication extends CoreChwApplication {
                 .setRegisterRowOptions(AllFamiliesRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
+                .setNewLayoutEnabled(true)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(true, "all-families", allFamiliesConfiguration);
     }
