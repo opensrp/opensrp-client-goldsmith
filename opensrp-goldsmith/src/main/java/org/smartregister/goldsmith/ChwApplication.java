@@ -10,7 +10,6 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
 import com.vijay.jsonwizard.NativeFormLibrary;
-import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,7 +30,6 @@ import org.smartregister.chw.pnc.PncLibrary;
 import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.configuration.ModuleConfiguration;
-import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.configuration.ModuleMetadata;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
@@ -41,12 +39,9 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.goldsmith.activity.FamilyProfileActivity;
 import org.smartregister.goldsmith.activity.FamilyWizardFormActivity;
 import org.smartregister.goldsmith.activity.LoginActivity;
-import org.smartregister.goldsmith.configuration.AllClientsRegisterActivityStarter;
-import org.smartregister.goldsmith.configuration.AllClientsRegisterRowOptions;
 import org.smartregister.goldsmith.configuration.AllFamiliesFormProcessor;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterRowOptions;
-import org.smartregister.goldsmith.provider.AllClientsRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
@@ -141,7 +136,6 @@ public class ChwApplication extends CoreChwApplication {
         EventBus.getDefault().register(this);
 
         locationTagsConfiguration = new LocationTagsConfiguration();
-        initializeAllClientsRegister();
         initializeAllFamiliesRegister();
     }
 
@@ -194,32 +188,6 @@ public class ChwApplication extends CoreChwApplication {
         NativeFormLibrary.getInstance().setClientFormDao(CoreLibrary.getInstance().context().getClientFormRepository());
         TaskingLibrary.init(new GoldsmithTaskingLibraryConfiguration());
     }
-
-    public void initializeAllClientsRegister() {
-        ModuleConfiguration allClientsConfiguration = new ModuleConfiguration.Builder(
-                "All Clients",
-                AllClientsRegisterQueryProvider.class,
-                null,
-                AllClientsRegisterActivityStarter.class
-        ).setModuleMetadata(new ModuleMetadata(
-                "",
-                "ec_family_member",
-                "",
-                "",
-                locationTagsConfiguration,
-                "",
-                FormActivity.class,
-                BaseFamilyProfileActivity.class,
-                false,
-                ""
-        )).setModuleFormProcessorClass(ModuleFormProcessor.class)
-                .setRegisterRowOptions(AllClientsRegisterRowOptions.class)
-                .setJsonFormActivity(JsonFormActivity.class)
-                .setBottomNavigationEnabled(false)
-                .build();
-        CoreLibrary.getInstance().addModuleConfiguration(false, "all-clients", allClientsConfiguration);
-    }
-
 
     public void initializeAllFamiliesRegister() {
         ModuleConfiguration allFamiliesConfiguration = new ModuleConfiguration.Builder(

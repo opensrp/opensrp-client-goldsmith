@@ -4,14 +4,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.adapter.ViewPagerAdapter;
-import org.smartregister.family.fragment.BaseFamilyProfileActivityFragment;
-import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.family.model.BaseFamilyProfileModel;
 import org.smartregister.family.presenter.BaseFamilyProfilePresenter;
 import org.smartregister.family.util.Constants;
-import org.smartregister.goldsmith.fragment.FamilyProfileActivityFragment;
-import org.smartregister.goldsmith.fragment.FamilyProfileDueFragment;
 import org.smartregister.goldsmith.fragment.FamilyProfileMemberFragment;
 
 public class FamilyProfileActivity extends BaseFamilyProfileActivity {
@@ -30,12 +26,9 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         BaseFamilyProfileMemberFragment profileMemberFragment = FamilyProfileMemberFragment.newInstance(this.getIntent().getExtras());
-        BaseFamilyProfileDueFragment profileDueFragment = FamilyProfileDueFragment.newInstance(this.getIntent().getExtras());
-        BaseFamilyProfileActivityFragment profileActivityFragment = FamilyProfileActivityFragment.newInstance(this.getIntent().getExtras());
+        // TODO -> Add Tasks fragment
 
         adapter.addFragment(profileMemberFragment, this.getString(org.smartregister.family.R.string.member).toUpperCase());
-        adapter.addFragment(profileDueFragment, this.getString(org.smartregister.family.R.string.due).toUpperCase());
-        adapter.addFragment(profileActivityFragment, this.getString(org.smartregister.family.R.string.activity).toUpperCase());
 
         viewPager.setAdapter(adapter);
 

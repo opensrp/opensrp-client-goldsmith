@@ -28,11 +28,11 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
     }
 
     @Override
-    public void populateClientRow(@NonNull Cursor cursor, @NonNull CommonPersonObjectClient commonPersonObjectClient, @NonNull SmartRegisterClient smartRegisterClient, @NonNull BaseRegisterViewHolder opdRegisterViewHolder) {
+    public void populateClientRow(@NonNull Cursor cursor, @NonNull CommonPersonObjectClient commonPersonObjectClient, @NonNull SmartRegisterClient smartRegisterClient, @NonNull BaseRegisterViewHolder registerViewHolder) {
         // Do nothing
 
-        if (opdRegisterViewHolder instanceof ViewHolder) {
-            ViewHolder viewHolder = (ViewHolder) opdRegisterViewHolder;
+        if (registerViewHolder instanceof ViewHolder) {
+            ViewHolder viewHolder = (ViewHolder) registerViewHolder;
             fillValue(viewHolder.patientName, commonPersonObjectClient.getDetails().get("first_name") + " " + commonPersonObjectClient.getDetails().get("last_name"));
             fillValue(viewHolder.villageTown, commonPersonObjectClient.getDetails().get("home_address"));
             /*String dobString = commonPersonObjectClient.getDetails().get("dob");

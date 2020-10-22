@@ -10,17 +10,34 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-<!--
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+    <!--
+        <style name="AppTheme.NoActionBar">
+            <item name="windowActionBar">false</item>
+            <item name="windowNoTitle">true</item>
+        </style>
 
-    <style name="AppTheme.Login" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="android:textSize">@dimen/login_font_size</item>
-        <item name="colorControlActivated">@color/colorPrimaryDark</item>
-    </style>-->
+        <style name="AppTheme.Login" parent="Theme.AppCompat.Light.DarkActionBar">
+            <item name="colorControlNormal">@android:color/white</item>
+            <item name="android:textSize">@dimen/login_font_size</item>
+            <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        </style>-->
+    <!--
+        <style name="FamilyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+            <item name="colorPrimary">@color/primary</item>
+            <item name="colorPrimaryDark">@color/primaryDark</item>
+            <item name="colorAccent">@color/accent</item>
+        </style>
+        <style name="FamilyTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        <style name="FamilyTheme.DarkAppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+            <item name="android:windowContentOverlay">@null</item>
+            <item name="colorControlNormal">@android:color/black</item>
+        </style>
+        <style name="FamilyTheme.NoActionBar">
+            <item name="windowActionBar">false</item>
+            <item name="windowNoTitle">true</item>
+        </style>
+        <style name="FamilyTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    -->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -41,10 +58,10 @@
     </style>
 
     <style name="BuildTextStyle">
-            <item name="android:fontFamily">sans-serif</item>
-            <item name="android:textColor">#FF999999</item>
-            <item name="android:textSize">16sp</item>
-            <item name="android:lineSpacingMultiplier">1.19</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#FF999999</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.19</item>
     </style>
 
     <style name="HintTextStyle">
