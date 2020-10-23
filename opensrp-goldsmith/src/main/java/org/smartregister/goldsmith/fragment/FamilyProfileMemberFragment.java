@@ -39,7 +39,7 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
         super.onViewClicked(view);
         switch (view.getId()) {
             case R.id.patient_column:
-                if (view.getTag() != null && view.getTag(org.smartregister.family.R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
+                if (view.getTag() != null && view.getTag(R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
                     goToOtherMemberProfileActivity((CommonPersonObjectClient) view.getTag());
                 }
                 break;

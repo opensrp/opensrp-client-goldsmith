@@ -64,6 +64,13 @@
             android:theme="@style/FamilyTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name="org.smartregister.family.activity.FamilyWizardFormActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/FamilyTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
         <service android:name="org.smartregister.sync.intent.PullUniqueIdsIntentService" />
         <service android:name="org.smartregister.sync.intent.ExtendedSyncIntentService" />
         <service android:name="org.smartregister.sync.intent.SyncLocationsByLevelAndTagsIntentService" />
