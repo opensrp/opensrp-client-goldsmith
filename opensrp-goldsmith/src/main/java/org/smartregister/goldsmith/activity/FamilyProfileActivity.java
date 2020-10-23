@@ -1,9 +1,17 @@
 package org.smartregister.goldsmith.activity;
 
 import android.app.Activity;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
 
 import org.smartregister.chw.anc.activity.BaseAncMemberProfileActivity;
 import org.smartregister.chw.core.activity.CoreAboveFiveChildProfileActivity;
@@ -24,6 +32,8 @@ import org.smartregister.view.fragment.BaseRegisterFragment;
 
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
     @Override
@@ -35,7 +45,27 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     @Override
     protected void setupViews() {
         super.setupViews();
-        // Apply colours
+
+        int gsBlueColor = context().getColorResource(R.color.goldsmithToolbarColor);
+
+        AppBarLayout appBarLayout = findViewById(R.id.toolbar_appbarlayout);
+        appBarLayout.setBackgroundColor(gsBlueColor);
+
+        Toolbar familyToolbar = findViewById(R.id.family_toolbar);
+        familyToolbar.setBackgroundColor(gsBlueColor);
+        TextView toolBarTitle = findViewById(R.id.toolbar_title);
+        toolBarTitle.setText("");
+        Toolbar familyTwoToolbar = findViewById(R.id.family_two_toolbar);
+        familyTwoToolbar.setBackgroundColor(gsBlueColor);
+
+        ViewGroup profileNameLayout = findViewById(R.id.profile_name_layout);
+        profileNameLayout.setBackgroundColor(gsBlueColor);
+
+        CircleImageView profileView = findViewById(R.id.imageview_profile);
+        profileView.setBorderWidth(0);
+
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setSelectedTabIndicatorColor(context().getColorResource(R.color.colorAccent));
     }
 
     @Override
