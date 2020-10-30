@@ -166,14 +166,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }
 
-    /*implementation(project(':configurable-register-and-profiles')) {
-        transitive = true
-        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
-        exclude group: 'com.crashlytics.sdk.android'
-        exclude group: 'com.ibm.fhir', module: 'fhir-model'
-    }*/
-
-    implementation (project(':opensrp-chw-core')) {
+    implementation ('org.smartregister:opensrp-client-chw-core:1.6.0-GS-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'androidx.legacy', module: 'legacy-support-v4'
@@ -182,18 +175,6 @@ dependencies {
         exclude group: 'com.google.guava', module: 'guava'
         exclude group: 'com.rengwuxian.materialedittext', module: 'library'
         exclude group: 'org.smartregister', module: 'opensrp-client-simprints'
-        exclude group: 'com.ibm.fhir', module: 'fhir-model'
-        exclude group: 'org.smartregister', module: 'opensrp-client-core'
-    }
-
-    implementation (project(':opensrp-app')){
-        transitive = true
-        exclude group: 'com.github.bmelnychuk', module: 'atv'
-        exclude group: 'com.google.guava', module: 'guava'
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'design'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
     }
 
