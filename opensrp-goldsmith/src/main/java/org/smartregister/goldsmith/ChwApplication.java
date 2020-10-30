@@ -211,6 +211,7 @@ public class ChwApplication extends CoreChwApplication {
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
                 .setNewLayoutEnabled(true)
+                .setRegisterLogo(R.drawable.ic_action_goldsmith_gold_placeholder_back)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(true, "all-families", allFamiliesConfiguration);
     }
