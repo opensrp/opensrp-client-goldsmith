@@ -1,9 +1,8 @@
 package org.smartregister.goldsmith.activity;
 
 import android.app.Activity;
+import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -66,6 +65,18 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setSelectedTabIndicatorColor(context().getColorResource(R.color.colorAccent));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
