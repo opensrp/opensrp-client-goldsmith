@@ -42,4 +42,12 @@ public class Constants extends CoreConstants {
     public static class PeerToPeerUtil {
         public static String COUNTRY_ID = "COUNTRY_ID";
     }
+
+    public interface RegisterViewConstants {
+
+        interface Provider {
+            String CLIENT_COLUMN = "client_column";
+            String ACTION_BUTTON_COLUMN = "action_button_column";
+        }
+    }
 }

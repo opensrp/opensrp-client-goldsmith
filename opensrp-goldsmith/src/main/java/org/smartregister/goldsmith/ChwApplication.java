@@ -10,6 +10,7 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
 import com.vijay.jsonwizard.NativeFormLibrary;
+import com.vijay.jsonwizard.activities.JsonWizardFormActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -18,6 +19,7 @@ import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.anc.AncLibrary;
+import org.smartregister.chw.anc.activity.BaseAncMemberProfileActivity;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.configs.CoreAllClientsRegisterRowOptions;
@@ -42,8 +44,12 @@ import org.smartregister.goldsmith.activity.LoginActivity;
 import org.smartregister.goldsmith.configuration.AllFamiliesFormProcessor;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.AncFormProcessor;
+import org.smartregister.goldsmith.configuration.AncRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.AncRegisterRowOptions;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
+import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
 import org.smartregister.growthmonitoring.GrowthMonitoringConfig;
 import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
@@ -71,8 +77,6 @@ import timber.log.Timber;
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 21-09-2020.
  */
 public class ChwApplication extends CoreChwApplication {
-
-    private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
 
     @Override
     public void onCreate() {
@@ -135,8 +139,12 @@ public class ChwApplication extends CoreChwApplication {
 
         EventBus.getDefault().register(this);
 
-        locationTagsConfiguration = new LocationTagsConfiguration();
+        initializeRegisters();
+    }
+
+    private void initializeRegisters() {
         initializeAllFamiliesRegister();
+        initializeAncPncRegisters();
     }
 
 
@@ -197,9 +205,9 @@ public class ChwApplication extends CoreChwApplication {
                 AllFamiliesRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
                 "family_register",
-                "ec_family",
-                "Family Registration",
-                null,
+                CoreConstants.TABLE_NAME.FAMILY_MEMBER,
+                CoreConstants.EventType.FAMILY_REGISTRATION,
+                CoreConstants.EventType.UPDATE_FAMILY_REGISTRATION,
                 null,
                 "all-families",
                 FormActivity.class,
@@ -214,6 +222,33 @@ public class ChwApplication extends CoreChwApplication {
                 .setRegisterLogo(R.drawable.ic_action_goldsmith_gold_placeholder_back)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(true, "all-families", allFamiliesConfiguration);
+    }
+
+    public void initializeAncPncRegisters() {
+        ModuleConfiguration ancModuleConfiguration = new ModuleConfiguration.Builder(
+                "ANC",
+                AncRegisterQueryProvider.class,
+                new ConfigViewsLib(),
+                AncRegisterActivityStarter.class
+        ).setModuleMetadata(new ModuleMetadata(
+                "anc_member_registration",
+                CoreConstants.TABLE_NAME.ANC_MEMBER,
+                CoreConstants.EventType.ANC_REGISTRATION,
+                CoreConstants.EventType.UPDATE_ANC_REGISTRATION,
+                null,
+                "anc",
+                FormActivity.class,
+                BaseAncMemberProfileActivity.class,
+                false,
+                ""
+        )).setModuleFormProcessorClass(AncFormProcessor.class)
+                .setRegisterRowOptions(AncRegisterRowOptions.class)
+                .setJsonFormActivity(JsonWizardFormActivity.class)
+                .setBottomNavigationEnabled(false)
+                .setNewLayoutEnabled(true)
+                .setRegisterLogo(R.drawable.ic_action_goldsmith_gold_placeholder_back)
+                .build();
+        CoreLibrary.getInstance().addModuleConfiguration(false, "anc", ancModuleConfiguration);
     }
 
     public void setOpenSRPUrl() {

@@ -39,7 +39,12 @@ public class GoldsmithRepository extends Repository {
 
 
     public GoldsmithRepository(Context context, org.smartregister.Context openSRPContext) {
-        super(context, AllConstants.DATABASE_NAME, BuildConfig.DATABASE_VERSION, openSRPContext.session(), ChwApplication.createCommonFtsObject(), openSRPContext.sharedRepositoriesArray());
+        super(context,
+                AllConstants.DATABASE_NAME,
+                BuildConfig.DATABASE_VERSION,
+                openSRPContext.session(),
+                ChwApplication.createCommonFtsObject(),
+                openSRPContext.sharedRepositoriesArray());
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.util.ConfigurableRegisterUtils;
 import org.smartregister.holders.BaseRegisterViewHolder;
 import org.smartregister.view.contract.SmartRegisterClient;
 
@@ -33,19 +34,19 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
 
         if (registerViewHolder instanceof ViewHolder) {
             ViewHolder viewHolder = (ViewHolder) registerViewHolder;
-            fillValue(viewHolder.patientName, commonPersonObjectClient.getDetails().get("first_name") + " " + commonPersonObjectClient.getDetails().get("last_name"));
-            fillValue(viewHolder.villageTown, commonPersonObjectClient.getDetails().get("home_address"));
+            ConfigurableRegisterUtils.fillValue(viewHolder.patientName, commonPersonObjectClient.getDetails().get("first_name") + " " + commonPersonObjectClient.getDetails().get("last_name"));
+            ConfigurableRegisterUtils.fillValue(viewHolder.villageTown, commonPersonObjectClient.getDetails().get("home_address"));
             /*String dobString = commonPersonObjectClient.getDetails().get("dob");
 
             if (dobString != null) {
                 fillValue(viewHolder.patientNameAge, Utils.getAgeFromDate(dobString) + "");
             }*/
 
-            viewHolder.patientColumn.setTag(org.smartregister.R.id.VIEW_TYPE, RegisterViewConstants.Provider.CLIENT_COLUMN);
+            viewHolder.patientColumn.setTag(org.smartregister.R.id.VIEW_TYPE, org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.CLIENT_COLUMN);
             viewHolder.patientColumn.setTag(org.smartregister.R.id.VIEW_CLIENT, commonPersonObjectClient);
             viewHolder.patientColumn.setOnClickListener(this);
 
-            viewHolder.tasksActionWrapper.setTag(org.smartregister.R.id.VIEW_TYPE, RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN);
+            viewHolder.tasksActionWrapper.setTag(org.smartregister.R.id.VIEW_TYPE, org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN);
             viewHolder.tasksActionWrapper.setTag(org.smartregister.R.id.VIEW_CLIENT, commonPersonObjectClient);
             viewHolder.tasksActionWrapper.setOnClickListener(this);
         }
@@ -73,27 +74,21 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
         return R.layout.goldsmith_family_register_list_row;
     }
 
-    public static void fillValue(@Nullable TextView v, @NonNull String value) {
-        if (v != null) {
-            v.setText(value);
-        }
-    }
-
     @Override
     public void onClick(View view) {
         if (view != null) {
             String viewType = (String) view.getTag(org.smartregister.R.id.VIEW_TYPE);
             CommonPersonObjectClient patientClient = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
-            if (RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
+            if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
                 // Go to tasks?
-            } else if (RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
+            } else if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
                 goToFamilyProfile(patientClient);
             }
         }
     }
 
     private void goToFamilyProfile(CommonPersonObjectClient patientClient) {
-        Context context = CoreLibrary.getInstance().context().applicationContext();
+        Context context = CoreLibrary.getInstance().context().applicationContext(); // TODO (Allan) : Fix this!
         Intent intent = new Intent(context, Utils.metadata().profileActivity);
         intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, patientClient.getCaseId());
         intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.FAMILY_HEAD, false));
@@ -136,16 +131,5 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
             tasksActionWrapper.setVisibility(View.VISIBLE);
             distanceFromProvider.setText(distanceMKm);
         }
-
     }
-
-
-    public interface RegisterViewConstants {
-
-        interface Provider {
-            String CLIENT_COLUMN = "client_column";
-            String ACTION_BUTTON_COLUMN = "action_button_column";
-        }
-    }
-
 }
