@@ -42,6 +42,7 @@ import org.smartregister.goldsmith.activity.LoginActivity;
 import org.smartregister.goldsmith.configuration.AllFamiliesFormProcessor;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterRowOptions;
+import org.smartregister.goldsmith.job.GoldsmithJobCreator;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
