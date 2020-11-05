@@ -87,13 +87,12 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
             if (RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
                 // Go to tasks?
             } else if (RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
-                goToFamilyProfile(patientClient);
+                goToFamilyProfile(patientClient,view.getContext());
             }
         }
     }
 
-    private void goToFamilyProfile(CommonPersonObjectClient patientClient) {
-        Context context = CoreLibrary.getInstance().context().applicationContext();
+    private void goToFamilyProfile(CommonPersonObjectClient patientClient, Context context) {
         Intent intent = new Intent(context, Utils.metadata().profileActivity);
         intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, patientClient.getCaseId());
         intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.FAMILY_HEAD, false));

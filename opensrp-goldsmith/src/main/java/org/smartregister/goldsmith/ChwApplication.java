@@ -156,10 +156,12 @@ public class ChwApplication extends CoreChwApplication {
         //FpLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ReportingLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
 
-        GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
+        //TODO uncomment the below if Growth Monitoring is being used
+       /* GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
         growthMonitoringConfig.setWeightForHeightZScoreFile("weight_for_height.csv");
-        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);
+        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);*/
         /*
+
         if (hasReferrals()) {
             //Setup referral library
             ReferralLibrary.init(this);
