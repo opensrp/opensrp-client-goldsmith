@@ -42,4 +42,9 @@ public class Constants extends CoreConstants {
     public static class PeerToPeerUtil {
         public static String COUNTRY_ID = "COUNTRY_ID";
     }
+
+    public static class IntentKeys {
+        public static String GENDER = "gender";
+        public static String DOB = "dob";
+    }
 }
