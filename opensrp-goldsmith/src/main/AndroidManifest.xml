@@ -55,14 +55,12 @@
             android:name=".activity.FamilyProfileActivity"
             android:label="@string/title_family_detail"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
             android:name=".activity.FamilyOtherMemberProfileActivity"
             android:label="@string/title_family_detail"
-            android:theme="@style/FamilyTheme.NoActionBar">
-        </activity>
+            android:theme="@style/FamilyTheme.NoActionBar"></activity>
 
         <activity
             android:name="org.smartregister.family.activity.FamilyWizardFormActivity"
@@ -77,9 +75,7 @@
         <service android:name="org.smartregister.sync.intent.DocumentConfigurationIntentService" />
         <service android:name="org.smartregister.sync.intent.ValidateIntentService" />
         <service android:name="org.smartregister.service.ImageUploadSyncService" />
-        <service android:name="org.smartregister.sync.intent.PlanIntentService" />
-        <service android:name="org.smartregister.sync.intent.SyncTaskIntentService" />
-        <service android:name="org.smartregister.sync.intent.LocationIntentService" />
+        <service android:name="org.smartregister.tasking.sync.LocationTaskIntentService" />
     </application>
 
 </manifest>
