@@ -1,16 +1,24 @@
 package org.smartregister.goldsmith.presenter;
 
+import android.util.Pair;
+
+import org.smartregister.chw.core.contract.CoreChildRegisterContract;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.chw.core.model.CoreChildRegisterModel;
 import org.smartregister.chw.core.presenter.CoreFamilyProfilePresenter;
+import org.smartregister.clientandeventmodel.Client;
+import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.contract.FamilyProfileContract;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.interactor.FamilyProfileInteractor;
 import org.smartregister.goldsmith.model.ChildRegisterModel;
+
+import static org.smartregister.AllConstants.PLAN_IDENTIFIER;
 
 public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
 
@@ -54,4 +62,11 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
     protected CoreChildRegisterModel getChildRegisterModel() {
         return new ChildRegisterModel();
     }
+
+    @Override
+    public void saveChildRegistration(Pair<Client, Event> pair, String jsonString, boolean isEditMode, CoreChildRegisterContract.InteractorCallBack callBack) {
+        pair.second.addDetails(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
+        super.saveChildRegistration(pair, jsonString, isEditMode, this);
+    }
+
 }

@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.domain.Client;
+import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyOtherMemberProfileActivity;
@@ -34,6 +36,10 @@ import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.FamilyOtherMemberProfileFragment;
 import org.smartregister.goldsmith.util.Constants.IntentKeys;
 import org.smartregister.repository.BaseRepository;
+import org.smartregister.sync.ClientProcessorForJava;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import timber.log.Timber;
 
@@ -137,12 +143,15 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
                 formTag.providerId = org.smartregister.chw.core.utils.Utils.context().allSharedPreferences().fetchRegisteredANM();
                 formTag.appVersion = FamilyLibrary.getInstance().getApplicationVersion();
                 formTag.databaseVersion = FamilyLibrary.getInstance().getDatabaseVersion();
-                Event event = org.smartregister.util.JsonFormUtils.createEvent(fields, metadata, formTag, entityId, jsonForm.getString(JsonFormConstants.ENCOUNTER_TYPE), "PNc");
+                Event event = org.smartregister.util.JsonFormUtils.createEvent(fields, metadata, formTag, entityId, jsonForm.getString(JsonFormConstants.ENCOUNTER_TYPE), "PNC");
                 org.smartregister.goldsmith.util.JsonFormUtils.tagSyncMetadata(CoreLibrary.getInstance().context().allSharedPreferences(), event);
+                event.addDetails(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
-                eventJson.put(DETAILS, getJSONObject(jsonForm, DETAILS));
                 CoreLibrary.getInstance().context().getEventClientRepository().addEvent(event.getBaseEntityId(), eventJson, BaseRepository.TYPE_Unsynced);
-            } catch (JSONException e) {
+                ClientProcessorForJava.getInstance(this).processClient(Collections.singletonList(
+                        new EventClient(JsonFormUtils.gson.fromJson(eventJson.toString(),
+                                org.smartregister.domain.Event.class), new Client(event.getBaseEntityId()))), true);
+            } catch (Exception e) {
                 Timber.e(e);
             }
         } else {

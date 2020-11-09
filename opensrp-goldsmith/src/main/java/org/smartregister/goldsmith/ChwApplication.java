@@ -56,6 +56,7 @@ import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
+import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.view.activity.FormActivity;
 import org.smartregister.tasking.TaskingLibrary;
 
@@ -326,4 +327,13 @@ public class ChwApplication extends CoreChwApplication {
         }
     }
 
+    @Override
+    public ClientProcessorForJava getClientProcessorForJava() {
+        return GoldsmithClientProcessor.getInstance(getApplicationContext());
+    }
+
+    @Override
+    public ClientProcessorForJava getClientProcessor() {
+        return getClientProcessorForJava();
+    }
 }
