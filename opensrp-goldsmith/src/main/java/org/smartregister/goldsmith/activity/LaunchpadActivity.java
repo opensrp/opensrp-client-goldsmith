@@ -33,14 +33,25 @@ public class LaunchpadActivity extends AppCompatActivity {
         });
 
 
-        LaunchpadView myChwsClients  = findViewById(R.id.launchpadAct_myChws);
-        myChwsClients.setOnClickListener(v -> CoreLibrary.getInstance()
+        LaunchpadView myChwsClients = findViewById(R.id.launchpadAct_myChws);
+               myChwsClients.setOnClickListener(v -> CoreLibrary.getInstance()
                 .startRegisterActivity(LaunchpadActivity.this));
 
+        /*myChwsClients.setOnClickListener(v -> {
+            startIntent(getAncRegisterIntent(), startingIntent);
+        });*/
     }
 
     private void startIntent(@NonNull Intent intent, @NonNull Intent startingIntent) {
         intent.putExtras(startingIntent);
         startActivity(intent);
+    }
+
+    private Intent getAncRegisterIntent() {
+        Context context = LaunchpadActivity.this;
+        Intent intent = new Intent(context, BaseConfigurableRegisterActivity.class);
+        intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, "anc");
+        context.startActivity(intent);
+        return intent;
     }
 }
