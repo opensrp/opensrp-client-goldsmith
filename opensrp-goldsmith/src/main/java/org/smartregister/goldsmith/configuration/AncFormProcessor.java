@@ -11,6 +11,7 @@ import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
+import org.smartregister.goldsmith.util.SampleAppJsonFormUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +23,9 @@ public class AncFormProcessor implements ModuleFormProcessor {
     }
 
     @Override
-    public JSONObject getFormAsJson(@NonNull JSONObject jsonObject, @NonNull String s, @NonNull String s1, @NonNull String s2, @Nullable HashMap<String, String> hashMap) throws JSONException {
-        return null;
+    public JSONObject getFormAsJson(@NonNull JSONObject form, @NonNull String formName, @NonNull String entityId,
+                                    @NonNull String currentLocationId, @Nullable HashMap<String, String> injectedFieldValues) throws JSONException {
+        return SampleAppJsonFormUtils.getFormAsJson(form, formName, entityId, currentLocationId, injectedFieldValues);
     }
 
     @Override

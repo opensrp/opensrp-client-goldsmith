@@ -52,7 +52,7 @@ public class FamilyWizardFormActivity extends JsonWizardFormActivity {
     }
 
     /**
-     * Conditionaly display the confirmation dialog
+     * Conditionally display the confirmation dialog
      */
     @Override
     public void onBackPressed() {
