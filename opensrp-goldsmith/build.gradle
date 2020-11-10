@@ -164,7 +164,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 
     implementation ('org.smartregister:opensrp-client-tasking:0.0.3.2-SNAPSHOT') {
-        exclude group: 'com.ibm.fhir', module: 'fhir-model'
+        exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }
 
@@ -177,8 +177,14 @@ dependencies {
         exclude group: 'com.google.guava', module: 'guava'
         exclude group: 'com.rengwuxian.materialedittext', module: 'library'
         exclude group: 'org.smartregister', module: 'opensrp-client-simprints'
+        exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
+    }
+
+    implementation ('org.smartregister:opensrp-plan-evaluator:0.1.6-SNAPSHOT'){
+        transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
     }
+
 
     //Do not upgrade to 1.1.0 due to compatibility issues
     implementation 'androidx.appcompat:appcompat:1.0.2'
