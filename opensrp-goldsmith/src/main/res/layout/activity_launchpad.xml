@@ -40,7 +40,7 @@
                 android:layout_weight="1"
                 app:itemIconSize="40dp"
                 app:itemIcon="@drawable/my_clients"
-                app:itemTitle="My CHWs" />
+                app:itemTitle="My Clients" />
 
         </TableRow>
 

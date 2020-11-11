@@ -37,6 +37,7 @@ import org.smartregister.goldsmith.fragment.FamilyOtherMemberProfileFragment;
 import org.smartregister.goldsmith.util.Constants.IntentKeys;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.sync.ClientProcessorForJava;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -148,7 +149,7 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
                 event.addDetails(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
                 CoreLibrary.getInstance().context().getEventClientRepository().addEvent(event.getBaseEntityId(), eventJson, BaseRepository.TYPE_Unsynced);
-                ClientProcessorForJava.getInstance(this).processClient(Collections.singletonList(
+                DrishtiApplication.getInstance().getClientProcessor().processClient(Collections.singletonList(
                         new EventClient(JsonFormUtils.gson.fromJson(eventJson.toString(),
                                 org.smartregister.domain.Event.class), new Client(event.getBaseEntityId()))), true);
             } catch (Exception e) {

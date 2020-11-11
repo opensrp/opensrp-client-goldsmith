@@ -3,6 +3,7 @@ package org.smartregister.goldsmith;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -57,6 +58,7 @@ import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
 import org.smartregister.sync.ClientProcessorForJava;
+import org.smartregister.tasking.util.PreferencesUtil;
 import org.smartregister.view.activity.FormActivity;
 import org.smartregister.tasking.TaskingLibrary;
 
@@ -139,6 +141,11 @@ public class ChwApplication extends CoreChwApplication {
 
         locationTagsConfiguration = new LocationTagsConfiguration();
         initializeAllFamiliesRegister();
+
+        // TODO: Remove this and move it to some other place
+        if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(BuildConfig.PNC_PLAN_ID)) {
+            PreferencesUtil.getInstance().setCurrentPlanId(BuildConfig.PNC_PLAN_ID);
+        }
     }
 
 

@@ -163,7 +163,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 
-    implementation ('org.smartregister:opensrp-client-tasking:0.0.3.2-SNAPSHOT') {
+    implementation (project(':opensrp-tasking')) {
+    //implementation ('org.smartregister:opensrp-client-tasking:0.0.3.2-SNAPSHOT') {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }

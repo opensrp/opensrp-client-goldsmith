@@ -31,13 +31,13 @@ import org.smartregister.tasking.model.BaseTaskDetails;
 import org.smartregister.tasking.model.CardDetails;
 import org.smartregister.tasking.model.TaskDetails;
 import org.smartregister.tasking.model.TaskFilterParams;
-import org.smartregister.tasking.util.CardDetailsUtil;
 import org.smartregister.tasking.util.Constants;
 import org.smartregister.tasking.util.TaskingLibraryConfiguration;
 import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
 import org.smartregister.util.AppExecutors;
 import org.smartregister.util.Utils;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -187,7 +187,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public String generateTaskRegisterSelectQuery(String mainCondition) {
-        return String.format("SELECT * FROM %s INNER JOIN %s WHERE %s", Constants.DatabaseKeys.TASK_TABLE, Constants.DatabaseKeys.EVENT_TABLE, mainCondition);
+        return String.format("SELECT * FROM %s INNER JOIN %s ON %s.for = %s.baseEntityId WHERE %s", Constants.DatabaseKeys.TASK_TABLE, Constants.DatabaseKeys.EVENT_TABLE, Constants.DatabaseKeys.TASK_TABLE, Constants.DatabaseKeys.EVENT_TABLE, mainCondition);
     }
 
     @Override
@@ -222,7 +222,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public String getCurrentPlanId() {
-        return null;
+        return BuildConfig.PNC_PLAN_ID;
     }
 
     @Override
@@ -292,19 +292,32 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
             String taskTitle = "";
 
-            if ("pnc_visit".equals(taskDetails.getTaskCode())) {
+            if ("pnc_visit".equals(taskDetails.getTaskCode()) || "Day 2 Visit".equals(taskDetails.getTaskCode())) {
                 taskTitle = "PNC Visit Day 2";
+                // TODO: Show the icon based on priority and task type
+                taskViewHolder.setTaskIcon(R.drawable.pnc_03);
+
+                // Add priority check here task.priority
+
             }
 
-            // TODO: Show the icon based on priority and task type
-            taskViewHolder.setTaskIcon(R.drawable.pnc_03);
+            String dob = taskDetails.getClient().getDetails().get("birthdate");
+            /*if (TextUtils.isEmpty(dob)) {
+                dob = taskDetails.getClient().getDetails().get("dob");
+            }*/
 
-            int entityAgeInYrs = Utils.getAgeFromDate(taskDetails.getClient().getDetails().get("dob"));
-            String entityName = taskDetails.getClient().getDetails().get("first_name")+ " "
-                    + taskDetails.getClient().getDetails().get("last_name") + ", " + entityAgeInYrs;
+            int entityAgeInYrs = Utils.getAgeFromDate(dob);
+            /*String entityName = taskDetails.getClient().getDetails().get("first_name")+ " "
+                    + taskDetails.getClient().getDetails().get("last_name") + ", " + entityAgeInYrs;*/
+            String firstName = StringUtils.capitalize(taskDetails.getClient().getDetails().get("firstName"));
+            String lastName = StringUtils.capitalize(taskDetails.getClient().getDetails().get("lastName"));
+            String entityName = String.format("%s %s, %d", firstName, lastName, entityAgeInYrs);
             taskViewHolder.setTaskEntityName(entityName);
             taskViewHolder.setTaskTitle(taskTitle);
-            taskViewHolder.setTaskRelativeTimeAssigned("Assigned today");
+
+            Calendar authoredOn = Calendar.getInstance();
+            authoredOn.setTimeInMillis(taskDetails.getAuthoredOn());
+            taskViewHolder.setTaskRelativeTimeAssigned("Assigned " + org.smartregister.tasking.util.Utils.getRelativeDateTimeString(authoredOn));
 
             // TODO: Show the calculated distance in metres or KM
             // TODO: Switch between the call icon & the walk icon
@@ -340,4 +353,5 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     public TaskRegisterConfiguration getTasksRegisterConfiguration() {
         return taskRegisterConfiguration;
     }
+
 }

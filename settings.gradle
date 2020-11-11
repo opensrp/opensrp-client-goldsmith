@@ -3,3 +3,6 @@ include ':opensrp-goldsmith'
 /*
 include ':opensrp-chw'
 project(":opensrp-chw").projectDir = new File("../opensrp-client-chw/opensrp-chw")*/
+
+include ':opensrp-tasking'
+project(":opensrp-tasking").projectDir = new File("../opensrp-client-tasking/opensrp-tasking")
