@@ -56,7 +56,7 @@ public class AncRegisterRowOptions extends BaseRegisterRowOptions implements Vie
 
     @Override
     public int getCustomViewLayoutId() {
-        return R.layout.goldsmith_family_register_list_row;
+        return R.layout.goldsmith_anc_register_list_row;
     }
 
     @Override

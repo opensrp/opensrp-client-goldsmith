@@ -29,6 +29,7 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.FormUtils;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.chw.pnc.PncLibrary;
+import org.smartregister.chw.pnc.activity.BasePncMemberProfileActivity;
 import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.configuration.ModuleConfiguration;
@@ -45,11 +46,14 @@ import org.smartregister.goldsmith.configuration.AllFamiliesFormProcessor;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterRowOptions;
 import org.smartregister.goldsmith.configuration.AncFormProcessor;
+import org.smartregister.goldsmith.configuration.AncPncToolbarOptions;
 import org.smartregister.goldsmith.configuration.AncRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.AncRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.ToolbarOptions;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
 import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
+import org.smartregister.goldsmith.provider.PncRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
 import org.smartregister.growthmonitoring.GrowthMonitoringConfig;
 import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
@@ -144,7 +148,8 @@ public class ChwApplication extends CoreChwApplication {
 
     private void initializeRegisters() {
         initializeAllFamiliesRegister();
-        initializeAncPncRegisters();
+        initializeAncRegisters();
+        initializePncRegisters();
     }
 
 
@@ -159,13 +164,11 @@ public class ChwApplication extends CoreChwApplication {
         FamilyLibrary.init(context, getMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         AncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         PncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
-        //MalariaLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
-        //FpLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ReportingLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
 
-        GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
+        /*GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
         growthMonitoringConfig.setWeightForHeightZScoreFile("weight_for_height.csv");
-        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);
+        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);*/
         /*
         if (hasReferrals()) {
             //Setup referral library
@@ -199,7 +202,7 @@ public class ChwApplication extends CoreChwApplication {
 
     public void initializeAllFamiliesRegister() {
         ModuleConfiguration allFamiliesConfiguration = new ModuleConfiguration.Builder(
-                "All Families",
+                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 AllFamiliesRegisterQueryProvider.class,
                 new ConfigViewsLib(),
                 AllFamiliesRegisterActivityStarter.class
@@ -209,7 +212,7 @@ public class ChwApplication extends CoreChwApplication {
                 CoreConstants.EventType.FAMILY_REGISTRATION,
                 CoreConstants.EventType.UPDATE_FAMILY_REGISTRATION,
                 null,
-                "all-families",
+                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 FormActivity.class,
                 BaseFamilyProfileActivity.class,
                 false,
@@ -218,15 +221,16 @@ public class ChwApplication extends CoreChwApplication {
                 .setRegisterRowOptions(AllFamiliesRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
-                .setNewLayoutEnabled(true)
-                .setRegisterLogo(R.drawable.ic_action_goldsmith_gold_placeholder_back)
+                .setToolbarOptions(ToolbarOptions.class)
                 .build();
-        CoreLibrary.getInstance().addModuleConfiguration(true, "all-families", allFamiliesConfiguration);
+        CoreLibrary.getInstance().addModuleConfiguration(true,
+                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
+                allFamiliesConfiguration);
     }
 
-    public void initializeAncPncRegisters() {
+    public void initializeAncRegisters() {
         ModuleConfiguration ancModuleConfiguration = new ModuleConfiguration.Builder(
-                "ANC",
+                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
                 AncRegisterQueryProvider.class,
                 new ConfigViewsLib(),
                 AncRegisterActivityStarter.class
@@ -236,7 +240,7 @@ public class ChwApplication extends CoreChwApplication {
                 CoreConstants.EventType.ANC_REGISTRATION,
                 CoreConstants.EventType.UPDATE_ANC_REGISTRATION,
                 null,
-                "anc",
+                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
                 FormActivity.class,
                 BaseAncMemberProfileActivity.class,
                 false,
@@ -245,10 +249,40 @@ public class ChwApplication extends CoreChwApplication {
                 .setRegisterRowOptions(AncRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
-                .setNewLayoutEnabled(true)
-                .setRegisterLogo(R.drawable.ic_action_goldsmith_gold_placeholder_back)
+                .setToolbarOptions(AncPncToolbarOptions.class)
                 .build();
-        CoreLibrary.getInstance().addModuleConfiguration(false, "anc", ancModuleConfiguration);
+        CoreLibrary.getInstance().addModuleConfiguration(false,
+                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
+                ancModuleConfiguration);
+    }
+
+    public void initializePncRegisters() {
+        ModuleConfiguration pncModuleConfiguration = new ModuleConfiguration.Builder(
+                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
+                PncRegisterQueryProvider.class,
+                new ConfigViewsLib(),
+                AncRegisterActivityStarter.class
+        ).setModuleMetadata(new ModuleMetadata(
+                "pregnancy_outcome",
+                CoreConstants.TABLE_NAME.PNC_MEMBER,
+                CoreConstants.EventType.PREGNANCY_OUTCOME,
+                null,
+                null,
+                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
+                FormActivity.class,
+                BasePncMemberProfileActivity.class,
+                false,
+                ""
+        )).setModuleFormProcessorClass(AncFormProcessor.class)
+                .setRegisterRowOptions(AncRegisterRowOptions.class)
+                .setJsonFormActivity(FamilyWizardFormActivity.class)
+                .setBottomNavigationEnabled(false)
+                .setToolbarOptions(AncPncToolbarOptions.class)
+                .build();
+        CoreLibrary.getInstance().addModuleConfiguration(
+                false,
+                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
+                pncModuleConfiguration);
     }
 
     public void setOpenSRPUrl() {
