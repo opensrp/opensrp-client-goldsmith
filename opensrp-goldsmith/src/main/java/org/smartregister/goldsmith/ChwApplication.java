@@ -59,6 +59,7 @@ import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.tasking.util.PreferencesUtil;
+import org.smartregister.view.activity.DrishtiApplication;
 import org.smartregister.view.activity.FormActivity;
 import org.smartregister.tasking.TaskingLibrary;
 
@@ -145,6 +146,21 @@ public class ChwApplication extends CoreChwApplication {
         // TODO: Remove this and move it to some other place
         if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(BuildConfig.PNC_PLAN_ID)) {
             PreferencesUtil.getInstance().setCurrentPlanId(BuildConfig.PNC_PLAN_ID);
+        }
+
+        // TODO: Evaluate if to remove this setting the operational area automatically
+        // TODO: Move this to after sync also
+        PreferencesUtil prefsUtil = PreferencesUtil.getInstance();
+        String operationalAreaName = prefsUtil.getCurrentOperationalArea();
+
+        if (TextUtils.isEmpty(operationalAreaName)) {
+            AllSharedPreferences allSharedPreferences = DrishtiApplication.getInstance().getContext().allSharedPreferences();
+            operationalAreaName = LocationHelper.getInstance().getDefaultLocation();
+
+            if (!TextUtils.isEmpty(operationalAreaName)) {
+                allSharedPreferences.saveCurrentLocality(operationalAreaName);
+                prefsUtil.setCurrentOperationalArea(operationalAreaName);
+            }
         }
     }
 
