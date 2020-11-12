@@ -33,14 +33,14 @@
                 app:itemTitle="My Tasks" />
 
             <org.smartregister.goldsmith.view.LaunchpadView
-                android:id="@+id/launchpadAct_myChws"
+                android:id="@+id/launchpadAct_myClients"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 app:itemIconSize="40dp"
                 app:itemIcon="@drawable/my_clients"
-                app:itemTitle="My CHWs" />
+                app:itemTitle="My Clients" />
 
         </TableRow>
 
