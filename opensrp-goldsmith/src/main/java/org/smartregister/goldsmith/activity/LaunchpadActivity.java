@@ -3,16 +3,12 @@ package org.smartregister.goldsmith.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.view.LaunchpadView;
-import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 
 public class LaunchpadActivity extends AppCompatActivity {
 
@@ -32,26 +28,13 @@ public class LaunchpadActivity extends AppCompatActivity {
             startIntent(intent, startingIntent);
         });
 
-
-        LaunchpadView myChwsClients = findViewById(R.id.launchpadAct_myChws);
-               myChwsClients.setOnClickListener(v -> CoreLibrary.getInstance()
+        LaunchpadView myChwsClients = findViewById(R.id.launchpadAct_myClients);
+        myChwsClients.setOnClickListener(v -> CoreLibrary.getInstance()
                 .startRegisterActivity(LaunchpadActivity.this));
-
-        /*myChwsClients.setOnClickListener(v -> {
-            startIntent(getAncRegisterIntent(), startingIntent);
-        });*/
     }
 
     private void startIntent(@NonNull Intent intent, @NonNull Intent startingIntent) {
         intent.putExtras(startingIntent);
         startActivity(intent);
-    }
-
-    private Intent getAncRegisterIntent() {
-        Context context = LaunchpadActivity.this;
-        Intent intent = new Intent(context, BaseConfigurableRegisterActivity.class);
-        intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, "anc");
-        context.startActivity(intent);
-        return intent;
     }
 }

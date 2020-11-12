@@ -76,7 +76,7 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
     protected void startAncRegister() {
         Context context = this;
         Intent intent = new Intent(context, BaseConfigurableRegisterActivity.class);
-        intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, "anc");
+        intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC);
         intent.putExtra(AllConstants.IntentExtra.JsonForm.BASE_ENTITY_ID, baseEntityId);
         intent.putExtra(AllConstants.IntentExtra.JsonForm.ACTION, AllConstants.IntentExtra.JsonForm.ACTION_REGISTRATION);
 
