@@ -80,6 +80,7 @@
 
 
         <activity android:name="org.smartregister.chw.pnc.activity.BasePncHomeVisitActivity" />
+        <activity android:name=".activity.PncHomeVisitActivity" />
     </application>
 
 </manifest>

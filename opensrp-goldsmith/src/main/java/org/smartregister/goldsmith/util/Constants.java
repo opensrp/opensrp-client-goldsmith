@@ -47,4 +47,9 @@ public class Constants extends CoreConstants {
         public static String GENDER = "gender";
         public static String DOB = "dob";
     }
+
+
+    public static final class DATE_FORMATS {
+        public static final String HOME_VISIT_DISPLAY = "dd MMM yyyy";
+    }
 }

@@ -24,6 +24,7 @@ import org.smartregister.domain.Location;
 import org.smartregister.domain.Task;
 import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.activity.PncHomeVisitActivity;
 import org.smartregister.tasking.adapter.TaskRegisterAdapter;
 import org.smartregister.tasking.configuration.TaskRegisterV2Configuration;
 import org.smartregister.tasking.contract.BaseContract;
@@ -335,7 +336,12 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     public void onTaskRegisterItemClicked(@NonNull Activity activity, @NonNull TaskDetails taskDetails) {
         CommonPersonObjectClient client = taskDetails.getClient();
         client.setColumnmaps(client.getDetails());
-        BasePncHomeVisitActivity.startMe(activity, new MemberObject(client), false);
+
+        String relationships = client.getDetails().get("relationships");
+        String motherId = relationships.substring(relationships.indexOf("mother=[") + "mother=[".length(), relationships.length() - 2);
+        CommonPersonObjectClient motherClient = CoreLibrary.getInstance().context().getEventClientRepository().fetchCommonPersonObjectClientByBaseEntityId(motherId);
+        motherClient.setColumnmaps(motherClient.getDetails());
+        PncHomeVisitActivity.startMe(activity, new MemberObject(motherClient), false);
     }
 
     @NonNull
