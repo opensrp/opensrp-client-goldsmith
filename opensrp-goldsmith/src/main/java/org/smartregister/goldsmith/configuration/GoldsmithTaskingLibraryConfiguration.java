@@ -16,6 +16,8 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.chw.anc.domain.MemberObject;
+import org.smartregister.chw.pnc.activity.BasePncHomeVisitActivity;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Location;
@@ -323,9 +325,17 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
             // TODO: Switch between the call icon & the walk icon
 
             taskViewHolder.setAction(R.drawable.ic_directions_walk, "3 km", onClickListener);
+            taskViewHolder.setTaskDetails(taskDetails);
         } else {
             Timber.i("The RecyclerView.ViewHolder is not an instance of PrioritizedTaskRegisterViewHolder");
         }
+    }
+
+    @Override
+    public void onTaskRegisterItemClicked(@NonNull Activity activity, @NonNull TaskDetails taskDetails) {
+        CommonPersonObjectClient client = taskDetails.getClient();
+        client.setColumnmaps(client.getDetails());
+        BasePncHomeVisitActivity.startMe(activity, new MemberObject(client), false);
     }
 
     @NonNull

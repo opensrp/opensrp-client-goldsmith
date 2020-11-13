@@ -77,6 +77,9 @@
         <service android:name="org.smartregister.sync.intent.SyncIntentService" />
         <service android:name="org.smartregister.service.ImageUploadSyncService" />
         <service android:name="org.smartregister.tasking.sync.LocationTaskIntentService" />
+
+
+        <activity android:name="org.smartregister.chw.pnc.activity.BasePncHomeVisitActivity" />
     </application>
 
 </manifest>
