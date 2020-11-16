@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configuration.BaseRegisterRowOptions;
@@ -88,14 +89,9 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
     }
 
     private void goToFamilyProfile(CommonPersonObjectClient patientClient) {
-        Context context = CoreLibrary.getInstance().context().applicationContext(); // TODO (Allan) : Fix this!
+        Context context = CoreLibrary.getInstance().context().applicationContext();
         Intent intent = new Intent(context, Utils.metadata().profileActivity);
-        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, patientClient.getCaseId());
-        intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.FAMILY_HEAD, false));
-        intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.PRIMARY_CAREGIVER, false));
-        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, false));
-        intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, Utils.getValue(patientClient.getColumnmaps(), DBConstants.KEY.FIRST_NAME, false));
-        intent.putExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false);
+        intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, patientClient);
         context.startActivity(intent);
     }
 
