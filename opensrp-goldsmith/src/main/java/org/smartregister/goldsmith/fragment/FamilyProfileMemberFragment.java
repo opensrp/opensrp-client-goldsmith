@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import org.smartregister.AllConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.family.model.BaseFamilyProfileMemberModel;
@@ -28,23 +29,22 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
 
     @Override
     protected void initializePresenter() {
-        String familyBaseEntityId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
-        String familyHead = getArguments().getString(Constants.INTENT_KEY.FAMILY_HEAD);
-        String primaryCareGiver = getArguments().getString(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
+        CommonPersonObjectClient client = (CommonPersonObjectClient) getArguments().getSerializable(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT);
+        // TODO -> Decouple from CHW-CORE and use CommonPersonObjectClient as-is instead
+        String familyBaseEntityId = client.getCaseId();
+        String familyHead = client.getDetails().get(Constants.INTENT_KEY.FAMILY_HEAD);
+        String primaryCareGiver = client.getDetails().get(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         presenter = new BaseFamilyProfileMemberPresenter(this, new BaseFamilyProfileMemberModel(), null, familyBaseEntityId, familyHead, primaryCareGiver);
     }
 
     @Override
     protected void onViewClicked(View view) {
         super.onViewClicked(view);
-        switch (view.getId()) {
-            case R.id.patient_column:
-                if (view.getTag() != null && view.getTag(R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
-                    goToOtherMemberProfileActivity((CommonPersonObjectClient) view.getTag());
-                }
-                break;
-            default:
-                break;
+        int id = view.getId();
+        if (id == R.id.patient_column) {
+            if (view.getTag() != null && view.getTag(R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
+                goToOtherMemberProfileActivity((CommonPersonObjectClient) view.getTag());
+            }
         }
     }
 
@@ -59,5 +59,5 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
     public void setAdvancedSearchFormData(HashMap<String, String> advancedSearchFormData) {
         //do nothing
     }
-  
+
 }

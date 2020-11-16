@@ -1,6 +1,8 @@
 package org.smartregister.goldsmith.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,18 +14,22 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
+import org.smartregister.AllConstants;
 import org.smartregister.chw.anc.activity.BaseAncMemberProfileActivity;
 import org.smartregister.chw.core.activity.CoreAboveFiveChildProfileActivity;
 import org.smartregister.chw.core.activity.CoreChildProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
 import org.smartregister.chw.core.activity.CoreFamilyRemoveMemberActivity;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.pnc.activity.BasePncMemberProfileActivity;
 import org.smartregister.commonregistry.CommonPersonObject;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.family.model.BaseFamilyProfileModel;
 
+import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.FamilyProfileMemberFragment;
 import org.smartregister.goldsmith.presenter.FamilyProfilePresenter;
@@ -33,11 +39,18 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static org.smartregister.chw.core.utils.Utils.passToolbarTitle;
+
 public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
     @Override
     protected void initializePresenter() {
-        super.initializePresenter();
+        CommonPersonObjectClient client = (CommonPersonObjectClient) getIntent().getExtras().getSerializable(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT);
+        // TODO -> Decouple from CHW-CORE and use CommonPersonObjectClient as-is instead
+        familyBaseEntityId = client.getCaseId();
+        familyHead =  client.getDetails().get(Constants.INTENT_KEY.FAMILY_HEAD);
+        primaryCaregiver =  client.getDetails().get(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
+        familyName =  client.getDetails().get(org.smartregister.goldsmith.util.Constants.Client.FIRST_NAME);
         presenter = new FamilyProfilePresenter(this, new BaseFamilyProfileModel(familyName), familyBaseEntityId, familyHead, primaryCaregiver, familyName);
     }
 
@@ -91,8 +104,18 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         /*if (getIntent().getBooleanExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false)) {
             viewPager.setCurrentItem(1);
         }*/
-
         return viewPager;
+    }
+
+    @Override
+    public void goToOtherMemberProfileActivity(CommonPersonObjectClient patient, Bundle bundle) {
+        Intent intent = new Intent(this, getFamilyOtherMemberProfileActivityClass());
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, patient);
+        passToolbarTitle(this, intent);
+        startActivity(intent);
     }
 
     @Override

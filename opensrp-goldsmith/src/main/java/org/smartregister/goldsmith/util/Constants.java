@@ -17,4 +17,9 @@ public class Constants extends CoreConstants {
             String ACTION_BUTTON_COLUMN = "action_button_column";
         }
     }
+
+    public interface Client {
+        String PHONE_NUMBER = "phone_number";
+        String FIRST_NAME = "first_name";
+    }
 }
