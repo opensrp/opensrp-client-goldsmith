@@ -22,9 +22,9 @@ public class AncRegisterQueryProvider extends ModuleRegisterQueryProviderContrac
     @Override
     public String getObjectIdsQuery(@Nullable String filters, @Nullable String mainCondition) {
         if (TextUtils.isEmpty(filters)) {
-            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_anc_register_search WHERE  date_removed is NULL AND (entity_type is NULL OR entity_type = 'ec_anc_register')) ORDER BY last_interacted_with DESC";
+            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_anc_register_search WHERE  is_closed = 0) ORDER BY last_interacted_with DESC";
         } else {
-            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_anc_register_search WHERE  date_removed is NULL AND (entity_type is NULL OR entity_type = 'ec_anc_register') AND PHRASE MATCH '"
+            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_anc_register_search WHERE  is_closed = 0) AND PHRASE MATCH '"
                     + filters
                     + "*') ORDER BY last_interacted_with DESC";
         }
