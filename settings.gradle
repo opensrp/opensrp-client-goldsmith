@@ -1,6 +1,7 @@
 rootProject.name='opensrp-client-goldsmith'
 include ':opensrp-goldsmith'
 
+/*
 include ':opensrp-chw'
 project(":opensrp-chw").projectDir = new File("../opensrp-client-chw/opensrp-chw")
 
@@ -12,3 +13,4 @@ project(":opensrp-app").projectDir = new File("../opensrp-client-core/opensrp-ap
 
 include ':opensrp-chw-anc'
 project(":opensrp-chw-anc").projectDir = new File("../opensrp-client-chw-anc/opensrp-chw-anc")
+*/
