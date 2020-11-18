@@ -12,6 +12,7 @@ import org.smartregister.family.presenter.BaseFamilyProfileMemberPresenter;
 import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.FamilyOtherMemberProfileActivity;
+import org.smartregister.goldsmith.util.Constants.IntentKeys;
 
 import java.util.HashMap;
 
@@ -52,6 +53,8 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
         Intent intent = new Intent(getActivity(), FamilyOtherMemberProfileActivity.class);
         intent.putExtras(getArguments());
         intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
+        intent.putExtra(IntentKeys.GENDER, patient.getColumnmaps().get(IntentKeys.GENDER));
+        intent.putExtra(IntentKeys.DOB, patient.getColumnmaps().get(IntentKeys.DOB));
         startActivity(intent);
     }
 

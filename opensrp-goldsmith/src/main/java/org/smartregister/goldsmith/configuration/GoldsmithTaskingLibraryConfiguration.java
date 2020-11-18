@@ -16,12 +16,15 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.chw.anc.domain.MemberObject;
+import org.smartregister.chw.pnc.activity.BasePncHomeVisitActivity;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Location;
 import org.smartregister.domain.Task;
 import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.activity.PncHomeVisitActivity;
 import org.smartregister.tasking.adapter.TaskRegisterAdapter;
 import org.smartregister.tasking.configuration.TaskRegisterV2Configuration;
 import org.smartregister.tasking.contract.BaseContract;
@@ -31,13 +34,13 @@ import org.smartregister.tasking.model.BaseTaskDetails;
 import org.smartregister.tasking.model.CardDetails;
 import org.smartregister.tasking.model.TaskDetails;
 import org.smartregister.tasking.model.TaskFilterParams;
-import org.smartregister.tasking.util.CardDetailsUtil;
 import org.smartregister.tasking.util.Constants;
 import org.smartregister.tasking.util.TaskingLibraryConfiguration;
 import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
 import org.smartregister.util.AppExecutors;
 import org.smartregister.util.Utils;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -187,7 +190,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public String generateTaskRegisterSelectQuery(String mainCondition) {
-        return String.format("SELECT * FROM %s INNER JOIN %s WHERE %s", Constants.DatabaseKeys.TASK_TABLE, Constants.DatabaseKeys.EVENT_TABLE, mainCondition);
+        return String.format("SELECT * FROM %s INNER JOIN %s ON %s.for = %s.baseEntityId WHERE %s", Constants.DatabaseKeys.TASK_TABLE, Constants.DatabaseKeys.EVENT_TABLE, Constants.DatabaseKeys.TASK_TABLE, Constants.DatabaseKeys.EVENT_TABLE, mainCondition);
     }
 
     @Override
@@ -222,7 +225,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public String getCurrentPlanId() {
-        return null;
+        return BuildConfig.PNC_PLAN_ID;
     }
 
     @Override
@@ -292,27 +295,59 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
             String taskTitle = "";
 
-            if ("pnc_visit".equals(taskDetails.getTaskCode())) {
+            if ("pnc_visit".equals(taskDetails.getTaskCode()) || "Day 2 Visit".equals(taskDetails.getTaskCode())) {
                 taskTitle = "PNC Visit Day 2";
+                // TODO: Show the icon based on priority and task type
+                taskViewHolder.setTaskIcon(R.drawable.pnc_03);
+
+                // Add priority check here task.priority
+
             }
 
-            // TODO: Show the icon based on priority and task type
-            taskViewHolder.setTaskIcon(R.drawable.pnc_03);
+            String dob = taskDetails.getClient().getDetails().get("birthdate");
+            /*if (TextUtils.isEmpty(dob)) {
+                dob = taskDetails.getClient().getDetails().get("dob");
+            }*/
 
-            int entityAgeInYrs = Utils.getAgeFromDate(taskDetails.getClient().getDetails().get("dob"));
-            String entityName = taskDetails.getClient().getDetails().get("first_name")+ " "
-                    + taskDetails.getClient().getDetails().get("last_name") + ", " + entityAgeInYrs;
+            int entityAgeInYrs = Utils.getAgeFromDate(dob);
+            /*String entityName = taskDetails.getClient().getDetails().get("first_name")+ " "
+                    + taskDetails.getClient().getDetails().get("last_name") + ", " + entityAgeInYrs;*/
+            String firstName = StringUtils.capitalize(taskDetails.getClient().getDetails().get("firstName"));
+            String lastName = StringUtils.capitalize(taskDetails.getClient().getDetails().get("lastName"));
+            String entityName = String.format("%s %s, %d", firstName, lastName, entityAgeInYrs);
             taskViewHolder.setTaskEntityName(entityName);
             taskViewHolder.setTaskTitle(taskTitle);
-            taskViewHolder.setTaskRelativeTimeAssigned("Assigned today");
+
+            Calendar authoredOn = Calendar.getInstance();
+            authoredOn.setTimeInMillis(taskDetails.getAuthoredOn());
+            taskViewHolder.setTaskRelativeTimeAssigned("Assigned " + org.smartregister.tasking.util.Utils.getRelativeDateTimeString(authoredOn));
 
             // TODO: Show the calculated distance in metres or KM
             // TODO: Switch between the call icon & the walk icon
 
             taskViewHolder.setAction(R.drawable.ic_directions_walk, "3 km", onClickListener);
+            taskViewHolder.setTaskDetails(taskDetails);
         } else {
             Timber.i("The RecyclerView.ViewHolder is not an instance of PrioritizedTaskRegisterViewHolder");
         }
+    }
+
+    @Override
+    public void onTaskRegisterItemClicked(@NonNull Activity activity, @NonNull TaskDetails taskDetails) {
+        CommonPersonObjectClient client = taskDetails.getClient();
+        client.setColumnmaps(client.getDetails());
+
+        String relationships = client.getDetails().get("relationships");
+        String motherId = relationships.substring(relationships.indexOf("mother=[") + "mother=[".length(), relationships.length() - 2);
+        CommonPersonObjectClient motherClient = CoreLibrary.getInstance().context().getEventClientRepository().fetchCommonPersonObjectClientByBaseEntityId(motherId);
+        motherClient.setColumnmaps(motherClient.getDetails());
+
+        CommonPersonObjectClient motherClientMember = CoreLibrary.getInstance().context().getEventClientRepository()
+                .fetchCommonPersonObjectClientByBaseEntityId("ec_family_member", motherId, null);
+
+                // Fetch the mother details here from ec_family_member & pass this below
+                // to enable showing the names on the home visit task page & child tasks also
+        PncHomeVisitActivity.startMe(activity, new MemberObject(motherClient), false);
     }
 
     @NonNull
@@ -340,4 +375,5 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     public TaskRegisterConfiguration getTasksRegisterConfiguration() {
         return taskRegisterConfiguration;
     }
+
 }

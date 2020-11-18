@@ -8,4 +8,6 @@
     <color name="goldsmithToolbarColor">#005084</color>
     <color name="goldsmithColorPrimary">#003353</color>
     <color name="launchpad_bg">#f5f8fa</color>
+
+    <color name="goldsmith_blue">#004984</color>
 </resources>

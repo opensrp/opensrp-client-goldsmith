@@ -14,3 +14,6 @@ project(":opensrp-app").projectDir = new File("../opensrp-client-core/opensrp-ap
 include ':opensrp-chw-anc'
 project(":opensrp-chw-anc").projectDir = new File("../opensrp-client-chw-anc/opensrp-chw-anc")
 */
+
+include ':opensrp-tasking'
+project(":opensrp-tasking").projectDir = new File("../opensrp-client-tasking/opensrp-tasking")

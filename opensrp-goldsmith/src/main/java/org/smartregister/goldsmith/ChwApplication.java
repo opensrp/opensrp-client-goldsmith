@@ -3,6 +3,7 @@ package org.smartregister.goldsmith;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -10,7 +11,6 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
 import com.vijay.jsonwizard.NativeFormLibrary;
-import com.vijay.jsonwizard.activities.JsonWizardFormActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,6 +45,7 @@ import org.smartregister.goldsmith.activity.LoginActivity;
 import org.smartregister.goldsmith.configuration.AllFamiliesFormProcessor;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.AllFamiliesRegisterRowOptions;
+import org.smartregister.goldsmith.job.GoldsmithJobCreator;
 import org.smartregister.goldsmith.configuration.AncFormProcessor;
 import org.smartregister.goldsmith.configuration.AncPncToolbarOptions;
 import org.smartregister.goldsmith.configuration.AncRegisterActivityStarter;
@@ -65,6 +66,9 @@ import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
+import org.smartregister.sync.ClientProcessorForJava;
+import org.smartregister.tasking.util.PreferencesUtil;
+import org.smartregister.view.activity.DrishtiApplication;
 import org.smartregister.view.activity.FormActivity;
 import org.smartregister.tasking.TaskingLibrary;
 
@@ -81,6 +85,8 @@ import timber.log.Timber;
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 21-09-2020.
  */
 public class ChwApplication extends CoreChwApplication {
+
+    private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
 
     @Override
     public void onCreate() {
@@ -143,7 +149,31 @@ public class ChwApplication extends CoreChwApplication {
 
         EventBus.getDefault().register(this);
 
+        locationTagsConfiguration = new LocationTagsConfiguration();
+
         initializeRegisters();
+
+        // TODO: Remove this and move it to some other place
+        if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(BuildConfig.PNC_PLAN_ID)) {
+            PreferencesUtil.getInstance().setCurrentPlanId(BuildConfig.PNC_PLAN_ID);
+        }
+
+        // TODO: Evaluate if to remove this setting the operational area automatically
+        // TODO: Move this to after sync also
+        PreferencesUtil prefsUtil = PreferencesUtil.getInstance();
+        String operationalAreaName = prefsUtil.getCurrentOperationalArea();
+
+        if (TextUtils.isEmpty(operationalAreaName)) {
+            AllSharedPreferences allSharedPreferences = DrishtiApplication.getInstance().getContext().allSharedPreferences();
+            operationalAreaName = LocationHelper.getInstance().getDefaultLocation();
+
+            if (!TextUtils.isEmpty(operationalAreaName)) {
+                allSharedPreferences.saveCurrentLocality(operationalAreaName);
+                prefsUtil.setCurrentOperationalArea(operationalAreaName);
+            }
+        }
+
+
     }
 
     private void initializeRegisters() {
@@ -166,10 +196,12 @@ public class ChwApplication extends CoreChwApplication {
         PncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ReportingLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
 
-        /*GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
+        //TODO uncomment the below if Growth Monitoring is being used
+       /* GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
         growthMonitoringConfig.setWeightForHeightZScoreFile("weight_for_height.csv");
         GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);*/
         /*
+
         if (hasReferrals()) {
             //Setup referral library
             ReferralLibrary.init(this);
@@ -392,4 +424,13 @@ public class ChwApplication extends CoreChwApplication {
         }
     }
 
+    @Override
+    public ClientProcessorForJava getClientProcessorForJava() {
+        return GoldsmithClientProcessor.getInstance(getApplicationContext());
+    }
+
+    @Override
+    public ClientProcessorForJava getClientProcessor() {
+        return getClientProcessorForJava();
+    }
 }

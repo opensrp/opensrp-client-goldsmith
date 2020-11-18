@@ -1,11 +1,10 @@
-package org.smartregister.goldsmith;
+package org.smartregister.goldsmith.job;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
-import com.evernote.android.job.JobManager;
 
 import org.smartregister.job.DocumentConfigurationServiceJob;
 import org.smartregister.job.ExtendedSyncServiceJob;
@@ -13,6 +12,7 @@ import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.job.ValidateSyncDataServiceJob;
 import org.smartregister.sync.intent.DocumentConfigurationIntentService;
+import org.smartregister.sync.intent.SyncIntentService;
 import org.smartregister.tasking.job.RevealSyncSettingsServiceJob;
 
 import timber.log.Timber;
@@ -26,10 +26,10 @@ public class GoldsmithJobCreator implements JobCreator {
     @Override
     public Job create(@NonNull String tag) {
         switch (tag) {
-            /*case SyncServiceJob.TAG:
-                return new SyncServiceJob(RevealSyncIntentService.class);
+            case SyncServiceJob.TAG:
+                return new SyncServiceJob(SyncIntentService.class);
             case LocationTaskServiceJob.TAG:
-                return new LocationTaskServiceJob();*/
+                return new LocationTaskServiceJob();
             case RevealSyncSettingsServiceJob.TAG:
                 return new RevealSyncSettingsServiceJob();
             case ExtendedSyncServiceJob.TAG:

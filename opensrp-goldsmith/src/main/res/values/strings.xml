@@ -11,4 +11,78 @@
 
     <string name="hello_blank_fragment">Blank fragment</string>
 
+    <!-- CHW PNC Strings -->
+    <string name="date">Date</string>
+    <string name="action_taken">Action taken</string>
+    <string name="uses_net">Uses Net</string>
+    <string name="slept_under_net">Slept under net</string>
+    <string name="net_condition">Net Condition</string>
+
+
+    <!-- PNC Home visit-->
+    <!-- PNC home visit tasks labels -->
+    <string name="pnc_danger_signs_mother">Danger signs - mother</string>
+    <string name="pnc_danger_signs_baby">Danger signs - baby ({0})</string>
+    <string name="pnc_health_facility_visit">PNC health facility visit - day {0} ({1})</string>
+    <string name="pnc_health_facility_visit_mother">PNC health facility visit - day {0}</string>
+    <string name="pnc_child_vaccine_card_recevied">Child vaccine card received ({0})</string>
+    <string name="pnc_immunization_at_birth">Immunizations (at birth) ({0})</string>
+    <string name="pnc_umblicord_care">Umbilical cord care</string>
+    <string name="pnc_umblicord_care_child">Umbilical cord care ({0})</string>
+    <string name="pnc_exclusive_breastfeeding">Exclusive breastfeeding ({0})</string>
+    <string name="pnc_kangaroo_mother_care">Kangaroo mother care (KMC) - ({0})</string>
+    <string name="pnc_family_planning">Family planning</string>
+    <string name="fp_update_family_planning">Update Family planning Registration</string>
+    <string name="pnc_observation_and_illness_mother">Observations &amp; illness - mother </string>
+    <string name="pnc_observation_and_illness_baby">Observations &amp; illness - baby ({0}) </string>
+
+    <string name="pnc_counselling">Counselling</string>
+    <string name="pnc_nutrition_status">Nutrition status - mother </string>
+    <string name="pnc_nutrition_status_baby_name">Nutrition status baby ({0})</string>
+    <string name="pnc_malaria_prevention">Malaria prevention</string>
+    <!-- PNC Home visit subtitle text -->
+    <string name="pnc_danger_signs_mama">Danger signs - Mama</string>
+    <string name="pnc_danger_signs_baby_task">Danger signs - Baby</string>
+
+    <string name="pnc_health_facility_visit_within_fourty_eight_hours">PNC health facility visit - within 48 hours </string>
+    <string name="pnc_health_facility_visit_days_three_to_seven">PNC health facility visit - days 3 - 7</string>
+    <string name="pnc_health_facility_visit_days_eight_to_twenty_eight">PNC health facility visit - days 8 - 28</string>
+    <string name="pnc_health_facility_visit_days_twenty_nine_to_forty_two">PNC health facility visit - days 29 - 42</string>
+
+    <string name="pnc_visit">PNC Visit</string>
+    <string name="anc_visit">ANC Visit</string>
+    <string name="exclusive_breastfeeding_months">Exclusive breastfeeding %s months</string>
+    <string name="deworming_number_dose">Deworming %s dose</string>
+    <string name="vitamin_a_number_dose">Vitamin A %s dose</string>
+    <string name="mnp_number_pack">MNP %s pack</string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="storage_permissions_message">The app needs this permission to list guide book videos. \n Without this permission you cannot view any guidebook videos</string>
+    <!-- End of PNC Home Visit -->
+
+    <!--PNC Family Planning Ba-->
+    <string name="during_anc">During ANC</string>
+    <string name="during_pnc">During PNC</string>
+    <string name="during_labour_and_delivery">During Labour and delivery</string>
+
+    <string name="cancel_download_confirmation">Are you sure you want to cancel this download?</string>
+    <string name="cancel_download">Cancel Download</string>
+
+    <string name="typhoid">Typhoid</string>
+    <string name="routine_household_visit">Routine Household Visit</string>
+    <string name="sick_visits">Sick Visits</string>
+    <string name="sick_visit">Sick Visit</string>
+    <string name="reports">Reports</string>
+
+    <string name="eligible_children">Eligible Children</string>
+    <string name="doses_needed">Doses Needed</string>
+    <string name="community_activity">My Community Activity</string>
+    <string name="children">Children</string>
+
+    <string name="forgot_pin">Forgot pin?</string>
+    <string name="use_your_password"> Use your password?</string>
+    <string name="enter_pin_for_user">Enter pin for %s</string>
+    <string name="use_4_digit_pin_number_promt">You can use a 4 digit pin number to make logging in faster</string>
+
+    <!-- End of PNC Family Planning Ba -->
+
 </resources>

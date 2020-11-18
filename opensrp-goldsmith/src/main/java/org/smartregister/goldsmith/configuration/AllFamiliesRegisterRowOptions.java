@@ -83,13 +83,12 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
             if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
                 // Go to tasks?
             } else if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
-                goToFamilyProfile(patientClient);
+                goToFamilyProfile(patientClient,view.getContext());
             }
         }
     }
 
-    private void goToFamilyProfile(CommonPersonObjectClient patientClient) {
-        Context context = CoreLibrary.getInstance().context().applicationContext();
+    private void goToFamilyProfile(CommonPersonObjectClient patientClient, Context context) {
         Intent intent = new Intent(context, Utils.metadata().profileActivity);
         intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, patientClient);
         context.startActivity(intent);

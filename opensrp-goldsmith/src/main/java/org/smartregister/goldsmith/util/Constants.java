@@ -22,4 +22,14 @@ public class Constants extends CoreConstants {
         String PHONE_NUMBER = "phone_number";
         String FIRST_NAME = "first_name";
     }
+
+    public static class IntentKeys {
+        public static String GENDER = "gender";
+        public static String DOB = "dob";
+    }
+
+
+    public static final class DATE_FORMATS {
+        public static final String HOME_VISIT_DISPLAY = "dd MMM yyyy";
+    }
 }

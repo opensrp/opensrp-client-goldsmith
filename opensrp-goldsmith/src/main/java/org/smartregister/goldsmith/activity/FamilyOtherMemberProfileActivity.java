@@ -1,36 +1,63 @@
 package org.smartregister.goldsmith.activity;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
+
+import org.joda.time.DateTime;
+import org.joda.time.Years;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
+import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.domain.Client;
+import org.smartregister.domain.db.EventClient;
+import org.smartregister.domain.tag.FormTag;
+import org.smartregister.family.FamilyLibrary;
+
 import org.smartregister.chw.core.contract.FamilyOtherMemberProfileExtendedContract;
 import org.smartregister.chw.core.fragment.CoreFamilyOtherMemberProfileFragment;
-import org.smartregister.chw.core.interactor.CoreChildProfileInteractor;
-import org.smartregister.chw.core.utils.CoreChildUtils;
+
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.activity.BaseFamilyOtherMemberProfileActivity;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
+import org.smartregister.family.model.BaseFamilyProfileModel;
 import org.smartregister.family.util.Constants;
-import org.smartregister.family.util.DBConstants;
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.family.util.Utils;
+import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.FamilyOtherMemberProfileFragment;
+import org.smartregister.goldsmith.util.Constants.IntentKeys;
+import org.smartregister.repository.BaseRepository;
+import org.smartregister.view.activity.DrishtiApplication;
+
+import java.util.Collections;
+
+import timber.log.Timber;
+
+import static com.vijay.jsonwizard.constants.JsonFormConstants.Properties.DETAILS;
+import static org.opensrp.api.constants.Gender.FEMALE;
+import static org.smartregister.AllConstants.PLAN_IDENTIFIER;
+import static org.smartregister.util.JsonFormUtils.ENTITY_ID;
+import static org.smartregister.util.JsonFormUtils.getJSONObject;
 import org.smartregister.goldsmith.presenter.FamilyOtherMemberActivityPresenter;
-import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 
 import static org.smartregister.goldsmith.util.Constants.Client.FIRST_NAME;
@@ -39,6 +66,9 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
 
     private String baseEntityId;
     private CommonPersonObjectClient client;
+    private String familyHead;
+    private String gender;
+    private int age;
 
     @Override
     protected void initializePresenter() {
@@ -47,9 +77,12 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         String familyName = client.getDetails().get(FIRST_NAME);
         // TODO -> Decouple from CHW-CORE and use CommonPersonObjectClient as-is instead
         baseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.BASE_ENTITY_ID);
-        String familyHead = client.getDetails().get(Constants.INTENT_KEY.FAMILY_HEAD);
+        familyHead = client.getDetails().get(Constants.INTENT_KEY.FAMILY_HEAD);
         String primaryCaregiver = client.getDetails().get(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         String villageTown = client.getDetails().get(Constants.INTENT_KEY.VILLAGE_TOWN);
+        // TODO => Confirm gender and age is okay
+        gender = client.getDetails().get(IntentKeys.GENDER);
+        age = Years.yearsBetween(new DateTime( client.getDetails().get(IntentKeys.DOB)), DateTime.now()).getYears();
         presenter = new FamilyOtherMemberActivityPresenter((FamilyOtherMemberProfileExtendedContract.View) this, new BaseFamilyOtherMemberProfileActivityModel(),
                 null, familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
     }
@@ -73,6 +106,10 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         if (addMember != null) {
             addMember.setVisible(false);
         }
+        if (FEMALE.name().equalsIgnoreCase(gender) && age > 13) {
+            menu.add(Menu.NONE, R.id.action_pregnancy_out_come, Menu.NONE, R.string.anc_pregnancy_out_come);
+        }
+
         getMenuInflater().inflate(org.smartregister.chw.core.R.menu.other_member_menu, menu);
         if (showAncRegistration()) {
             menu.findItem(R.id.action_anc_registration).setVisible(true);
@@ -82,13 +119,38 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int i = item.getItemId();
-        if (i == android.R.id.home) {
-            onBackPressed();
-            return true;
-        } else if (i == R.id.action_anc_registration) {
-            startAncRegister();
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            case R.id.action_anc_registration:
+                startAncRegister();
+                return true;
+
+            case R.id.action_pregnancy_out_come:
+                BaseFamilyProfileModel model = new BaseFamilyProfileModel(familyHead);
+                try {
+                    JSONObject jsonForm = model.getFormAsJson("pregnancy_outcome", baseEntityId, Utils.context().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID));
+                    JSONObject details = new JSONObject();
+                    details.put(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
+                    jsonForm.put(DETAILS, details);
+                    Intent intent = new Intent(this, Utils.metadata().familyMemberFormActivity);
+                    intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+                    Form form = new Form();
+                    form.setActionBarBackground(R.color.family_actionbar);
+                    form.setWizard(false);
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+
+                    startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
+                    return true;
+                } catch (Exception e) {
+                    Timber.e(e);
+                }
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -173,6 +235,35 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
             // TODO
         } else {
             super.onClick(view);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (JsonFormUtils.REQUEST_CODE_GET_JSON == requestCode && Activity.RESULT_OK == resultCode) {
+            String json = data.getStringExtra(JsonFormConstants.JSON_FORM_KEY.JSON);
+            try {
+                JSONObject jsonForm = new JSONObject(json);
+                String entityId = JsonFormUtils.getString(jsonForm, ENTITY_ID);
+                JSONArray fields = org.smartregister.util.JsonFormUtils.fields(jsonForm);
+                JSONObject metadata = getJSONObject(jsonForm, JsonFormUtils.METADATA);
+                FormTag formTag = new FormTag();
+                formTag.providerId = org.smartregister.chw.core.utils.Utils.context().allSharedPreferences().fetchRegisteredANM();
+                formTag.appVersion = FamilyLibrary.getInstance().getApplicationVersion();
+                formTag.databaseVersion = FamilyLibrary.getInstance().getDatabaseVersion();
+                Event event = org.smartregister.util.JsonFormUtils.createEvent(fields, metadata, formTag, entityId, jsonForm.getString(JsonFormConstants.ENCOUNTER_TYPE), "PNC");
+                org.smartregister.goldsmith.util.JsonFormUtils.tagSyncMetadata(CoreLibrary.getInstance().context().allSharedPreferences(), event);
+                event.addDetails(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
+                JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
+                CoreLibrary.getInstance().context().getEventClientRepository().addEvent(event.getBaseEntityId(), eventJson, BaseRepository.TYPE_Unsynced);
+                DrishtiApplication.getInstance().getClientProcessor().processClient(Collections.singletonList(
+                        new EventClient(JsonFormUtils.gson.fromJson(eventJson.toString(),
+                                org.smartregister.domain.Event.class), new Client(event.getBaseEntityId()))), true);
+            } catch (Exception e) {
+                Timber.e(e);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
