@@ -342,12 +342,14 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
         CommonPersonObjectClient motherClient = CoreLibrary.getInstance().context().getEventClientRepository().fetchCommonPersonObjectClientByBaseEntityId(motherId);
         motherClient.setColumnmaps(motherClient.getDetails());
 
-        CommonPersonObjectClient motherClientMember = CoreLibrary.getInstance().context().getEventClientRepository()
-                .fetchCommonPersonObjectClientByBaseEntityId("ec_family_member", motherId, null);
+        /*CommonPersonObjectClient motherClientMember = CoreLibrary.getInstance().context().getEventClientRepository()
+                .fetchCommonPersonObjectClientByBaseEntityId("ec_family_member", motherId, null);*/
+        CommonPersonObjectClient family = CoreLibrary.getInstance().context().getEventClientRepository()
+                .fetchCommonPersonObjectClientByBaseEntityId("ec_family", motherId, null);
 
                 // Fetch the mother details here from ec_family_member & pass this below
                 // to enable showing the names on the home visit task page & child tasks also
-        PncHomeVisitActivity.startMe(activity, new MemberObject(motherClient), false);
+        PncHomeVisitActivity.startMe(activity, new MemberObject(family), false);
     }
 
     @NonNull
