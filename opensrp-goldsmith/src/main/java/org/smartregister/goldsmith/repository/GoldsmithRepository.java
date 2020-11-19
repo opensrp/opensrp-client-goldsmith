@@ -10,6 +10,9 @@ import org.smartregister.AllConstants;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.immunization.repository.VaccineNameRepository;
+import org.smartregister.immunization.repository.VaccineRepository;
+import org.smartregister.immunization.repository.VaccineTypeRepository;
 import org.smartregister.repository.CampaignRepository;
 import org.smartregister.repository.ClientFormRepository;
 import org.smartregister.repository.ClientRelationshipRepository;
@@ -71,6 +74,12 @@ public class GoldsmithRepository extends Repository {
 
         ClientFormRepository.createTable(database);
         ManifestRepository.createTable(database);
+
+
+        // Add vaccine tables
+        VaccineRepository.createTable(database);
+        VaccineNameRepository.createTable(database);
+        VaccineTypeRepository.createTable(database);
 
     }
 
