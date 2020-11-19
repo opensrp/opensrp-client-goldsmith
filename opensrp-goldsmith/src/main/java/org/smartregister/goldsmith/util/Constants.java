@@ -32,4 +32,8 @@ public class Constants extends CoreConstants {
     public static final class DATE_FORMATS {
         public static final String HOME_VISIT_DISPLAY = "dd MMM yyyy";
     }
+
+    public interface FORM_SUBMISSION_FIELD {
+        String pncHfNextVisitDateFieldType = "pnc_hf_next_visit_date";
+    }
 }
