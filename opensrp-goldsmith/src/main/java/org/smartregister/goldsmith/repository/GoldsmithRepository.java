@@ -7,6 +7,8 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.AllConstants;
+import org.smartregister.chw.anc.repository.VisitDetailsRepository;
+import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.ChwApplication;
@@ -80,6 +82,10 @@ public class GoldsmithRepository extends Repository {
         VaccineRepository.createTable(database);
         VaccineNameRepository.createTable(database);
         VaccineTypeRepository.createTable(database);
+
+
+        VisitRepository.createTable(database);
+        VisitDetailsRepository.createTable(database);
 
     }
 
