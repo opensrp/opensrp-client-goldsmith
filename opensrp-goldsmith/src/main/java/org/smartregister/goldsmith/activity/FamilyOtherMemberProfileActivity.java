@@ -81,8 +81,8 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         String primaryCaregiver = client.getDetails().get(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         String villageTown = client.getDetails().get(Constants.INTENT_KEY.VILLAGE_TOWN);
         // TODO => Confirm gender and age is okay
-        gender = client.getDetails().get(IntentKeys.GENDER);
-        age = Years.yearsBetween(new DateTime( client.getDetails().get(IntentKeys.DOB)), DateTime.now()).getYears();
+        gender = getIntentString(IntentKeys.GENDER);
+        age = Years.yearsBetween(new DateTime(getIntentString(IntentKeys.DOB)), DateTime.now()).getYears();
         presenter = new FamilyOtherMemberActivityPresenter((FamilyOtherMemberProfileExtendedContract.View) this, new BaseFamilyOtherMemberProfileActivityModel(),
                 null, familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
     }
