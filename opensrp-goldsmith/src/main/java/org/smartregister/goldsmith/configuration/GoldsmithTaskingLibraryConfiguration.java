@@ -339,8 +339,8 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
         String relationships = client.getDetails().get("relationships");
         String motherId = relationships.substring(relationships.indexOf("mother=[") + "mother=[".length(), relationships.length() - 2);
-        CommonPersonObjectClient motherClient = CoreLibrary.getInstance().context().getEventClientRepository().fetchCommonPersonObjectClientByBaseEntityId(motherId);
-        motherClient.setColumnmaps(motherClient.getDetails());
+        /*CommonPersonObjectClient motherClient = CoreLibrary.getInstance().context().getEventClientRepository().fetchCommonPersonObjectClientByBaseEntityId(motherId);
+        motherClient.setColumnmaps(motherClient.getDetails());*/
 
         /*CommonPersonObjectClient motherClientMember = CoreLibrary.getInstance().context().getEventClientRepository()
                 .fetchCommonPersonObjectClientByBaseEntityId("ec_family_member", motherId, null);*/
