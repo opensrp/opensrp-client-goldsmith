@@ -17,11 +17,11 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
         super(context);
     }
 
-    public static GoldsmithClientProcessor getInstance(Context context) {
+    public static ClientProcessorForJava getInstance(Context context) {
         if (instance == null) {
             instance = new GoldsmithClientProcessor(context);
         }
-        return (GoldsmithClientProcessor) instance;
+        return instance;
     }
 
     @Override
