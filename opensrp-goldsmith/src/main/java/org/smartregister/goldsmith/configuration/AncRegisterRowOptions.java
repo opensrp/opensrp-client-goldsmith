@@ -1,5 +1,7 @@
 package org.smartregister.goldsmith.configuration;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.TextView;
@@ -7,11 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.smartregister.AllConstants;
+import org.smartregister.CoreLibrary;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configuration.BaseRegisterRowOptions;
+import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.holders.BaseRegisterViewHolder;
+import org.smartregister.view.activity.BaseConfigurableMemberProfileActivity;
 import org.smartregister.view.contract.SmartRegisterClient;
 
 import static org.smartregister.goldsmith.util.ConfigurableRegisterUtils.fillValue;
@@ -61,9 +67,17 @@ public class AncRegisterRowOptions extends BaseRegisterRowOptions implements Vie
 
     @Override
     public void onClick(View view) {
-       if (view != null) {
-           // TODO -> goToProfile()
-       }
+        if (view != null) {
+            CommonPersonObjectClient patientClient = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
+            goToMemberProfile(patientClient, view.getContext());
+        }
+    }
+
+    private void goToMemberProfile(CommonPersonObjectClient patientClient, Context context) {
+        Intent intent = new Intent(context, BaseConfigurableMemberProfileActivity.class);
+        intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, CoreLibrary.getInstance().getCurrentModuleName());
+        intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, patientClient);
+        context.startActivity(intent);
     }
 
     @Override
