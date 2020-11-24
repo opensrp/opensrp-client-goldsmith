@@ -1,14 +1,13 @@
 package org.smartregister.goldsmith.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -22,17 +21,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
+import org.smartregister.chw.core.contract.FamilyOtherMemberProfileExtendedContract;
+import org.smartregister.chw.core.fragment.CoreFamilyOtherMemberProfileFragment;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Client;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.FamilyLibrary;
-
-import org.smartregister.chw.core.contract.FamilyOtherMemberProfileExtendedContract;
-import org.smartregister.chw.core.fragment.CoreFamilyOtherMemberProfileFragment;
-
-import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.activity.BaseFamilyOtherMemberProfileActivity;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
@@ -44,8 +41,10 @@ import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.FamilyOtherMemberProfileFragment;
+import org.smartregister.goldsmith.presenter.FamilyOtherMemberActivityPresenter;
 import org.smartregister.goldsmith.util.Constants.IntentKeys;
 import org.smartregister.repository.BaseRepository;
+import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 import org.smartregister.view.activity.DrishtiApplication;
 
 import java.util.Collections;
@@ -55,12 +54,9 @@ import timber.log.Timber;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.Properties.DETAILS;
 import static org.opensrp.api.constants.Gender.FEMALE;
 import static org.smartregister.AllConstants.PLAN_IDENTIFIER;
+import static org.smartregister.goldsmith.util.Constants.Client.FIRST_NAME;
 import static org.smartregister.util.JsonFormUtils.ENTITY_ID;
 import static org.smartregister.util.JsonFormUtils.getJSONObject;
-import org.smartregister.goldsmith.presenter.FamilyOtherMemberActivityPresenter;
-import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
-
-import static org.smartregister.goldsmith.util.Constants.Client.FIRST_NAME;
 
 public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfileActivity implements FamilyOtherMemberProfileExtendedContract.View {
 
