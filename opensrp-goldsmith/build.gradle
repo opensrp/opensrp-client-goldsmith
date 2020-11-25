@@ -94,7 +94,7 @@ android {
             buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String", 'DEFAULT_LOCATION', '"Health Facility"'
-            buildConfigField "String", 'PNC_PLAN_ID', '"86d6afc1-a20a-49ca-9b4c-467b7ee2aeeb"'
+            buildConfigField "String", 'PNC_PLAN_ID', '"d652d9ae-2ff9-41e4-9bb3-fd4cd2ea0e2e"'
         }
 
         debug {
@@ -121,7 +121,7 @@ android {
             buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String", 'DEFAULT_LOCATION', '"Health Facility"'
-            buildConfigField "String", 'PNC_PLAN_ID', '"86d6afc1-a20a-49ca-9b4c-467b7ee2aeeb"'
+            buildConfigField "String", 'PNC_PLAN_ID', '"d652d9ae-2ff9-41e4-9bb3-fd4cd2ea0e2e"'
         }
     }
 
