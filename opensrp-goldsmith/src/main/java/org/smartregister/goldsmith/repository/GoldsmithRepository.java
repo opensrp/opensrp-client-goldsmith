@@ -79,9 +79,6 @@ public class GoldsmithRepository extends Repository {
         LocationRepository.createTable(database);
         StructureRepository.createTable(database);
 
-
-        onUpgrade(database, 1, BuildConfig.DATABASE_VERSION);
-
         // Others supposed to be in onUpgrade calls
         UniqueIdRepository.createTable(database);
         SettingsRepository.onUpgrade(database);
@@ -110,6 +107,8 @@ public class GoldsmithRepository extends Repository {
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
         IMDatabaseUtils.populateRecurringServices(DrishtiApplication.getInstance().getApplicationContext(), database, recurringServiceTypeRepository);
 
+
+        onUpgrade(database, 1, BuildConfig.DATABASE_VERSION);
     }
 
     @Override
