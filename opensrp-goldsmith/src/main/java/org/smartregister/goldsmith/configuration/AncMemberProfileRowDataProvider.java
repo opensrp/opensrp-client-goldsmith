@@ -6,8 +6,14 @@ import org.smartregister.domain.Alert;
 import org.smartregister.domain.AlertStatus;
 
 import java.util.Date;
+import java.util.List;
 
 public class AncMemberDataProvider implements BaseMemberProfileRowsDataProvider {
+
+    public List<MemberProfileDataRowData> getProfileRowData() {
+        
+        return null;
+    }
 
     @Override
     public Date getLastVisitDate(CommonPersonObjectClient client) {
