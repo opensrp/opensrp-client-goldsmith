@@ -341,7 +341,8 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
         // Fetch the mother details here from ec_family_member & pass this below
         // to enable showing the names on the home visit task page & child tasks also
         String relationships = client.getDetails().get("relationships");
-        String motherId = relationships.substring(relationships.indexOf("mother=[") + "mother=[".length(), relationships.length() - 2);
+        int motherIdPos = relationships.indexOf("mother=[") + "mother=[".length();
+        String motherId = relationships.substring(motherIdPos, motherIdPos + 36);
         /*CommonPersonObjectClient motherClient = CoreLibrary.getInstance().context().getEventClientRepository().fetchCommonPersonObjectClientByBaseEntityId(motherId);
         motherClient.setColumnmaps(motherClient.getDetails());*/
 
