@@ -94,10 +94,18 @@
     <string name="service_overdue"><![CDATA[%1$s <font color=#f04646>overdue (%2$s)</font></b>]]></string>
     <string name="service_due"><![CDATA[%1$s <font color=#000000>due (%2$s)</font></b>]]></string>
     <string name="service_upcoming"><![CDATA[%1$s <font color=#7f7f7f>upcoming (%2$s)</font></b>]]></string>
+    <string name="family_profile">Family profile</string>
     <string name="family_has_nothing_due">Family has nothing due</string>
     <string name="family_has_services_due">Family has services due</string>
     <string name="family_has_service_overdue"><![CDATA[Family has <font color=#FF0000>services overdue</font></b>]]></string>
 
     <!-- End of Configurable member profile -->
+
+    <!-- Visits -->
+    <string name="health_facility_visit_num">ANC health facility visit {0}</string>
+    <string name="tt_dose">TT {0}</string>
+    <string name="iptp_sp_dose">IPTp-SP dose {0}</string>
+
+    <!-- End of Visits -->
 
 </resources>
