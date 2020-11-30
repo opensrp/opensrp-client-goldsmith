@@ -151,7 +151,7 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         return super.onOptionsItemSelected(item);
     }
 
-    protected void startAncRegister() {
+    private void startAncRegister() {
         String ancModuleName = org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC;
         CoreLibrary.getInstance().setCurrentModule(ancModuleName);
         Context context = this;
