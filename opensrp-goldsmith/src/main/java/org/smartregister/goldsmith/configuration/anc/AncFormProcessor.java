@@ -1,4 +1,4 @@
-package org.smartregister.goldsmith.configuration;
+package org.smartregister.goldsmith.configuration.anc;
 
 import android.content.Intent;
 

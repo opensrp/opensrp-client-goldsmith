@@ -1,4 +1,4 @@
-package org.smartregister.goldsmith.configuration;
+package org.smartregister.goldsmith.configuration.anc;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configuration.BaseRegisterRowOptions;
-import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.holders.BaseRegisterViewHolder;

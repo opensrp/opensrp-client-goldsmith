@@ -1,4 +1,4 @@
-package org.smartregister.goldsmith.configuration;
+package org.smartregister.goldsmith.configuration.allfamilies;
 
 import android.content.Context;
 import android.content.Intent;
