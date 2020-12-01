@@ -37,10 +37,10 @@ public class AncMemberProfileOptions implements BaseMemberProfileOptions {
     }
 
     private void startPncRegistration(Context context, CommonPersonObjectClient client) {
-        String ancModuleName = Constants.RegisterViewConstants.ModuleOptions.PNC;
-        CoreLibrary.getInstance().setCurrentModule(ancModuleName);
+        String pncModuleName = Constants.RegisterViewConstants.ModuleOptions.PNC;
+        CoreLibrary.getInstance().setCurrentModule(pncModuleName);
         Intent intent = new Intent(context, BaseConfigurableRegisterActivity.class);
-        intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, ancModuleName);
+        intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, pncModuleName);
         intent.putExtra(AllConstants.IntentExtra.JsonForm.BASE_ENTITY_ID, client.getDetails().get(AllConstants.Client.BASE_ENTITY_ID));
         intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, client);
         intent.putExtra(AllConstants.IntentExtra.JsonForm.ACTION, AllConstants.IntentExtra.JsonForm.ACTION_REGISTRATION);

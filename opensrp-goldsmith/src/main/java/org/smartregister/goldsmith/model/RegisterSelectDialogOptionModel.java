@@ -35,7 +35,7 @@ public class RegisterSelectDialogOptionModel implements DialogOptionModel {
                 loadRegister(Constants.RegisterViewConstants.ModuleOptions.ANC);
                 break;
             case Constants.RegisterViewConstants.ModuleOptions.PNC:
-                // Load PNC clients
+                loadRegister(Constants.RegisterViewConstants.ModuleOptions.PNC);
                 break;
             default:
                 // Do nothing
