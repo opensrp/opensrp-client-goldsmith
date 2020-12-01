@@ -44,7 +44,7 @@ public class PncRegisterQueryProvider extends ModuleRegisterQueryProviderContrac
         return new String[]{generator.generateQuery()};*/
         return new String[]{
                 "SELECT count(ec_pregnancy_outcome.base_entity_id) FROM ec_pregnancy_outcome INNER JOIN ec_family_member ON ec_pregnancy_outcome.base_entity_id = " +
-                        "ec_family_member.base_entity_id WHERE (  ec_family_member.date_removed is null AND ec_anc_register.is_closed is 0  )"
+                        "ec_family_member.base_entity_id WHERE (  ec_family_member.date_removed is null AND ec_pregnancy_outcome.is_closed is 0  )"
         };
     }
 
@@ -57,7 +57,6 @@ public class PncRegisterQueryProvider extends ModuleRegisterQueryProviderContrac
         queryBuilder.customJoin("INNER JOIN " + CoreConstants.TABLE_NAME.FAMILY_MEMBER + " ON  " + tableName + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " + CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID + " AND " + tableName + "." + ChwDBConstants.IS_CLOSED + " IS " + 0 + " AND " + CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + ChwDBConstants.IS_CLOSED + " IS " + 0 + " AND " + tableName + "." + ChwDBConstants.DELIVERY_DATE + " IS NOT NULL COLLATE NOCASE ");
         queryBuilder.customJoin("INNER JOIN " + CoreConstants.TABLE_NAME.FAMILY + " ON  " + CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.RELATIONAL_ID + " = " + CoreConstants.TABLE_NAME.FAMILY + "." + DBConstants.KEY.BASE_ENTITY_ID + " COLLATE NOCASE ");
         queryBuilder.customJoin("INNER JOIN " + CoreConstants.TABLE_NAME.ANC_MEMBER + " ON  " + tableName + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " + CoreConstants.TABLE_NAME.ANC_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID + " AND " + tableName + "." + ChwDBConstants.IS_CLOSED + " IS " + 0 + " AND " + tableName + "." + ChwDBConstants.DELIVERY_DATE + " IS NOT NULL COLLATE NOCASE ");
-        queryBuilder.customJoin("LEFT JOIN (select base_entity_id , max(visit_date) visit_date from visits GROUP by base_entity_id) VISIT_SUMMARY ON VISIT_SUMMARY.base_entity_id = " + tableName + "." + DBConstants.KEY.BASE_ENTITY_ID);
 
         return queryBuilder.mainCondition(getMainCondition());
     }
