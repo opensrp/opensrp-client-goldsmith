@@ -19,8 +19,9 @@ import java.util.List;
 public class PNCVisitScheduler extends BaseTaskExecutor {
     @Override
     public void resetSchedule(String baseEntityID, String scheduleName) {
-        super.resetSchedule(baseEntityID, scheduleName);
-        ChwApplication.getInstance().getScheduleRepository().deleteScheduleByGroup(getScheduleGroup(), baseEntityID);
+        // TODO: Uncomment these two and add the schedule_services table that is missing
+        //super.resetSchedule(baseEntityID, scheduleName);
+        //ChwApplication.getInstance().getScheduleRepository().deleteScheduleByGroup(getScheduleGroup(), baseEntityID);
     }
 
     @Override

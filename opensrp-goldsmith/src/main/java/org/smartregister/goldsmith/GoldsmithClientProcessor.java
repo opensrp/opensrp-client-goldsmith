@@ -5,22 +5,17 @@ import android.content.Context;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
-import org.smartregister.CoreLibrary;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.db.EventClient;
-import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.view.activity.DrishtiApplication;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import timber.log.Timber;
-
-import static org.smartregister.AllConstants.ROWID;
 
 /**
  * Created by samuelgithengi on 11/9/20.
