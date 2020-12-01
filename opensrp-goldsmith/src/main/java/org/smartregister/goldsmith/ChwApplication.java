@@ -47,6 +47,7 @@ import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegister
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterRowOptions;
 import org.smartregister.goldsmith.configuration.anc.AncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
+import org.smartregister.goldsmith.configuration.pnc.PncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterRowOptions;
 import org.smartregister.goldsmith.job.GoldsmithJobCreator;
@@ -313,6 +314,7 @@ public class ChwApplication extends CoreChwApplication {
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
                 .setToolbarOptions(AncPncToolbarOptions.class)
+                .setMemberProfileOptionsClass(PncMemberProfileOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(
                 false,

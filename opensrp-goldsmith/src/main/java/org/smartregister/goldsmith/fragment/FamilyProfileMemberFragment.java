@@ -52,10 +52,7 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
     public void goToOtherMemberProfileActivity(CommonPersonObjectClient patient) {
         Intent intent = new Intent(getActivity(), FamilyOtherMemberProfileActivity.class);
         intent.putExtras(getArguments());
-        intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
-        intent.putExtra(IntentKeys.GENDER, patient.getColumnmaps().get(IntentKeys.GENDER));
-        intent.putExtra(IntentKeys.DOB, patient.getColumnmaps().get(IntentKeys.DOB));
-        startActivity(intent);
+        intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, patient);
     }
 
     @Override

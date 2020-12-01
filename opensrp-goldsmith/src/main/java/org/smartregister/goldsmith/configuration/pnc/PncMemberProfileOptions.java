@@ -8,7 +8,7 @@ import org.smartregister.configuration.BaseMemberProfileOptions;
 import org.smartregister.configuration.ConfigurableMemberProfileRowDataProvider;
 import org.smartregister.goldsmith.configuration.anc.AncMemberProfileRowDataProvider;
 
-public class PncMemberProfileOption implements BaseMemberProfileOptions {
+public class PncMemberProfileOptions implements BaseMemberProfileOptions {
     @Override
     public int getMenuLayoutId() {
         return 0;
@@ -16,7 +16,7 @@ public class PncMemberProfileOption implements BaseMemberProfileOptions {
 
     @Override
     public boolean onMenuOptionsItemSelected(MenuItem menuItem, Context context, CommonPersonObjectClient client) {
-        return false;
+        return true;
     }
 
     @Override
