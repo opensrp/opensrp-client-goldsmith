@@ -365,14 +365,14 @@ public class JsonFormUtils extends CoreJsonFormUtils {
             String eventType;
             String tableName;
 
-            if (encounterType.equalsIgnoreCase(org.smartregister.goldsmith.util.Constants.EventType.REMOVE_CHILD)) {
-                eventType = org.smartregister.goldsmith.util.Constants.EventType.REMOVE_CHILD;
+            if (encounterType.equalsIgnoreCase(CoreConstants.EventType.REMOVE_CHILD)) {
+                eventType = CoreConstants.EventType.REMOVE_CHILD;
                 tableName = org.smartregister.goldsmith.util.Constants.TABLE_NAME.CHILD;
-            } else if (encounterType.equalsIgnoreCase(org.smartregister.goldsmith.util.Constants.EventType.REMOVE_FAMILY)) {
-                eventType = org.smartregister.goldsmith.util.Constants.EventType.REMOVE_FAMILY;
+            } else if (encounterType.equalsIgnoreCase(CoreConstants.EventType.REMOVE_FAMILY)) {
+                eventType = CoreConstants.EventType.REMOVE_FAMILY;
                 tableName = org.smartregister.goldsmith.util.Constants.TABLE_NAME.FAMILY;
             } else {
-                eventType = org.smartregister.goldsmith.util.Constants.EventType.REMOVE_MEMBER;
+                eventType = CoreConstants.EventType.REMOVE_MEMBER;
                 tableName = org.smartregister.goldsmith.util.Constants.TABLE_NAME.FAMILY_MEMBER;
             }
 
@@ -460,12 +460,12 @@ public class JsonFormUtils extends CoreJsonFormUtils {
         formTag.databaseVersion = FamilyLibrary.getInstance().getDatabaseVersion();
 
         Event eventFamily = JsonFormUtils.createEvent(new JSONArray(), metadata, formTag, familyMember.getFamilyID(),
-                org.smartregister.goldsmith.util.Constants.EventType.UPDATE_FAMILY_RELATIONS,
+                CoreConstants.EventType.UPDATE_FAMILY_RELATIONS,
                 Utils.metadata().familyRegister.tableName);
         JsonFormUtils.tagSyncMetadata(Utils.context().allSharedPreferences(), eventFamily);
 
 
-        Event eventMember = JsonFormUtils.createEvent(new JSONArray(), metadata, formTag, familyMember.getMemberID(), org.smartregister.goldsmith.util.Constants.EventType.UPDATE_FAMILY_MEMBER_RELATIONS,
+        Event eventMember = JsonFormUtils.createEvent(new JSONArray(), metadata, formTag, familyMember.getMemberID(), CoreConstants.EventType.UPDATE_FAMILY_MEMBER_RELATIONS,
                 Utils.metadata().familyMemberRegister.tableName);
         JsonFormUtils.tagSyncMetadata(Utils.context().allSharedPreferences(), eventMember);
 

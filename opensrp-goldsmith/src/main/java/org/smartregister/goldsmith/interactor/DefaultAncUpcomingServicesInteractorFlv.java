@@ -126,7 +126,7 @@ public abstract class DefaultAncUpcomingServicesInteractorFlv implements AncUpco
 
 
         String iteration = serviceWrapper.getName().substring(serviceWrapper.getName().length() - 1);
-        Visit latestVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EventType.IPTP_SP);
+        Visit latestVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), CoreConstants.EventType.IPTP_SP);
         if (latestVisit != null && latestVisit.getUpdatedAt() != null)
             return Pair.of(iteration, new DateTime(latestVisit.getUpdatedAt()).plusMonths(1).toDate());
 

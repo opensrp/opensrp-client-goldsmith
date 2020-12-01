@@ -23,6 +23,7 @@ import org.smartregister.chw.anc.model.BaseAncHomeVisitAction;
 import org.smartregister.chw.anc.util.VisitUtils;
 import org.smartregister.chw.core.domain.Person;
 import org.smartregister.chw.core.rule.PNCHealthFacilityVisitRule;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.VaccineScheduleUtil;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.actionhelper.ImmunizationActionHelper;
@@ -62,7 +63,7 @@ public class PncHomeVisitInteractorFlv extends DefaultPncHomeVisitInteractorFlv 
 
         // get the preloaded data
         if (view.getEditMode()) {
-            Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EventType.PNC_HOME_VISIT);
+            Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), CoreConstants.EventType.PNC_HOME_VISIT);
             if (lastVisit != null) {
                 details = VisitUtils.getVisitGroups(AncLibrary.getInstance().visitDetailsRepository().getVisits(lastVisit.getVisitId()));
             }
@@ -176,7 +177,7 @@ public class PncHomeVisitInteractorFlv extends DefaultPncHomeVisitInteractorFlv 
         if (getAgeInDays(baby.getDob()) <= 28) {
             Map<String, List<VisitDetail>> details = null;
             if (editMode) {
-                Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(baby.getBaseEntityID(), Constants.EventType.DANGER_SIGNS_BABY);
+                Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(baby.getBaseEntityID(), CoreConstants.EventType.DANGER_SIGNS_BABY);
                 if (lastVisit != null) {
                     details = VisitUtils.getVisitGroups(AncLibrary.getInstance().visitDetailsRepository().getVisits(lastVisit.getVisitId()));
                 }
@@ -385,7 +386,7 @@ public class PncHomeVisitInteractorFlv extends DefaultPncHomeVisitInteractorFlv 
         if (getAgeInDays(baby.getDob()) <= 28) {
             Map<String, List<VisitDetail>> details = null;
             if (editMode) {
-                Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(baby.getBaseEntityID(), Constants.EventType.EXCLUSIVE_BREASTFEEDING);
+                Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(baby.getBaseEntityID(), CoreConstants.EventType.EXCLUSIVE_BREASTFEEDING);
                 if (lastVisit != null) {
                     details = VisitUtils.getVisitGroups(AncLibrary.getInstance().visitDetailsRepository().getVisits(lastVisit.getVisitId()));
                 }
@@ -516,7 +517,7 @@ public class PncHomeVisitInteractorFlv extends DefaultPncHomeVisitInteractorFlv 
         if (getAgeInDays(baby.getDob()) <= 28) {
             Map<String, List<VisitDetail>> details = null;
             if (editMode) {
-                Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(baby.getBaseEntityID(), Constants.EventType.NUTRITION_STATUS_BABY);
+                Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(baby.getBaseEntityID(), CoreConstants.EventType.NUTRITION_STATUS_BABY);
                 if (lastVisit != null) {
                     details = VisitUtils.getVisitGroups(AncLibrary.getInstance().visitDetailsRepository().getVisits(lastVisit.getVisitId()));
                 }
@@ -747,7 +748,7 @@ public class PncHomeVisitInteractorFlv extends DefaultPncHomeVisitInteractorFlv 
 
                 Map<String, List<VisitDetail>> details = null;
                 if (editMode) {
-                    Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(baby.getBaseEntityID(), Constants.EventType.IMMUNIZATION_VISIT);
+                    Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(baby.getBaseEntityID(), CoreConstants.EventType.IMMUNIZATION_VISIT);
                     if (lastVisit != null) {
                         details = VisitUtils.getVisitGroups(AncLibrary.getInstance().visitDetailsRepository().getVisits(lastVisit.getVisitId()));
                     }
