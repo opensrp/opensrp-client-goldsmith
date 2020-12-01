@@ -146,14 +146,14 @@
           },
           {
             "field": "eventType",
-            "field_value": "Pregnancy Outcome",
+            "field_value": "Pregnancy_Outcome",
             "closes_case": [
               "ec_anc_register"
             ]
           },
           {
             "field": "eventType",
-            "field_value": "Pregnancy Outcome",
+            "field_value": "Pregnancy_Outcome",
             "creates_case": [
               "ec_pregnancy_outcome"
             ]

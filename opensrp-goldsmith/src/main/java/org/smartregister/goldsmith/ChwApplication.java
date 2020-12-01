@@ -46,6 +46,9 @@ import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesFormProc
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterRowOptions;
 import org.smartregister.goldsmith.configuration.anc.AncMemberProfileOptions;
+import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
+import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.pnc.PncRegisterRowOptions;
 import org.smartregister.goldsmith.job.GoldsmithJobCreator;
 import org.smartregister.goldsmith.configuration.anc.AncFormProcessor;
 import org.smartregister.goldsmith.configuration.AncPncToolbarOptions;
@@ -293,11 +296,11 @@ public class ChwApplication extends CoreChwApplication {
                 org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
                 PncRegisterQueryProvider.class,
                 new ConfigViewsLib(),
-                AncRegisterActivityStarter.class
+                PncRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
                 "pregnancy_outcome",
                 CoreConstants.TABLE_NAME.PNC_MEMBER,
-                CoreConstants.EventType.PREGNANCY_OUTCOME,
+                org.smartregister.goldsmith.util.Constants.EventType.PREGNANCY_OUTCOME,
                 null,
                 null,
                 org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
@@ -305,8 +308,8 @@ public class ChwApplication extends CoreChwApplication {
                 BasePncMemberProfileActivity.class,
                 false,
                 ""
-        )).setModuleFormProcessorClass(AncFormProcessor.class)
-                .setRegisterRowOptions(AncRegisterRowOptions.class)
+        )).setModuleFormProcessorClass(PncFormProcessor.class)
+                .setRegisterRowOptions(PncRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
                 .setToolbarOptions(AncPncToolbarOptions.class)
