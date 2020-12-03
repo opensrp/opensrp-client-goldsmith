@@ -14,7 +14,7 @@
           },
           {
             "field": "eventType",
-            "field_value": "Family Member Registration",
+            "field_value": "Family_Member_Registration",
             "creates_case": [
               "ec_family_member"
             ]

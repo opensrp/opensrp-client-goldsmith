@@ -39,5 +39,6 @@ public class Constants extends CoreConstants {
 
     public static final class EventType {
         public static final String PREGNANCY_OUTCOME = "Pregnancy_Outcome";
+        public static final String FAMILY_MEMBER_REGISTRATION = "Family_Member_Registration";
     }
 }

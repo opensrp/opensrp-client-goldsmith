@@ -26,7 +26,6 @@ import org.smartregister.chw.core.configs.CoreAllClientsRegisterRowOptions;
 import org.smartregister.chw.core.loggers.CrashlyticsTree;
 import org.smartregister.chw.core.provider.CoreAllClientsRegisterQueryProvider;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.chw.core.utils.FormUtils;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.chw.pnc.PncLibrary;
 import org.smartregister.chw.pnc.activity.BasePncMemberProfileActivity;
@@ -61,6 +60,7 @@ import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfigur
 import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.PncRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
+import org.smartregister.goldsmith.util.FormUtils;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.opd.OpdLibrary;
