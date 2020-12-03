@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.smartregister.AllConstants;
+import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.family.model.BaseFamilyProfileMemberModel;
@@ -12,11 +13,17 @@ import org.smartregister.family.presenter.BaseFamilyProfileMemberPresenter;
 import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.FamilyOtherMemberProfileActivity;
-import org.smartregister.goldsmith.util.Constants.IntentKeys;
+
 
 import java.util.HashMap;
 
 public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment {
+
+    private String familyBaseEntityId;
+    private String familyHead;
+    private String primaryCareGiver;
+    private String villageTown;
+    private String familyName;
 
     public static BaseFamilyProfileMemberFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
@@ -31,10 +38,11 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
     @Override
     protected void initializePresenter() {
         CommonPersonObjectClient client = (CommonPersonObjectClient) getArguments().getSerializable(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT);
-        // TODO -> Decouple from CHW-CORE and use CommonPersonObjectClient as-is instead
-        String familyBaseEntityId = client.getCaseId();
-        String familyHead = client.getDetails().get(Constants.INTENT_KEY.FAMILY_HEAD);
-        String primaryCareGiver = client.getDetails().get(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
+        familyBaseEntityId = client.getCaseId();
+        familyName = Utils.getValue(client.getColumnmaps(), AllConstants.Client.FIRST_NAME, false);
+        familyHead = Utils.getValue(client.getColumnmaps(), Constants.INTENT_KEY.FAMILY_HEAD, false);
+        primaryCareGiver = Utils.getValue(client.getColumnmaps(), Constants.INTENT_KEY.PRIMARY_CAREGIVER, false);
+        villageTown = Utils.getValue(client.getColumnmaps(), Constants.INTENT_KEY.VILLAGE_TOWN, false);
         presenter = new BaseFamilyProfileMemberPresenter(this, new BaseFamilyProfileMemberModel(), null, familyBaseEntityId, familyHead, primaryCareGiver);
     }
 
@@ -51,8 +59,13 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
 
     public void goToOtherMemberProfileActivity(CommonPersonObjectClient patient) {
         Intent intent = new Intent(getActivity(), FamilyOtherMemberProfileActivity.class);
-        intent.putExtras(getArguments());
+        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
+        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, villageTown);
+        intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, familyHead);
+        intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, primaryCareGiver);
+        intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, familyName);
         intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, patient);
+        startActivity(intent);
     }
 
     @Override

@@ -79,18 +79,18 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
     public void onClick(View view) {
         if (view != null) {
             String viewType = (String) view.getTag(org.smartregister.R.id.VIEW_TYPE);
-            CommonPersonObjectClient patientClient = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
+            CommonPersonObjectClient client = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
             if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
                 // Go to tasks?
             } else if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
-                goToFamilyProfile(patientClient,view.getContext());
+                goToFamilyProfile(client,view.getContext());
             }
         }
     }
 
-    private void goToFamilyProfile(CommonPersonObjectClient patientClient, Context context) {
+    private void goToFamilyProfile(CommonPersonObjectClient client, Context context) {
         Intent intent = new Intent(context, Utils.metadata().profileActivity);
-        intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, patientClient);
+        intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, client);
         context.startActivity(intent);
     }
 

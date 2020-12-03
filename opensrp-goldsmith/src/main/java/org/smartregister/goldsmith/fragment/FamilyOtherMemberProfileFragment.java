@@ -3,15 +3,18 @@ package org.smartregister.goldsmith.fragment;
 import android.os.Bundle;
 import android.view.View;
 
+import org.smartregister.chw.core.fragment.CoreFamilyOtherMemberProfileFragment;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileFragmentModel;
 import org.smartregister.family.presenter.BaseFamilyOtherMemberProfileFragmentPresenter;
 import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.presenter.FamilyOtherMemberProfileFragmentPresenter;
+import org.smartregister.view.contract.BaseRegisterFragmentContract;
 
 import java.util.HashMap;
 
-public class FamilyOtherMemberProfileFragment extends BaseFamilyOtherMemberProfileFragment {
+public class FamilyOtherMemberProfileFragment extends CoreFamilyOtherMemberProfileFragment {
     public static BaseFamilyOtherMemberProfileFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
         BaseFamilyOtherMemberProfileFragment fragment = new FamilyOtherMemberProfileFragment();
@@ -23,28 +26,7 @@ public class FamilyOtherMemberProfileFragment extends BaseFamilyOtherMemberProfi
     }
 
     @Override
-    protected void initializePresenter() {
-        String familyBaseEntityId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
-        presenter = new BaseFamilyOtherMemberProfileFragmentPresenter(this, new BaseFamilyOtherMemberProfileFragmentModel(), null, familyBaseEntityId);
+    protected BaseRegisterFragmentContract.Presenter getFamilyOtherMemberProfileFragmentPresenter(String familyBaseEntityId, String baseEntityId) {
+        return new FamilyOtherMemberProfileFragmentPresenter(this, new BaseFamilyOtherMemberProfileFragmentModel(), null, familyBaseEntityId, baseEntityId);
     }
-
-    @Override
-    protected void onViewClicked(View view) {
-        super.onViewClicked(view);
-        switch (view.getId()) {
-            case R.id.patient_column:
-                if (view.getTag() != null) { // && view.getTag(org.smartregister.family.R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
-                    getActivity().finish();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void setAdvancedSearchFormData(HashMap<String, String> advancedSearchFormData) {
-        //do nothing
-    }
-  
 }
