@@ -54,7 +54,6 @@ import timber.log.Timber;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.Properties.DETAILS;
 import static org.opensrp.api.constants.Gender.FEMALE;
 import static org.smartregister.AllConstants.PLAN_IDENTIFIER;
-import static org.smartregister.goldsmith.util.Constants.Client.FIRST_NAME;
 import static org.smartregister.util.JsonFormUtils.ENTITY_ID;
 import static org.smartregister.util.JsonFormUtils.getJSONObject;
 

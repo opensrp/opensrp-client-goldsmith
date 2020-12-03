@@ -22,9 +22,9 @@ public class PncRegisterQueryProvider extends ModuleRegisterQueryProviderContrac
     @Override
     public String getObjectIdsQuery(@Nullable String filters, @Nullable String mainCondition) {
         if (TextUtils.isEmpty(filters)) {
-            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_pregnancy_outcome WHERE  date_removed is NULL AND (entity_type is NULL OR entity_type = 'ec_pregnancy_outcome')) ORDER BY last_interacted_with DESC";
+            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_pregnancy_outcome_search WHERE  date_removed is NULL AND (entity_type is NULL OR entity_type = 'ec_pregnancy_outcome')) ORDER BY last_interacted_with DESC";
         } else {
-            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_pregnancy_outcome WHERE  date_removed is NULL AND (entity_type is NULL OR entity_type = 'ec_pregnancy_outcome') AND PHRASE MATCH '"
+            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_pregnancy_outcome_search WHERE  date_removed is NULL AND (entity_type is NULL OR entity_type = 'ec_pregnancy_outcome') AND PHRASE MATCH '"
                     + filters
                     + "*') ORDER BY last_interacted_with DESC";
         }
@@ -72,6 +72,7 @@ public class PncRegisterQueryProvider extends ModuleRegisterQueryProviderContrac
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.MIDDLE_NAME);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.LAST_NAME);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DOB);
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.GENDER);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.RELATIONAL_ID);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.UNIQUE_ID);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + DBConstants.KEY.FAMILY_HEAD);

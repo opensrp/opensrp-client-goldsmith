@@ -24,6 +24,7 @@ import java.util.List;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.Properties.DETAILS;
 import static org.smartregister.AllConstants.PLAN_IDENTIFIER;
+import static org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID;
 import static org.smartregister.family.util.JsonFormUtils.METADATA;
 import static org.smartregister.util.JsonFormUtils.ENCOUNTER_LOCATION;
 
