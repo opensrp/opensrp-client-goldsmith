@@ -169,7 +169,8 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
     }
 
-    implementation('org.smartregister:opensrp-client-tasking:0.0.3.3-SNAPSHOT') {
+    implementation (project(':opensrp-tasking')) {
+        //implementation ('org.smartregister:opensrp-client-tasking:0.0.3.2-SNAPSHOT') {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }

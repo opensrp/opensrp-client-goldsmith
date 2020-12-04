@@ -36,9 +36,4 @@ public class Constants extends CoreConstants {
     public interface FORM_SUBMISSION_FIELD {
         String pncHfNextVisitDateFieldType = "pnc_hf_next_visit_date";
     }
-
-    public static final class EventType {
-        public static final String PREGNANCY_OUTCOME = "Pregnancy_Outcome";
-        public static final String FAMILY_MEMBER_REGISTRATION = "Family_Member_Registration";
-    }
 }
