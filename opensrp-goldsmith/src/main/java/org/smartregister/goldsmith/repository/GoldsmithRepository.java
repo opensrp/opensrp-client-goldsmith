@@ -79,11 +79,6 @@ public class GoldsmithRepository extends Repository {
         LocationRepository.createTable(database);
         StructureRepository.createTable(database);
 
-        VisitRepository.createTable(database);
-        VisitDetailsRepository.createTable(database);
-
-        onUpgrade(database, 1, BuildConfig.DATABASE_VERSION);
-
         // Others supposed to be in onUpgrade calls
         UniqueIdRepository.createTable(database);
         SettingsRepository.onUpgrade(database);
