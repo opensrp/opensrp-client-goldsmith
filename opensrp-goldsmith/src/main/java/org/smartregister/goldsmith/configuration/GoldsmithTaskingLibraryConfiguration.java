@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -190,7 +191,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public String generateTaskRegisterSelectQuery(String mainCondition) {
-        return String.format("SELECT * FROM %s INNER JOIN %s ON %s.for = %s.baseEntityId WHERE %s", Constants.DatabaseKeys.TASK_TABLE, Constants.DatabaseKeys.EVENT_TABLE, Constants.DatabaseKeys.TASK_TABLE, Constants.DatabaseKeys.EVENT_TABLE, mainCondition);
+        return String.format("SELECT * FROM %s INNER JOIN %s ON %s.for = %s.baseEntityId WHERE %s", Constants.DatabaseKeys.TASK_TABLE, "client", Constants.DatabaseKeys.TASK_TABLE, "client", mainCondition);
     }
 
     @Override
@@ -337,17 +338,31 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
         CommonPersonObjectClient client = taskDetails.getClient();
         client.setColumnmaps(client.getDetails());
 
+        // Fetch the mother details here from ec_family_member & pass this below
+        // to enable showing the names on the home visit task page & child tasks also
         String relationships = client.getDetails().get("relationships");
-        String motherId = relationships.substring(relationships.indexOf("mother=[") + "mother=[".length(), relationships.length() - 2);
-        CommonPersonObjectClient motherClient = CoreLibrary.getInstance().context().getEventClientRepository().fetchCommonPersonObjectClientByBaseEntityId(motherId);
-        motherClient.setColumnmaps(motherClient.getDetails());
+        int motherIdPos = relationships.indexOf("mother=[") + "mother=[".length();
+        String motherId = relationships.substring(motherIdPos, motherIdPos + 36);
+        /*CommonPersonObjectClient motherClient = CoreLibrary.getInstance().context().getEventClientRepository().fetchCommonPersonObjectClientByBaseEntityId(motherId);
+        motherClient.setColumnmaps(motherClient.getDetails());*/
 
+        CommonPersonObjectClient guardianClient = null;
         CommonPersonObjectClient motherClientMember = CoreLibrary.getInstance().context().getEventClientRepository()
                 .fetchCommonPersonObjectClientByBaseEntityId("ec_family_member", motherId, null);
+        guardianClient = motherClientMember;
 
-                // Fetch the mother details here from ec_family_member & pass this below
-                // to enable showing the names on the home visit task page & child tasks also
-        PncHomeVisitActivity.startMe(activity, new MemberObject(motherClient), false);
+        if (guardianClient == null || guardianClient.getColumnmaps() == null) {
+            CommonPersonObjectClient family = CoreLibrary.getInstance().context().getEventClientRepository()
+                    .fetchCommonPersonObjectClientByBaseEntityId("ec_family", motherId, null);
+            guardianClient = family;
+        }
+
+        if (guardianClient != null && guardianClient.getColumnmaps() != null) {
+            PncHomeVisitActivity.startMe(activity, new MemberObject(guardianClient), false);
+        } else {
+            Toast.makeText(activity, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     @NonNull

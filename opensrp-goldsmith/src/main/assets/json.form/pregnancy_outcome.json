@@ -2,7 +2,7 @@
   "validate_on_submit": true,
   "show_errors_on_submit": false,
   "count": "1",
-  "encounter_type": "Pregnancy_Outcome",
+  "encounter_type": "Pregnancy Outcome",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -51,6 +51,13 @@
   "step1": {
     "title": "Pregnancy Outcome",
     "fields": [
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
       {
         "key": "preg_out_date",
         "openmrs_entity_parent": "",

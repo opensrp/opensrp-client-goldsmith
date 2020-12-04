@@ -370,7 +370,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
 
     private void evaluateKangarooMotherCare(Person person) throws Exception {
         PncBaby baby = (PncBaby) person;
-        if (baby.getLbw().equalsIgnoreCase("yes")) {
+        if ("yes".equalsIgnoreCase(baby.getLbw())) {
 
             Map<String, List<VisitDetail>> details = getDetails(person.getBaseEntityID(), CoreConstants.EventType.KANGAROO_CARE);
 
