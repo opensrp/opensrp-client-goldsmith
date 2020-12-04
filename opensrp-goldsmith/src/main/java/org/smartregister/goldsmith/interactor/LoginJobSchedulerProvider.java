@@ -5,6 +5,7 @@ import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.contract.LoginJobScheduler;
 import org.smartregister.goldsmith.job.LocationTaskServiceJob;
 import org.smartregister.job.SyncServiceJob;
+import org.smartregister.tasking.util.Utils;
 /*import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.job.DocumentConfigurationServiceJob;
 import org.smartregister.job.ImageUploadServiceJob;
@@ -68,9 +69,9 @@ public class LoginJobSchedulerProvider implements LoginJobScheduler {
 
     @Override
     public void scheduleJobsImmediately() {
+        Utils.setCurrentOperationalAreaAndLocality();
 
         LocationTaskServiceJob.scheduleJobImmediately(LocationTaskServiceJob.TAG);
-        SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
         // Run initial job immediately on log in since the job will run a bit later (~ 15 mins +)
         /*ScheduleJob.scheduleJobImmediately(ScheduleJob.TAG);
         SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);

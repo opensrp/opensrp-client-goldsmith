@@ -157,23 +157,6 @@ public class ChwApplication extends CoreChwApplication {
         if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(BuildConfig.PNC_PLAN_ID)) {
             PreferencesUtil.getInstance().setCurrentPlanId(BuildConfig.PNC_PLAN_ID);
         }
-
-        // TODO: Evaluate if to remove this setting the operational area automatically
-        // TODO: Move this to after sync also
-        PreferencesUtil prefsUtil = PreferencesUtil.getInstance();
-        String operationalAreaName = prefsUtil.getCurrentOperationalArea();
-
-        if (TextUtils.isEmpty(operationalAreaName)) {
-            AllSharedPreferences allSharedPreferences = DrishtiApplication.getInstance().getContext().allSharedPreferences();
-            operationalAreaName = LocationHelper.getInstance().getDefaultLocation();
-
-            if (!TextUtils.isEmpty(operationalAreaName)) {
-                allSharedPreferences.saveCurrentLocality(operationalAreaName);
-                prefsUtil.setCurrentOperationalArea(operationalAreaName);
-            }
-        }
-
-
     }
 
     private void initializeRegisters() {
@@ -193,6 +176,7 @@ public class ChwApplication extends CoreChwApplication {
         ConfigurableViewsLibrary.init(context);
         FamilyLibrary.init(context, getMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         AncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
+        AncLibrary.getInstance().setSubmitOnSave(true);
         PncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ReportingLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
 
@@ -243,7 +227,7 @@ public class ChwApplication extends CoreChwApplication {
                 CoreConstants.TABLE_NAME.FAMILY_MEMBER,
                 CoreConstants.EventType.FAMILY_REGISTRATION,
                 CoreConstants.EventType.UPDATE_FAMILY_REGISTRATION,
-                null,
+                locationTagsConfiguration,
                 org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 FormActivity.class,
                 BaseFamilyProfileActivity.class,
@@ -271,7 +255,7 @@ public class ChwApplication extends CoreChwApplication {
                 CoreConstants.TABLE_NAME.ANC_MEMBER,
                 CoreConstants.EventType.ANC_REGISTRATION,
                 CoreConstants.EventType.UPDATE_ANC_REGISTRATION,
-                null,
+                locationTagsConfiguration,
                 org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
                 FormActivity.class,
                 BaseAncMemberProfileActivity.class,
@@ -299,7 +283,7 @@ public class ChwApplication extends CoreChwApplication {
                 CoreConstants.TABLE_NAME.PNC_MEMBER,
                 CoreConstants.EventType.PREGNANCY_OUTCOME,
                 null,
-                null,
+                locationTagsConfiguration,
                 org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
                 FormActivity.class,
                 BasePncMemberProfileActivity.class,

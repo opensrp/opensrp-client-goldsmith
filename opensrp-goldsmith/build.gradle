@@ -80,7 +80,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
             buildConfigField "int", "VACCINE_SYNC_TIME", '0'
-            buildConfigField "int", "DATABASE_VERSION", '1'
+            buildConfigField "int", "DATABASE_VERSION", '5'
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
             buildConfigField "boolean", "TIME_CHECK", "true"
             buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
@@ -94,7 +94,7 @@ android {
             buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String", 'DEFAULT_LOCATION', '"Health Facility"'
-            buildConfigField "String", 'PNC_PLAN_ID', '"86d6afc1-a20a-49ca-9b4c-467b7ee2aeeb"'
+            buildConfigField "String", 'PNC_PLAN_ID', '"d652d9ae-2ff9-41e4-9bb3-fd4cd2ea0e2e"'
         }
 
         debug {
@@ -106,7 +106,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '25'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
             buildConfigField "int", "VACCINE_SYNC_TIME", '0'
-            buildConfigField "int", "DATABASE_VERSION", '1'
+            buildConfigField "int", "DATABASE_VERSION", '5'
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
             buildConfigField "boolean", "TIME_CHECK", "true"
             buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
@@ -121,7 +121,7 @@ android {
             buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String", 'DEFAULT_LOCATION', '"Health Facility"'
-            buildConfigField "String", 'PNC_PLAN_ID', '"86d6afc1-a20a-49ca-9b4c-467b7ee2aeeb"'
+            buildConfigField "String", 'PNC_PLAN_ID', '"d652d9ae-2ff9-41e4-9bb3-fd4cd2ea0e2e"'
         }
     }
 
@@ -163,9 +163,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 
-    api ('org.smartregister:opensrp-client-core:3.1.0.3-GS-PREVIEW-SNAPSHOT'){
+    api ('org.smartregister:opensrp-client-core:3.1.0.4-GS-PREVIEW-SNAPSHOT'){
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
+        exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
     }
 
     implementation (project(':opensrp-tasking')) {
@@ -186,7 +187,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
     }
 
-    implementation ('org.smartregister:opensrp-plan-evaluator:0.1.6-SNAPSHOT'){
+    implementation ('org.smartregister:opensrp-plan-evaluator:0.1.6.4-GS-SNAPSHOT'){
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
     }
