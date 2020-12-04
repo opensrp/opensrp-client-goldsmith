@@ -14,7 +14,7 @@
           },
           {
             "field": "eventType",
-            "field_value": "Family_Member_Registration",
+            "field_value": "Family Member Registration",
             "creates_case": [
               "ec_family_member"
             ]
@@ -146,14 +146,14 @@
           },
           {
             "field": "eventType",
-            "field_value": "Pregnancy_Outcome",
+            "field_value": "Pregnancy Outcome",
             "closes_case": [
               "ec_anc_register"
             ]
           },
           {
             "field": "eventType",
-            "field_value": "Pregnancy_Outcome",
+            "field_value": "Pregnancy Outcome",
             "creates_case": [
               "ec_pregnancy_outcome"
             ]
