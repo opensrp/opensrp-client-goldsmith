@@ -35,7 +35,7 @@ public class RegisterSelectDialogOptionModel implements DialogOptionModel {
                 loadRegister(Constants.RegisterViewConstants.ModuleOptions.ANC);
                 break;
             case Constants.RegisterViewConstants.ModuleOptions.PNC:
-                // Load PNC clients
+                loadRegister(Constants.RegisterViewConstants.ModuleOptions.PNC);
                 break;
             default:
                 // Do nothing
@@ -48,7 +48,6 @@ public class RegisterSelectDialogOptionModel implements DialogOptionModel {
         CoreLibrary.getInstance().setCurrentModule(moduleName);
         Intent intent = new Intent(context, BaseConfigurableRegisterActivity.class);
         intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, moduleName);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 }

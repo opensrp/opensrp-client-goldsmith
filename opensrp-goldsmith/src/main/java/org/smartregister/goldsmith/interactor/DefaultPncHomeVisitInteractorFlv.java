@@ -14,6 +14,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.actionhelper.DangerSignsAction;
 import org.smartregister.goldsmith.actionhelper.ExclusiveBreastFeedingAction;
@@ -82,7 +83,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
         this.view = view;
         // get the preloaded data
         if (view.getEditMode()) {
-            Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EventType.PNC_HOME_VISIT);
+            Visit lastVisit = AncLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), CoreConstants.EventType.PNC_HOME_VISIT);
             if (lastVisit != null) {
                 details = Collections.unmodifiableMap(VisitUtils.getVisitGroups(AncLibrary.getInstance().visitDetailsRepository().getVisits(lastVisit.getVisitId())));
             }
@@ -95,7 +96,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
         children.addAll(getChildren(memberObject.getBaseEntityId()));
         try {
             Constants.JSON_FORM.setLocaleAndAssetManager(ChwApplication.getCurrentLocale(), ChwApplication.getInstance().getApplicationContext().getAssets());
-        }catch (Exception e){
+        } catch (Exception e) {
             Timber.e(e);
         }
 
@@ -105,15 +106,15 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
             evaluateFamilyPlanning();
             evaluateObservationAndIllnessMother();
 
-           for(Person baby : children){
-               evaluateDangerSignsBaby(baby);
-               evaluateChildVaccineCard(baby);
-               evaluateImmunization(baby);
-               evaluateUmbilicalCord(baby);
-               evaluateExclusiveBreastFeeding(baby);
-               evaluateKangarooMotherCare(baby);
-               evaluateObservationAndIllnessBaby(baby);
-           }
+            for (Person baby : children) {
+                evaluateDangerSignsBaby(baby);
+                evaluateChildVaccineCard(baby);
+                evaluateImmunization(baby);
+                evaluateUmbilicalCord(baby);
+                evaluateExclusiveBreastFeeding(baby);
+                evaluateKangarooMotherCare(baby);
+                evaluateObservationAndIllnessBaby(baby);
+            }
 
         } catch (BaseAncHomeVisitAction.ValidationException e) {
             throw (e);
@@ -181,7 +182,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
     private void evaluateDangerSignsBaby(Person baby) throws Exception {
         if (getAgeInDays(baby.getDob()) <= 28) {
 
-            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), Constants.EventType.DANGER_SIGNS_BABY);
+            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), CoreConstants.EventType.DANGER_SIGNS_BABY);
 
             BaseAncHomeVisitAction action = getBuilder(MessageFormat.format(context.getString(R.string.pnc_danger_signs_baby), baby.getFullName()))
                     .withOptional(false)
@@ -246,7 +247,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
         // if not given and less than 1 yr
         if (getAgeInDays(baby.getDob()) <= 28) {
 
-            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), Constants.EventType.VACCINE_CARD_RECEIVED);
+            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), CoreConstants.EventType.VACCINE_CARD_RECEIVED);
 
             BaseAncHomeVisitAction action = getBuilder(MessageFormat.format(context.getString(R.string.pnc_child_vaccine_card_recevied), baby.getFullName()))
                     .withOptional(false)
@@ -280,7 +281,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
                     displays.add(display);
                 }
 
-                Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), Constants.EventType.IMMUNIZATION_VISIT);
+                Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), CoreConstants.EventType.IMMUNIZATION_VISIT);
 
                 BaseAncHomeVisitAction action = getBuilder(MessageFormat.format(context.getString(R.string.pnc_immunization_at_birth), baby.getFullName()))
                         .withOptional(false)
@@ -298,7 +299,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
     private void evaluateUmbilicalCord(Person baby) throws Exception {
         if (getAgeInDays(baby.getDob()) <= 28) {
 
-            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), Constants.EventType.UMBILICAL_CORD_CARE);
+            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), CoreConstants.EventType.UMBILICAL_CORD_CARE);
 
             BaseAncHomeVisitAction action = getBuilder(MessageFormat.format(context.getString(R.string.pnc_umblicord_care_child), baby.getFullName()))
                     .withOptional(false)
@@ -345,7 +346,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
             ExclusiveBreastFeedingAction helper = new ExclusiveBreastFeedingAction(context, alert);
             JSONObject jsonObject = getFormJson(Constants.JSON_FORM.PNC_HOME_VISIT.getExclusiveBreastFeeding(), memberObject.getBaseEntityId());
 
-            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), Constants.EventType.EXCLUSIVE_BREASTFEEDING);
+            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), CoreConstants.EventType.EXCLUSIVE_BREASTFEEDING);
 
             BaseAncHomeVisitAction action = getBuilder(title)
                     .withHelper(helper)
@@ -371,7 +372,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
         PncBaby baby = (PncBaby) person;
         if ("yes".equalsIgnoreCase(baby.getLbw())) {
 
-            Map<String, List<VisitDetail>> details = getDetails(person.getBaseEntityID(), Constants.EventType.KANGAROO_CARE);
+            Map<String, List<VisitDetail>> details = getDetails(person.getBaseEntityID(), CoreConstants.EventType.KANGAROO_CARE);
 
             String title = MessageFormat.format(context.getString(R.string.pnc_kangaroo_mother_care), baby.getFullName());
             BaseAncHomeVisitAction action = getBuilder(title)
@@ -409,7 +410,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
     private void evaluateObservationAndIllnessBaby(Person baby) throws Exception {
         if (getAgeInDays(baby.getDob()) <= 28) {
 
-            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), Constants.EventType.OBSERVATIONS_AND_ILLNESS);
+            Map<String, List<VisitDetail>> details = getDetails(baby.getBaseEntityID(), CoreConstants.EventType.OBSERVATIONS_AND_ILLNESS);
 
             BaseAncHomeVisitAction action = getBuilder(MessageFormat.format(context.getString(R.string.pnc_observation_and_illness_baby), baby.getFullName()))
                     .withOptional(true)

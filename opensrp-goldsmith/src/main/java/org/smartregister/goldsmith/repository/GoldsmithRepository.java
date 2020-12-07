@@ -84,6 +84,7 @@ public class GoldsmithRepository extends Repository {
         SettingsRepository.onUpgrade(database);
         PlanDefinitionRepository.createTable(database);
         PlanDefinitionSearchRepository.createTable(database);
+        ScheduleRepository.createTable(database);
 
         ClientFormRepository.createTable(database);
         ManifestRepository.createTable(database);

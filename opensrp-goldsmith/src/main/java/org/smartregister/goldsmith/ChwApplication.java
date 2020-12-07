@@ -42,22 +42,25 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.goldsmith.activity.FamilyProfileActivity;
 import org.smartregister.goldsmith.activity.FamilyWizardFormActivity;
 import org.smartregister.goldsmith.activity.LoginActivity;
-import org.smartregister.goldsmith.configuration.AllFamiliesFormProcessor;
-import org.smartregister.goldsmith.configuration.AllFamiliesRegisterActivityStarter;
-import org.smartregister.goldsmith.configuration.AllFamiliesRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesFormProcessor;
+import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.anc.AncMemberProfileOptions;
+import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
+import org.smartregister.goldsmith.configuration.pnc.PncMemberProfileOptions;
+import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.pnc.PncRegisterRowOptions;
 import org.smartregister.goldsmith.job.GoldsmithJobCreator;
-import org.smartregister.goldsmith.configuration.AncFormProcessor;
+import org.smartregister.goldsmith.configuration.anc.AncFormProcessor;
 import org.smartregister.goldsmith.configuration.AncPncToolbarOptions;
-import org.smartregister.goldsmith.configuration.AncRegisterActivityStarter;
-import org.smartregister.goldsmith.configuration.AncRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.anc.AncRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.anc.AncRegisterRowOptions;
 import org.smartregister.goldsmith.configuration.ToolbarOptions;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
 import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.PncRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
-import org.smartregister.growthmonitoring.GrowthMonitoringConfig;
-import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.opd.OpdLibrary;
@@ -68,7 +71,6 @@ import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.tasking.util.PreferencesUtil;
-import org.smartregister.view.activity.DrishtiApplication;
 import org.smartregister.view.activity.FormActivity;
 import org.smartregister.tasking.TaskingLibrary;
 
@@ -266,6 +268,7 @@ public class ChwApplication extends CoreChwApplication {
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
                 .setToolbarOptions(AncPncToolbarOptions.class)
+                .setMemberProfileOptionsClass(AncMemberProfileOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(false,
                 org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
@@ -277,11 +280,11 @@ public class ChwApplication extends CoreChwApplication {
                 org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
                 PncRegisterQueryProvider.class,
                 new ConfigViewsLib(),
-                AncRegisterActivityStarter.class
+                PncRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
                 "pregnancy_outcome",
                 CoreConstants.TABLE_NAME.PNC_MEMBER,
-                CoreConstants.EventType.PREGNANCY_OUTCOME,
+                org.smartregister.goldsmith.util.Constants.EventType.PREGNANCY_OUTCOME,
                 null,
                 locationTagsConfiguration,
                 org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
@@ -289,11 +292,12 @@ public class ChwApplication extends CoreChwApplication {
                 BasePncMemberProfileActivity.class,
                 false,
                 ""
-        )).setModuleFormProcessorClass(AncFormProcessor.class)
-                .setRegisterRowOptions(AncRegisterRowOptions.class)
+        )).setModuleFormProcessorClass(PncFormProcessor.class)
+                .setRegisterRowOptions(PncRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
                 .setToolbarOptions(AncPncToolbarOptions.class)
+                .setMemberProfileOptionsClass(PncMemberProfileOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(
                 false,

@@ -53,6 +53,7 @@ import org.smartregister.goldsmith.util.Constants.IntentKeys;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.BaseRepository;
+import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 import org.smartregister.util.FormUtils;
 import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 import org.smartregister.view.activity.DrishtiApplication;
@@ -93,17 +94,15 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
     @Override
     protected void initializePresenter() {
         client = (CommonPersonObjectClient) getIntent().getExtras().getSerializable(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT);
-        String familyBaseEntityId = client.getCaseId();
-        String familyName = client.getDetails().get(FIRST_NAME);
-        // TODO -> Decouple from CHW-CORE and use CommonPersonObjectClient as-is instead
-        baseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.BASE_ENTITY_ID);
-        familyHead = client.getDetails().get(Constants.INTENT_KEY.FAMILY_HEAD);
-        String primaryCaregiver = client.getDetails().get(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
-        String villageTown = client.getDetails().get(Constants.INTENT_KEY.VILLAGE_TOWN);
-        // TODO => Confirm gender and age is okay
-        gender = getIntentString(IntentKeys.GENDER);
-        age = Years.yearsBetween(new DateTime(getIntentString(IntentKeys.DOB)), DateTime.now()).getYears();
-        presenter = new FamilyOtherMemberActivityPresenter((FamilyOtherMemberProfileExtendedContract.View) this, new BaseFamilyOtherMemberProfileActivityModel(),
+        String familyBaseEntityId = getIntent().getExtras().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
+        String familyName = getIntent().getExtras().getString(Constants.INTENT_KEY.FAMILY_NAME);
+        familyHead = getIntent().getExtras().getString(Constants.INTENT_KEY.FAMILY_HEAD);
+        String primaryCaregiver = getIntent().getExtras().getString(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
+        String villageTown = getIntent().getExtras().getString(Constants.INTENT_KEY.VILLAGE_TOWN);
+        baseEntityId = client.getColumnmaps().get(Constants.INTENT_KEY.BASE_ENTITY_ID);
+        gender = client.getColumnmaps().get(IntentKeys.GENDER);
+        age = Years.yearsBetween(new DateTime(client.getColumnmaps().get(IntentKeys.DOB)), DateTime.now()).getYears();
+        presenter = new FamilyOtherMemberActivityPresenter( this, new BaseFamilyOtherMemberProfileActivityModel(),
                 null, familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
     }
 
@@ -186,7 +185,7 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         return super.onOptionsItemSelected(item);
     }
 
-    protected void startAncRegister() {
+    private void startAncRegister() {
         String ancModuleName = org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC;
         CoreLibrary.getInstance().setCurrentModule(ancModuleName);
         Context context = this;
