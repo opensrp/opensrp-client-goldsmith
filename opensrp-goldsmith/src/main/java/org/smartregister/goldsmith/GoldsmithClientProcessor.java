@@ -53,6 +53,11 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
             if (details == null || !details.containsKey("planIdentifier")) {
                 event.addDetails("planIdentifier", BuildConfig.PNC_PLAN_ID);
                 JSONObject eventJson = DrishtiApplication.getInstance().getContext().getEventClientRepository().getEventsByFormSubmissionId(event.getFormSubmissionId());
+
+                if (eventJson.optJSONObject("details") == null) {
+                    eventJson.put("details", new JSONObject());
+                }
+
                 eventJson.getJSONObject("details").put("planIdentifier", BuildConfig.PNC_PLAN_ID);
 
                 updateEvent(event.getFormSubmissionId(), eventJson);
