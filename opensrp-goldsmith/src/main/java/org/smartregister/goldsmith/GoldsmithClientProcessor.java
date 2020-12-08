@@ -5,6 +5,7 @@ import android.content.Context;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.Obs;
@@ -68,53 +69,52 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
 
             // TODO: Fix this in the event processing of each module later
             // This fixes an event where the event.obs.values can contain one item which is a literal null in JSON
-            List<Obs> obsList = event.getObs();
-            if (obsList != null) {
-                boolean obsUpdated = false;
-                Obs[] obsArray = obsList.toArray(new Obs[]{});
-
-                for (int i = 0; i < obsArray.length; i++) {
-                    Obs observation = obsArray[i];
-                    List<Object> observationValues = observation.getValues();
-
-                    if (observationValues != null && observationValues.size() > 0) {
-                        if (observationValues.get(0) == null) {
-                            obsUpdated = true;
-                            /*event.getObs().remove(observation);
-
-                            observation.setValues(new ArrayList<>());
-                            event.addObs(observation);*/
-
-                            observation.setValues(new ArrayList<>());
-                        }
-                    }
-                }
-
-                event.setObs(Arrays.asList(obsArray));
-
-                if (obsUpdated) {
-                    JSONObject eventJson = DrishtiApplication.getInstance().getContext().getEventClientRepository().getEventsByFormSubmissionId(event.getFormSubmissionId());
-                    JSONArray obsJsonArray = eventJson.optJSONArray("obs");
-                    if (obsJsonArray != null) {
-                        for (int i = 0; i < obsJsonArray.length(); i++) {
-                            JSONObject observation =  obsJsonArray.optJSONObject(i);
-                            if (observation != null) {
-                                JSONArray valuesArray = observation.optJSONArray("values");
-                                if (valuesArray != null && valuesArray.length() > 0) {
-                                    observation.put("values", new JSONArray());
-                                }
-                            }
-                        }
-                    }
-
-                    updateEvent(event.getFormSubmissionId(), eventJson);
-                }
-            }
+            fixObsHavingNullValuesItem(event);
         }
 
         super.processClient(local, true);
         super.processClient(remote);
 
+    }
+
+    protected void fixObsHavingNullValuesItem(Event event) throws JSONException {
+        List<Obs> obsList = event.getObs();
+        if (obsList != null) {
+            boolean obsUpdated = false;
+            Obs[] obsArray = obsList.toArray(new Obs[]{});
+
+            for (int i = 0; i < obsArray.length; i++) {
+                Obs observation = obsArray[i];
+                List<Object> observationValues = observation.getValues();
+
+                if (observationValues != null && observationValues.size() > 0) {
+                    if (observationValues.get(0) == null) {
+                        obsUpdated = true;
+                        observation.setValues(new ArrayList<>());
+                    }
+                }
+            }
+
+            event.setObs(Arrays.asList(obsArray));
+
+            if (obsUpdated) {
+                JSONObject eventJson = DrishtiApplication.getInstance().getContext().getEventClientRepository().getEventsByFormSubmissionId(event.getFormSubmissionId());
+                JSONArray obsJsonArray = eventJson.optJSONArray("obs");
+                if (obsJsonArray != null) {
+                    for (int i = 0; i < obsJsonArray.length(); i++) {
+                        JSONObject observation =  obsJsonArray.optJSONObject(i);
+                        if (observation != null) {
+                            JSONArray valuesArray = observation.optJSONArray("values");
+                            if (valuesArray != null && valuesArray.length() > 0) {
+                                observation.put("values", new JSONArray());
+                            }
+                        }
+                    }
+                }
+
+                updateEvent(event.getFormSubmissionId(), eventJson);
+            }
+        }
     }
 
     public int updateEvent(String formSubmissionId, JSONObject eventJson) {
