@@ -22,6 +22,8 @@ jobs:
           java-version: 1.8
       - name: Print Java version
         run: java -version
+      - name: Uninstall NDK
+        run: sdkmanager --uninstall 'ndk-bundle'
       - name: Add Tasking for build
         run: cd .. && git clone https://github.com/OpenSRP/opensrp-client-tasking.git && cd opensrp-client-tasking && git checkout integrate-goldsmith && cd ../opensrp-client-goldsmith
       - name: Grant execute permission for gradlew
