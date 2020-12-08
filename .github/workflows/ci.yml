@@ -27,6 +27,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build project
-        run: ./gradlew opensrp-app:build --stacktrace
+        run: ./gradlew opensrp-goldsmith:build --stacktrace
       - name: Build APK (Maintain stability)
-        run: ./gradlew opensrp-app:assembleDebug --stacktrace
+        run: ./gradlew opensrp-goldsmith:assembleDebug --stacktrace
