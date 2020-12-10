@@ -41,14 +41,14 @@ public class RegisterSelectDialogOptionModel implements DialogOptionModel {
                 // Do nothing
                 break;
         }
-    }   
+    }
 
     private void loadRegister(String moduleName) {
         Context context = ChwApplication.getInstance().getApplicationContext();
         CoreLibrary.getInstance().setCurrentModule(moduleName);
         Intent intent = new Intent(context, BaseConfigurableRegisterActivity.class);
         intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, moduleName);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
         context.startActivity(intent);
     }
 }
