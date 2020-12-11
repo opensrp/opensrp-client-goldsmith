@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.anc.domain.MemberObject;
-import org.smartregister.chw.pnc.activity.BasePncHomeVisitActivity;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Location;

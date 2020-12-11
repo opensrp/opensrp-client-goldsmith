@@ -14,6 +14,11 @@ public class ToolbarOptions implements org.smartregister.configuration.ToolbarOp
     }
 
     @Override
+    public int getFabTextStringResource() {
+        return 0;
+    }
+
+    @Override
     public boolean isFabEnabled() {
         return true;
     }

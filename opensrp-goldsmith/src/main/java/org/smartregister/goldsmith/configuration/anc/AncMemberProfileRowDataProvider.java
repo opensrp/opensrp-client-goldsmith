@@ -16,8 +16,6 @@ import org.smartregister.domain.AlertStatus;
 import org.smartregister.domain.ConfigurableMemberProfileRowData;
 import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
-import org.smartregister.goldsmith.dao.ChwANCDao;
-import org.smartregister.goldsmith.dao.FamilyDao;
 import org.smartregister.goldsmith.interactor.AncUpcomingServicesInteractorFlv;
 
 import java.text.SimpleDateFormat;

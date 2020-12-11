@@ -3,3 +3,9 @@ include ':opensrp-goldsmith'
 
 include ':opensrp-tasking'
 project(":opensrp-tasking").projectDir = new File("../opensrp-client-tasking/opensrp-tasking")
+
+include ':opensrp-app'
+project(":opensrp-app").projectDir = new File("../opensrp-client-core/opensrp-app")
+
+include ':opensrp-chw'
+project(":opensrp-chw").projectDir = new File("../opensrp-client-chw/opensrp-chw")

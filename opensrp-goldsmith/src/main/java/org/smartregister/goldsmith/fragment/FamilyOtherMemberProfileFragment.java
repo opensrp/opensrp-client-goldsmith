@@ -1,18 +1,12 @@
 package org.smartregister.goldsmith.fragment;
 
 import android.os.Bundle;
-import android.view.View;
 
 import org.smartregister.chw.core.fragment.CoreFamilyOtherMemberProfileFragment;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileFragmentModel;
-import org.smartregister.family.presenter.BaseFamilyOtherMemberProfileFragmentPresenter;
-import org.smartregister.family.util.Constants;
-import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.presenter.FamilyOtherMemberProfileFragmentPresenter;
 import org.smartregister.view.contract.BaseRegisterFragmentContract;
-
-import java.util.HashMap;
 
 public class FamilyOtherMemberProfileFragment extends CoreFamilyOtherMemberProfileFragment {
     public static BaseFamilyOtherMemberProfileFragment newInstance(Bundle bundle) {

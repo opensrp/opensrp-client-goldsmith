@@ -15,9 +15,6 @@ import org.smartregister.service.UserService;
 import org.smartregister.util.Utils;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
-import timber.log.Timber;
 
 /**
  * provides additional login credentials services

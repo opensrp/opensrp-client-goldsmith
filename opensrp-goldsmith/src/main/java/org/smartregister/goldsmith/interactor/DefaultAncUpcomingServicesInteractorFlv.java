@@ -16,7 +16,6 @@ import org.smartregister.chw.core.utils.RecurringServiceUtil;
 import org.smartregister.chw.core.utils.VisitVaccineUtil;
 import org.smartregister.domain.Alert;
 import org.smartregister.goldsmith.R;
-import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.goldsmith.util.ContactUtil;
 import org.smartregister.immunization.domain.ServiceWrapper;
 

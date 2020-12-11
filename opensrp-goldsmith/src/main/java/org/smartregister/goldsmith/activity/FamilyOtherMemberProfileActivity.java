@@ -55,7 +55,6 @@ import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 import org.smartregister.util.FormUtils;
-import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 import org.smartregister.view.activity.DrishtiApplication;
 
 import java.text.ParseException;
