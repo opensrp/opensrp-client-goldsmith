@@ -40,9 +40,6 @@ import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.DatabaseMigrationUtils;
 import org.smartregister.view.activity.DrishtiApplication;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import timber.log.Timber;
 
 import static org.smartregister.repository.EventClientRepository.Table.event;
@@ -214,16 +211,10 @@ public class GoldsmithRepository extends Repository {
             db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
             db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
 
-            // setup reporting
-            ReportingLibrary reportingLibrary = ReportingLibrary.getInstance();
-            String childIndicatorsConfigFile = "config/child-reporting-indicator-definitions.yml";
-            String ancIndicatorConfigFile = "config/anc-reporting-indicator-definitions.yml";
-            String pncIndicatorConfigFile = "config/pnc-reporting-indicator-definitions.yml";
-            for (String configFile : Collections.unmodifiableList(
-                    Arrays.asList(childIndicatorsConfigFile, ancIndicatorConfigFile, pncIndicatorConfigFile))) {
-                reportingLibrary.readConfigFile(configFile, db);
-            }
-
+            // Setup reporting
+            ReportingLibrary reportingLibraryInstance = ReportingLibrary.getInstance();
+            String indicatorsConfigFile = "config/indicator-definitions.yml";
+            reportingLibraryInstance.readConfigFile(indicatorsConfigFile, db);
         } catch (Exception e) {
             Timber.e(e, "upgradeToVersion2 ");
         }

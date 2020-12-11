@@ -1,0 +1,4 @@
+indicators:
+  - key: "total_preg_last_30_days"
+    description: "total_preg_last_30_days_label"
+    indicatorQuery: ""
