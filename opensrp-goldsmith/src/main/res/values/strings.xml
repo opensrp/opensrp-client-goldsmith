@@ -11,6 +11,10 @@
 
     <string name="hello_blank_fragment">Blank fragment</string>
 
+    <!-- ActionBar -->
+    <string name="all_families_add_new_family">Add new family</string>
+    <!-- End of ActionBar -->
+
     <!-- CHW PNC Strings -->
     <string name="date">Date</string>
     <string name="action_taken">Action taken</string>
