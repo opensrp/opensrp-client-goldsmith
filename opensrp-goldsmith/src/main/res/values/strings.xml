@@ -108,4 +108,12 @@
 
     <!-- End of Visits -->
 
+    <!-- My perfomance -->
+    <string name="my_performance_title">My Performance</string>
+    <string name="thirty_day_tab_title">30 DAY</string>
+    <string name="three_month_tab_title">3 MONTH</string>
+    <string name="indicators_udpating">Updating&#8230;</string>
+    <string name="indicators_updating_complete">Update complete</string>
+    <!-- End of My performance -->
+
 </resources>

@@ -28,6 +28,8 @@
         <item name="colorAccent">@color/goldsmith_blue</item>
     </style>
 
+    <style name="AppThem.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="FamilyTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/black</item>
