@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
+import com.mapbox.mapboxsdk.Mapbox;
 import com.vijay.jsonwizard.NativeFormLibrary;
 
 import org.greenrobot.eventbus.EventBus;
@@ -34,6 +35,7 @@ import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.configuration.ModuleConfiguration;
 import org.smartregister.configuration.ModuleMetadata;
+import org.smartregister.dto.UserAssignmentDTO;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.domain.FamilyMetadata;
@@ -66,6 +68,7 @@ import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.opd.OpdLibrary;
 import org.smartregister.opd.configuration.OpdConfiguration;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
+import org.smartregister.receiver.ValidateAssignmentReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
@@ -86,7 +89,7 @@ import timber.log.Timber;
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 21-09-2020.
  */
-public class ChwApplication extends CoreChwApplication {
+public class ChwApplication extends CoreChwApplication implements ValidateAssignmentReceiver.UserAssignmentListener {
 
     private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
 
@@ -159,6 +162,11 @@ public class ChwApplication extends CoreChwApplication {
         if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(BuildConfig.PNC_PLAN_ID)) {
             PreferencesUtil.getInstance().setCurrentPlanId(BuildConfig.PNC_PLAN_ID);
         }
+
+        Mapbox.getInstance(this, BuildConfig.MAPBOX_ACCESS_TOKEN);
+
+        ValidateAssignmentReceiver.init(this);
+        ValidateAssignmentReceiver.getInstance().addListener(this);
     }
 
     private void initializeRegisters() {
@@ -368,6 +376,11 @@ public class ChwApplication extends CoreChwApplication {
 
         }
         return repository;
+    }
+
+    @Override
+    public void onUserAssignmentRevoked(UserAssignmentDTO userAssignmentDTO) {
+
     }
 
 
