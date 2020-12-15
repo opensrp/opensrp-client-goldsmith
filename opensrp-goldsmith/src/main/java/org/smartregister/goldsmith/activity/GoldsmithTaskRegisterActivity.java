@@ -2,7 +2,6 @@ package org.smartregister.goldsmith.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
@@ -14,7 +13,6 @@ import org.smartregister.tasking.model.BaseTaskDetails;
 
 import java.util.Map;
 
-import io.ona.kujaku.utils.LocationSettingsHelper;
 import io.ona.kujaku.utils.Permissions;
 
 /**

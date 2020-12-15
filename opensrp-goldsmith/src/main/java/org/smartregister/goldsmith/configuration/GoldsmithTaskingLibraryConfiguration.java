@@ -2,6 +2,7 @@ package org.smartregister.goldsmith.configuration;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
@@ -12,38 +13,52 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.navigation.NavigationView;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.anc.domain.MemberObject;
-import org.smartregister.chw.pnc.activity.BasePncHomeVisitActivity;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Location;
+import org.smartregister.domain.PlanDefinition;
 import org.smartregister.domain.Task;
 import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.PncHomeVisitActivity;
+import org.smartregister.tasking.activity.TaskingHomeActivity;
 import org.smartregister.tasking.adapter.TaskRegisterAdapter;
 import org.smartregister.tasking.configuration.TaskRegisterV2Configuration;
 import org.smartregister.tasking.contract.BaseContract;
 import org.smartregister.tasking.contract.BaseDrawerContract;
 import org.smartregister.tasking.contract.BaseFormFragmentContract;
+import org.smartregister.tasking.contract.TaskingHomeActivityContract;
+import org.smartregister.tasking.layer.DigitalGlobeLayer;
 import org.smartregister.tasking.model.BaseTaskDetails;
 import org.smartregister.tasking.model.CardDetails;
 import org.smartregister.tasking.model.TaskDetails;
 import org.smartregister.tasking.model.TaskFilterParams;
+import org.smartregister.tasking.repository.TaskingMappingHelper;
+import org.smartregister.tasking.util.ActivityConfiguration;
 import org.smartregister.tasking.util.Constants;
+import org.smartregister.tasking.util.GeoJsonUtils;
+import org.smartregister.tasking.util.TaskingJsonFormUtils;
 import org.smartregister.tasking.util.TaskingLibraryConfiguration;
+import org.smartregister.tasking.util.TaskingMapHelper;
 import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
 import org.smartregister.util.AppExecutors;
 import org.smartregister.util.Utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import timber.log.Timber;
 
@@ -286,7 +301,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public void startMapActivity(Activity activity, String s, TaskFilterParams taskFilterParams) {
-
+        activity.startActivity(new Intent(activity, TaskingHomeActivity.class));
     }
 
     @Override
@@ -373,7 +388,225 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public BaseDrawerContract.View getDrawerMenuView(BaseDrawerContract.DrawerActivity drawerActivity) {
-        return null;
+        // TODO: Fix this
+        return new BaseDrawerContract.View() {
+            @Override
+            public Activity getContext() {
+                return null;
+            }
+
+            @Override
+            public void initializeDrawerLayout() {
+
+            }
+
+            @Override
+            public void setUpViews(NavigationView navigationView) {
+
+            }
+
+            @Override
+            public void setPlan(String campaign) {
+
+            }
+
+            @Override
+            public void setOperationalArea(String operationalArea) {
+
+            }
+
+            @Override
+            public String getPlan() {
+                return null;
+            }
+
+            @Override
+            public String getOperationalArea() {
+                return null;
+            }
+
+            @Override
+            public void setDistrict(String district) {
+
+            }
+
+            @Override
+            public void setFacility(String facility, String facilityLevel) {
+
+            }
+
+            @Override
+            public void setOperator() {
+
+            }
+
+            @Override
+            public void lockNavigationDrawerForSelection(int title, int message) {
+
+            }
+
+            @Override
+            public void unlockNavigationDrawer() {
+
+            }
+
+            @Override
+            public void lockNavigationDrawerForSelection() {
+
+            }
+
+            @Override
+            public void showOperationalAreaSelector(Pair<String, ArrayList<String>> locationHierarchy) {
+
+            }
+
+            @Override
+            public void showPlanSelector(List<String> campaigns, String entireTreeString) {
+
+            }
+
+            @Override
+            public void displayNotification(int title, int message, Object... formatArgs) {
+
+            }
+
+            @Override
+            public void openDrawerLayout() {
+
+            }
+
+            @Override
+            public void closeDrawerLayout() {
+
+            }
+
+            @Override
+            public BaseDrawerContract.Presenter getPresenter() {
+                // TODO: Fix this
+                return new BaseDrawerContract.Presenter() {
+                    @Override
+                    public void onDrawerClosed() {
+
+                    }
+
+                    @Override
+                    public void onShowOperationalAreaSelector() {
+
+                    }
+
+                    @Override
+                    public void onOperationalAreaSelectorClicked(ArrayList<String> name) {
+
+                    }
+
+                    @Override
+                    public void onShowPlanSelector() {
+
+                    }
+
+                    @Override
+                    public void onPlanSelectorClicked(ArrayList<String> value, ArrayList<String> name) {
+
+                    }
+
+                    @Override
+                    public void onPlansFetched(Set<PlanDefinition> planDefinitionSet) {
+
+                    }
+
+                    @Override
+                    public void unlockDrawerLayout() {
+
+                    }
+
+                    @Override
+                    public boolean isChangedCurrentSelection() {
+                        return false;
+                    }
+
+                    @Override
+                    public void setChangedCurrentSelection(boolean changedCurrentSelection) {
+
+                    }
+
+                    @Override
+                    public BaseDrawerContract.View getView() {
+                        return null;
+                    }
+
+                    @Override
+                    public void onViewResumed() {
+
+                    }
+
+                    @Override
+                    public void onShowOfflineMaps() {
+
+                    }
+
+                    @Override
+                    public boolean isPlanAndOperationalAreaSelected() {
+                        return false;
+                    }
+
+                    @Override
+                    public void onPlanValidated(boolean isValid) {
+
+                    }
+
+                    @Override
+                    public void updateSyncStatusDisplay(boolean synced) {
+
+                    }
+
+                    @Override
+                    public void startOtherFormsActivity() {
+
+                    }
+
+                    @Override
+                    public void onShowFilledForms() {
+
+                    }
+
+                    @Override
+                    public void checkSynced() {
+
+                    }
+                };
+            }
+
+            @Override
+            public void onResume() {
+
+            }
+
+            @Override
+            public void openOfflineMapsView() {
+
+            }
+
+            @Override
+            public void checkSynced() {
+
+            }
+
+            @Override
+            public void toggleProgressBarView(boolean syncing) {
+
+            }
+
+            @Nullable
+            @Override
+            public String getManifestVersion() {
+                return null;
+            }
+
+            @Override
+            public BaseDrawerContract.DrawerActivity getActivity() {
+                return null;
+            }
+        };
     }
 
     @Override
@@ -384,6 +617,141 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     @Override
     public Map<String, Object> getServerConfigs() {
         return null;
+    }
+
+    @Override
+    public TaskingJsonFormUtils getJsonFormUtils() {
+        return null;
+    }
+
+    @Override
+    public TaskingMappingHelper getMappingHelper() {
+        return null;
+    }
+
+    @Override
+    public TaskingMapHelper getMapHelper() {
+        return new TaskingMapHelper();
+    }
+
+    @Override
+    public boolean isRefreshMapOnEventSaved() {
+        return false;
+    }
+
+    @Override
+    public void setRefreshMapOnEventSaved(boolean isRefreshMapOnEventSaved) {
+
+    }
+
+    @Override
+    public void setFeatureCollection(FeatureCollection featureCollection) {
+
+    }
+
+    @Override
+    public DigitalGlobeLayer getDigitalGlobeLayer() {
+        return new DigitalGlobeLayer();
+    }
+
+    @Override
+    public List<String> getFacilityLevels() {
+        return null;
+    }
+
+    @Override
+    public List<String> getLocationLevels() {
+        return null;
+    }
+
+    @Override
+    public ActivityConfiguration getActivityConfiguration() {
+        return null;
+    }
+
+    @Override
+    public void registerFamily(Feature selectedFeature) {
+
+    }
+
+    @Override
+    public void openTaskRegister(TaskFilterParams filterParams, TaskingHomeActivity taskingHomeActivity) {
+
+    }
+
+    @Override
+    public boolean isCompassEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean showCurrentLocationButton() {
+        return false;
+    }
+
+    @Override
+    public boolean disableMyLocationOnMapMove() {
+        return false;
+    }
+
+    @Override
+    public boolean getDrawOperationalAreaBoundaryAndLabel() {
+        return false;
+    }
+
+    @Override
+    public GeoJsonUtils getGeoJsonUtils() {
+        return new GeoJsonUtils();
+    }
+
+    @Override
+    public String getProvinceFromTreeDialogValue(List<String> name) {
+        return null;
+    }
+
+    @Override
+    public String getDistrictFromTreeDialogValue(List<String> name) {
+        return null;
+    }
+
+    @Override
+    public void onShowFilledForms() {
+
+    }
+
+    @Override
+    public void onFeatureSelectedByLongClick(Feature feature, TaskingHomeActivityContract.Presenter taskingHomePresenter) {
+
+    }
+
+    @Override
+    public void onFeatureSelectedByClick(Feature feature, TaskingHomeActivityContract.Presenter taskingHomePresenter) {
+
+    }
+
+    @Override
+    public double getOnClickMaxZoomLevel() {
+        return 0;
+    }
+
+    @Override
+    public void fetchPlans(String jurisdictionName, BaseDrawerContract.Presenter presenter) {
+
+    }
+
+    @Override
+    public void validateCurrentPlan(String selectedOperationalArea, String currentPlanId, BaseDrawerContract.Presenter presenter) {
+
+    }
+
+    @Override
+    public void setFacility(List<String> defaultLocation, BaseDrawerContract.View view) {
+
+    }
+
+    @Override
+    public void openFilterTaskActivity(TaskFilterParams filterParams, TaskingHomeActivity activity) {
+
     }
 
     @Override

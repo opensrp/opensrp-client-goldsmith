@@ -169,6 +169,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
     }
 
+    //` Use the opensrp-client-tasking branch -> goldsmith-merge-map-stuff
     implementation (project(':opensrp-tasking')) {
         //implementation ('org.smartregister:opensrp-client-tasking:0.0.3.2-SNAPSHOT') {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
