@@ -46,7 +46,7 @@ android {
         buildConfigField "int", "MAX_SYNC_RETRIES", '3'
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
         buildConfigField "boolean", "IS_SYNC_SETTINGS", "false"
-        buildConfigField "String", "MAPBOX_ACCESS_TOKEN", "sample_token"
+        buildConfigField "String", "MAPBOX_SDK_ACCESS_TOKEN", '"sample_token"'
 
 
         if (project.rootProject.file("local.properties").exists()) {

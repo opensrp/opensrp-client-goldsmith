@@ -163,7 +163,7 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
             PreferencesUtil.getInstance().setCurrentPlanId(BuildConfig.PNC_PLAN_ID);
         }
 
-        Mapbox.getInstance(this, BuildConfig.MAPBOX_ACCESS_TOKEN);
+        Mapbox.getInstance(this, BuildConfig.MAPBOX_SDK_ACCESS_TOKEN);
 
         ValidateAssignmentReceiver.init(this);
         ValidateAssignmentReceiver.getInstance().addListener(this);
