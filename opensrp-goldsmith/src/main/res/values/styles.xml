@@ -115,4 +115,43 @@
         <item name="android:lineSpacingMultiplier">1.19</item>
     </style>
 
+    <style name="MyPerformanceActivityTitleStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:lineSpacingMultiplier">1.18</item>
+    </style>
+
+    <style name="TasksPercentageCompletedStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#EB7D00</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="TasksCompletedStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="TrendingDownStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#FFE20502</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.36</item>
+    </style>
+
+
+    <style name="PerformanceSectionTitleStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FF005084</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
 </resources>

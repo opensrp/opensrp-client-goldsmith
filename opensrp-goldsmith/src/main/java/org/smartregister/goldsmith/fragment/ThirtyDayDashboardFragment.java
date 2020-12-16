@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ThirtyDayDashboardFragment extends Fragment implements ReportContract.View, LoaderManager.LoaderCallbacks<List<Map<String, IndicatorTally>>> {
-    public static final String TAG = "JobAidsDashboardFragment";
 
     private static ReportContract.Presenter presenter;
     private ViewGroup visualizationsViewGroup;
@@ -35,10 +34,7 @@ public class ThirtyDayDashboardFragment extends Fragment implements ReportContra
     }
 
     public static ThirtyDayDashboardFragment newInstance() {
-        ThirtyDayDashboardFragment fragment = new ThirtyDayDashboardFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new ThirtyDayDashboardFragment();
     }
 
     @Override
@@ -58,7 +54,7 @@ public class ThirtyDayDashboardFragment extends Fragment implements ReportContra
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_thirty_day_dashboard, container, false);
         progressBar = rootView.findViewById(R.id.progress_bar);
-        visualizationsViewGroup = rootView.findViewById(R.id.dashboard_content);
+        // visualizationsViewGroup = rootView.findViewById(R.id.dashboard_content);
         return rootView;
     }
 
@@ -101,9 +97,10 @@ public class ThirtyDayDashboardFragment extends Fragment implements ReportContra
 
     @Override
     public void buildVisualization(ViewGroup viewGroup) {
-        //Refresh view with new indicators
-        viewGroup.removeAllViews();
         // TODO -> Show GS report view
+
+        //Refresh view with new indicators
+        // viewGroup.removeAllViews();
         // ChwReport.showIndicatorVisualisations(viewGroup, indicatorTallies, getActivity());
     }
 
