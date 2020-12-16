@@ -311,12 +311,30 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
             String taskTitle = "";
 
-            if ("pnc_visit".equals(taskDetails.getTaskCode()) || "Day 2 Visit".equals(taskDetails.getTaskCode())) {
-                taskTitle = "PNC Visit Day 2";
-                // TODO: Show the icon based on priority and task type
-                taskViewHolder.setTaskIcon(R.drawable.pnc_03);
+            taskTitle = taskDetails.getTaskCode();
+            if (taskTitle != null && taskTitle.toLowerCase().startsWith("pnc day")) {
 
-                // Add priority check here task.priority
+                int iconResource = -1;
+                switch (taskDetails.getPriority()) {
+                    case 0:
+                        iconResource = R.drawable.pnc_04;
+                        break;
+
+                    case 1:
+                        iconResource = R.drawable.pnc_03;
+                        break;
+
+                    case 2:
+                        iconResource = R.drawable.pnc_02_offset;
+                        break;
+
+                    case 3:
+                        iconResource = R.drawable.pnc_01_offset;
+                }
+
+                if (iconResource != -1) {
+                    taskViewHolder.setTaskIcon(iconResource);
+                }
 
             }
 
