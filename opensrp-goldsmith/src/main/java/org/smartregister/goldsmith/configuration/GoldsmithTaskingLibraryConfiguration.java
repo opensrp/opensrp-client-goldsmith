@@ -702,10 +702,6 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
         return false;
     }
 
-    @Override
-    public boolean showCurrentLocationButton() {
-        return false;
-    }
 
     @Override
     public boolean disableMyLocationOnMapMove() {
