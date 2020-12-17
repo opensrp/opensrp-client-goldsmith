@@ -111,7 +111,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             startHome(remote);
         }
 
-        //finish();
+        finish();
     }
 
     private void startHome(boolean remote) {
