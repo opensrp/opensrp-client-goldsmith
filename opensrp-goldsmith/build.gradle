@@ -171,7 +171,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 
-    api ('org.smartregister:opensrp-client-core:3.1.0.6-GS-PREVIEW-SNAPSHOT'){
+    api ('org.smartregister:opensrp-client-core:3.1.0.7-GS-PREVIEW-SNAPSHOT'){
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
