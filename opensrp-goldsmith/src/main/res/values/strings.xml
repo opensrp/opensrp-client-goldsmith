@@ -119,7 +119,7 @@
     <string name="indicators_updating">Updating&#8230;</string>
     <string name="indicators_updating_complete">Update complete</string>
     <string name="performance_completed_percentage">{0}%</string>
-    <string name="performance_completed_fraction">Tasks completed: %s</string>
+    <string name="performance_completed_fraction">Tasks completed: {0}/{1}</string>
     <string name="performance_trending_down">Trending down</string>
     <string name="performance_health_indicators_title">KEY HEALTH INDICATORS</string>
     <!-- End of My performance -->

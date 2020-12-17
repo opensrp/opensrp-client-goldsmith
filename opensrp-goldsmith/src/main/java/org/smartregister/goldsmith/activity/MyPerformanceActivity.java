@@ -84,9 +84,6 @@ public class MyPerformanceActivity extends AppCompatActivity {
 
         @Override
         public int getItemPosition(@NotNull Object object) {
-            if (object instanceof ThirtyDayDashboardFragment) {
-                ((ThirtyDayDashboardFragment) object).loadIndicatorTallies();
-            }
             return super.getItemPosition(object);
         }
     }

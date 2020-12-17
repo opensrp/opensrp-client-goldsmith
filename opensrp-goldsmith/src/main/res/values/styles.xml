@@ -154,4 +154,13 @@
         <item name="android:lineSpacingMultiplier">1.21</item>
     </style>
 
+
+    <style name="IndicatorLabelStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingMultiplier">1.36</item>
+    </style>
+
 </resources>
