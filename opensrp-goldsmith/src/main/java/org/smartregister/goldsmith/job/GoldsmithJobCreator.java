@@ -11,6 +11,7 @@ import org.smartregister.job.ExtendedSyncServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.job.ValidateSyncDataServiceJob;
+import org.smartregister.reporting.job.RecurringIndicatorGeneratingJob;
 import org.smartregister.sync.intent.DocumentConfigurationIntentService;
 import org.smartregister.sync.intent.SyncIntentService;
 import org.smartregister.tasking.job.TaskingSyncSettingsServiceJob;
@@ -40,8 +41,10 @@ public class GoldsmithJobCreator implements JobCreator {
                 return new ValidateSyncDataServiceJob();
             case DocumentConfigurationServiceJob.TAG:
                 return new DocumentConfigurationServiceJob(DocumentConfigurationIntentService.class);
+            case RecurringIndicatorGeneratingJob.TAG:
+                return new RecurringIndicatorGeneratingJob();
             default:
-                Timber.w(tag + " is not declared in RevealJobCreator Job Creator");
+                Timber.w(tag + " is not declared in Goldsmith Job Creator");
                 return null;
         }
     }

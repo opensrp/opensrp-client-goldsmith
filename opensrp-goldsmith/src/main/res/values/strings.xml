@@ -112,4 +112,16 @@
 
     <!-- End of Visits -->
 
+    <!-- My perfomance -->
+    <string name="my_performance_title">My Performance</string>
+    <string name="thirty_day_tab_title">30 DAY</string>
+    <string name="three_month_tab_title">3 MONTH</string>
+    <string name="indicators_updating">Updating&#8230;</string>
+    <string name="indicators_updating_complete">Update complete</string>
+    <string name="performance_completed_percentage">{0}%</string>
+    <string name="performance_completed_fraction">Tasks completed: {0}/{1}</string>
+    <string name="performance_trending_down">Trending down</string>
+    <string name="performance_health_indicators_title">KEY HEALTH INDICATORS</string>
+    <!-- End of My performance -->
+
 </resources>

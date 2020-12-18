@@ -10,4 +10,8 @@
     <color name="launchpad_bg">#f5f8fa</color>
 
     <color name="goldsmith_blue">#004984</color>
+
+    <color name="progressbar_red">#DE413F</color>
+    <color name="progressbar_green">#70BE59</color>
+
 </resources>

@@ -10,11 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.smartregister.AllConstants;
-import org.smartregister.CoreLibrary;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configuration.BaseRegisterRowOptions;
-import org.smartregister.family.util.Constants;
-import org.smartregister.family.util.DBConstants;
+
 import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.util.ConfigurableRegisterUtils;

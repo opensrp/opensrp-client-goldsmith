@@ -5,7 +5,6 @@ import org.smartregister.chw.core.interactor.CoreFamilyProfileInteractor;
 import org.smartregister.chw.core.presenter.CoreFamilyOtherMemberActivityPresenter;
 import org.smartregister.family.contract.FamilyOtherMemberContract;
 import org.smartregister.family.contract.FamilyProfileContract;
-import org.smartregister.family.presenter.BaseFamilyOtherMemberProfileActivityPresenter;
 import org.smartregister.goldsmith.interactor.FamilyInteractor;
 import org.smartregister.goldsmith.interactor.FamilyProfileInteractor;
 import org.smartregister.goldsmith.model.FamilyProfileModel;

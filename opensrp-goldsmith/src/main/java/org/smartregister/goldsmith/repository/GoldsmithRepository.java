@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.smartregister.AllConstants;
 import org.smartregister.chw.anc.repository.VisitDetailsRepository;
 import org.smartregister.chw.anc.repository.VisitRepository;
+import org.smartregister.chw.core.repository.MonthlyTalliesRepository;
 import org.smartregister.chw.core.repository.ScheduleRepository;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.domain.db.Column;
@@ -23,6 +24,9 @@ import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.repository.VaccineTypeRepository;
 import org.smartregister.immunization.util.IMDatabaseUtils;
 import org.smartregister.reporting.ReportingLibrary;
+import org.smartregister.reporting.repository.DailyIndicatorCountRepository;
+import org.smartregister.reporting.repository.IndicatorQueryRepository;
+import org.smartregister.reporting.repository.IndicatorRepository;
 import org.smartregister.repository.AlertRepository;
 import org.smartregister.repository.CampaignRepository;
 import org.smartregister.repository.ClientFormRepository;
@@ -39,9 +43,6 @@ import org.smartregister.repository.TaskRepository;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.DatabaseMigrationUtils;
 import org.smartregister.view.activity.DrishtiApplication;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 import timber.log.Timber;
 
@@ -108,6 +109,11 @@ public class GoldsmithRepository extends Repository {
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
         IMDatabaseUtils.populateRecurringServices(DrishtiApplication.getInstance().getApplicationContext(), database, recurringServiceTypeRepository);
 
+        // Add reporting tables
+        IndicatorRepository.createTable(database);
+        IndicatorQueryRepository.createTable(database);
+        DailyIndicatorCountRepository.createTable(database);
+        MonthlyTalliesRepository.createTable(database);
 
         onUpgrade(database, 1, BuildConfig.DATABASE_VERSION);
     }
@@ -214,16 +220,10 @@ public class GoldsmithRepository extends Repository {
             db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
             db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
 
-            // setup reporting
-            ReportingLibrary reportingLibrary = ReportingLibrary.getInstance();
-            String childIndicatorsConfigFile = "config/child-reporting-indicator-definitions.yml";
-            String ancIndicatorConfigFile = "config/anc-reporting-indicator-definitions.yml";
-            String pncIndicatorConfigFile = "config/pnc-reporting-indicator-definitions.yml";
-            for (String configFile : Collections.unmodifiableList(
-                    Arrays.asList(childIndicatorsConfigFile, ancIndicatorConfigFile, pncIndicatorConfigFile))) {
-                reportingLibrary.readConfigFile(configFile, db);
-            }
-
+            // Setup reporting
+            ReportingLibrary reportingLibraryInstance = ReportingLibrary.getInstance();
+            String indicatorsConfigFile = "config/indicator-definitions.yml";
+            reportingLibraryInstance.readConfigFile(indicatorsConfigFile, db);
         } catch (Exception e) {
             Timber.e(e, "upgradeToVersion2 ");
         }

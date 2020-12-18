@@ -1,19 +1,10 @@
 package org.smartregister.goldsmith.presenter;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-
-import org.smartregister.chw.core.utils.ImageLoaderRequest;
-import org.smartregister.configurableviews.model.LoginConfiguration;
-import org.smartregister.configurableviews.model.ViewConfiguration;
 import org.smartregister.configurableviews.util.Constants;
-import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.interactor.LoginInteractor;
 import org.smartregister.login.model.BaseLoginModel;

@@ -26,11 +26,15 @@ import org.smartregister.repository.AllSharedPreferences;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID;
 import static org.smartregister.family.util.JsonFormUtils.METADATA;
+import static org.smartregister.goldsmith.util.Constants.Client.FIRST_NAME;
 import static org.smartregister.goldsmith.util.SampleAppJsonFormUtils.populateInjectedFields;
 import static org.smartregister.util.JsonFormUtils.ENCOUNTER_LOCATION;
+import static org.smartregister.util.JsonFormUtils.FIELDS;
+import static org.smartregister.util.JsonFormUtils.STEP1;
 
 public class AncFormProcessor implements ModuleFormProcessor {
     @Override
@@ -69,7 +73,6 @@ public class AncFormProcessor implements ModuleFormProcessor {
         if (injectedFieldValues != null && injectedFieldValues.size() > 0) {
             populateInjectedFields(form, injectedFieldValues);
         }
-
         return form;
     }
 
@@ -78,7 +81,7 @@ public class AncFormProcessor implements ModuleFormProcessor {
         // FORM KEY, CLIENT_OBJECT KEY
         HashMap<String, String> injectableFieldsMap = new HashMap<>();
         injectableFieldsMap.put(org.smartregister.goldsmith.util.Constants.Client.PHONE_NUMBER, org.smartregister.goldsmith.util.Constants.Client.PHONE_NUMBER);
-        injectableFieldsMap.put(CoreConstants.JsonAssets.FAM_NAME, org.smartregister.goldsmith.util.Constants.Client.FIRST_NAME);
+        injectableFieldsMap.put(org.smartregister.goldsmith.util.Constants.Client.LAST_NAME, org.smartregister.goldsmith.util.Constants.Client.LAST_NAME);
         injectableFieldsMap.put(DBConstants.KEY.LAST_MENSTRUAL_PERIOD, DBConstants.KEY.LAST_MENSTRUAL_PERIOD);
         injectableFieldsMap.put(org.smartregister.family.util.DBConstants.KEY.RELATIONAL_ID, BASE_ENTITY_ID);
         return injectableFieldsMap;

@@ -177,11 +177,10 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
 
 
     private void initializeLibraries() {
+        // init libraries
 
         CoreLibrary.init(context, new ChwSyncConfiguration(), BuildConfig.BUILD_TIMESTAMP);
         CoreLibrary.getInstance().setEcClientFieldsFile(CoreConstants.EC_CLIENT_FIELDS);
-
-        // init libraries
         ImmunizationLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ConfigurableViewsLibrary.init(context);
         FamilyLibrary.init(context, getMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
@@ -193,9 +192,10 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
         //TODO uncomment the below if Growth Monitoring is being used
        /* GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
         growthMonitoringConfig.setWeightForHeightZScoreFile("weight_for_height.csv");
-        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);*/
-        /*
+        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);
+        */
 
+        /*
         if (hasReferrals()) {
             //Setup referral library
             ReferralLibrary.init(this);
@@ -220,8 +220,6 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
         /*Form form = new Form();
         form.setDatePickerDisplayFormat("dd MMM yyyy");*/
 
-        // set up processor
-        //FamilyLibrary.getInstance().setClientProcessorForJava(ChwClientProcessor.getInstance(getApplicationContext()));
         NativeFormLibrary.getInstance().setClientFormDao(CoreLibrary.getInstance().context().getClientFormRepository());
         TaskingLibrary.init(new GoldsmithTaskingLibraryConfiguration());
     }

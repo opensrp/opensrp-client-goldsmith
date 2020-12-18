@@ -46,8 +46,6 @@ import org.smartregister.goldsmith.util.JsonFormUtils;
 import org.smartregister.goldsmith.util.PNCVisitUtil;
 import org.smartregister.domain.Alert;
 import org.smartregister.goldsmith.ChwApplication;
-import org.smartregister.goldsmith.domain.PncBaby;
-import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.immunization.domain.ServiceWrapper;
 import org.smartregister.immunization.domain.VaccineWrapper;
 import org.smartregister.util.FormUtils;
