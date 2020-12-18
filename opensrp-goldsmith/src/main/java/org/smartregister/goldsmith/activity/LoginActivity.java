@@ -107,11 +107,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
         if (hasPinLogin()) {
             startPinHome(remote);
-        }else{
+        } else {
             startHome(remote);
         }
-
-        finish();
     }
 
     private void startHome(boolean remote) {
@@ -122,6 +120,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             Intent intent = new Intent(this, LaunchpadActivity.class);
             intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
             startActivity(intent);
+            finish();
         }
     }
 
