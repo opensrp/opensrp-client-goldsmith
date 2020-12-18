@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="@string/performance_trending_down"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_tasks_completed" />
@@ -70,13 +71,14 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_health_indicators_title" >
+                app:layout_constraintTop_toBottomOf="@id/tv_health_indicators_title">
 
                 <TextView
+                    android:id="@+id/tv_indicator_label"
+                    style="@style/IndicatorLabelStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    style="@style/IndicatorLabelStyle"
                     android:text="Indicator label" />
 
 
@@ -84,10 +86,9 @@
                     android:id="@+id/progressIndicatorView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    />
+                    android:layout_weight="1" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

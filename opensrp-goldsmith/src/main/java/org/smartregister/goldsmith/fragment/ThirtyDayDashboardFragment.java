@@ -111,13 +111,22 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
     }
 
     public void updateTasksComplete(ViewGroup viewGroup) {
-        int percentage = (int) ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
-                ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TASKS_COMPLETED);
         TextView tvPercentComplete = viewGroup.findViewById(R.id.tv_percentage);
+        TextView tvTasksCompleted = viewGroup.findViewById(R.id.tv_tasks_completed);
+        float tasksCompletedCount = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
+                ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TASKS_COMPLETED);
+        float pendingTasksCount = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
+                ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TASKS_READY);
+        float totalTaskCount = tasksCompletedCount + pendingTasksCount;
+        int percentage = (int) ((tasksCompletedCount / totalTaskCount) * 100);
+
         tvPercentComplete.setText(MessageFormat.format(viewGroup.getContext().getString(R.string.performance_completed_percentage), percentage));
+        tvTasksCompleted.setText(MessageFormat.format(viewGroup.getContext().getString(R.string.performance_completed_fraction), tasksCompletedCount, totalTaskCount));
     }
 
     public void updateTotalPregnancies(ViewGroup viewGroup) {
+        TextView indicatorLabel = viewGroup.findViewById(R.id.tv_indicator_label);
+        indicatorLabel.setText(viewGroup.getContext().getString(R.string.pregnancies_registered_last_30_label));
         float count = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(), ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS);
         double percentage = (count / ReportingConstants.ProgressTargets.PREGNANCY_REGISTRATION_TARGET) * 100;
         ProgressIndicatorView progressWidget = viewGroup.findViewById(R.id.progressIndicatorView);
