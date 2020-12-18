@@ -6,25 +6,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.AsyncTaskLoader;
-import androidx.loader.content.Loader;
 
+import org.jetbrains.annotations.NotNull;
 import org.smartregister.goldsmith.R;
-import org.smartregister.goldsmith.presenter.DashboardFragmentPresenter;
-import org.smartregister.reporting.contract.ReportContract;
+import org.smartregister.goldsmith.contract.GoldsmithReportingContract;
+import org.smartregister.goldsmith.presenter.MyPerformanceFragmentPresenter;
+import org.smartregister.goldsmith.util.ReportingConstants;
 import org.smartregister.reporting.domain.IndicatorTally;
+import org.smartregister.reporting.util.ReportingUtil;
+import org.smartregister.reporting.view.ProgressIndicatorView;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
-public class ThirtyDayDashboardFragment extends Fragment implements ReportContract.View, LoaderManager.LoaderCallbacks<List<Map<String, IndicatorTally>>> {
+public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithReportingContract.View {
 
-    private static ReportContract.Presenter presenter;
+    private static GoldsmithReportingContract.Presenter presenter;
     private ViewGroup visualizationsViewGroup;
     private ProgressBar progressBar;
     private List<Map<String, IndicatorTally>> indicatorTallies;
@@ -38,15 +41,27 @@ public class ThirtyDayDashboardFragment extends Fragment implements ReportContra
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NotNull Context context) {
         super.onAttach(context);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new DashboardFragmentPresenter(this);
-        loadIndicatorTallies();
+    }
+
+    @Override
+    public GoldsmithReportingContract.Presenter getPresenter() {
+        if (presenter == null) {
+            presenter = new MyPerformanceFragmentPresenter(this);
+        }
+        return presenter;
+    }
+
+    @Override
+    public void showProgressBar(boolean show) {
+        if (progressBar != null)
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -54,7 +69,8 @@ public class ThirtyDayDashboardFragment extends Fragment implements ReportContra
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_thirty_day_dashboard, container, false);
         progressBar = rootView.findViewById(R.id.progress_bar);
-        // visualizationsViewGroup = rootView.findViewById(R.id.dashboard_content);
+        visualizationsViewGroup = rootView.findViewById(R.id.indicator_dashboard);
+        getPresenter().fetchIndicatorDailyTallies();
         return rootView;
     }
 
@@ -68,40 +84,22 @@ public class ThirtyDayDashboardFragment extends Fragment implements ReportContra
         super.onDetach();
     }
 
-    public void loadIndicatorTallies() {
-        getLoaderManager().initLoader(0, null, this).forceLoad();
-    }
-
-    @NonNull
     @Override
-    public Loader<List<Map<String, IndicatorTally>>> onCreateLoader(int i, @Nullable Bundle bundle) {
-        return new ReportIndicatorsLoader(getContext());
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<List<Map<String, IndicatorTally>>> loader, List<Map<String, IndicatorTally>> indicatorTallies) {
-        setIndicatorTallies(indicatorTallies);
-        refreshUI();
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<List<Map<String, IndicatorTally>>> loader) {
-        // Clean up or release resources
+    public void onStop() {
+        super.onStop();
+        presenter = null;
     }
 
     @Override
     public void refreshUI() {
         buildVisualization(visualizationsViewGroup);
-        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void buildVisualization(ViewGroup viewGroup) {
-        // TODO -> Show GS report view
-
-        //Refresh view with new indicators
-        // viewGroup.removeAllViews();
-        // ChwReport.showIndicatorVisualisations(viewGroup, indicatorTallies, getActivity());
+        updateTasksComplete(viewGroup);
+        // TODO -> Refactor this and preferably use RecyclerView in v2
+        updateTotalPregnancies(viewGroup);
     }
 
     public List<Map<String, IndicatorTally>> getIndicatorTallies() {
@@ -112,16 +110,21 @@ public class ThirtyDayDashboardFragment extends Fragment implements ReportContra
         this.indicatorTallies = indicatorTallies;
     }
 
-    private static class ReportIndicatorsLoader extends AsyncTaskLoader<List<Map<String, IndicatorTally>>> {
+    public void updateTasksComplete(ViewGroup viewGroup) {
+        int percentage = (int) ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
+                ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TASKS_COMPLETED);
+        TextView tvPercentComplete = viewGroup.findViewById(R.id.tv_percentage);
+        tvPercentComplete.setText(MessageFormat.format(viewGroup.getContext().getString(R.string.performance_completed_percentage), percentage));
+    }
 
-        private ReportIndicatorsLoader(Context context) {
-            super(context);
-        }
-
-        @Nullable
-        @Override
-        public List<Map<String, IndicatorTally>> loadInBackground() {
-            return presenter.fetchIndicatorsDailytallies();
-        }
+    public void updateTotalPregnancies(ViewGroup viewGroup) {
+        float count = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(), ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS);
+        double percentage = (count / ReportingConstants.ProgressTargets.PREGNANCY_REGISTRATION_TARGET) * 100;
+        ProgressIndicatorView progressWidget = viewGroup.findViewById(R.id.progressIndicatorView);
+        progressWidget.setProgress((int) percentage);
+        progressWidget.setTitle("");
+        progressWidget.setProgressDrawable(R.drawable.progress_indicator_bg);
+        progressWidget.setProgressBarForegroundColor(viewGroup.getResources().getColor(R.color.progressbar_green));
+        progressWidget.setProgressBarBackgroundColor(viewGroup.getResources().getColor(R.color.progressbar_red));
     }
 }
