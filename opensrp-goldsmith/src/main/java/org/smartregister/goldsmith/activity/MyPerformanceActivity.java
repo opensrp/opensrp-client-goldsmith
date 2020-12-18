@@ -18,19 +18,15 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 import org.smartregister.chw.core.job.ChwIndicatorGeneratingJob;
-import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.ThirtyDayDashboardFragment;
 import org.smartregister.goldsmith.fragment.ThreeMonthDashboardFragment;
 import org.smartregister.reporting.domain.TallyStatus;
 import org.smartregister.reporting.event.IndicatorTallyEvent;
-import org.smartregister.reporting.job.RecurringIndicatorGeneratingJob;
 
-import timber.log.Timber;
 
 public class MyPerformanceActivity extends AppCompatActivity {
 
-    private static final String REPORT_LAST_PROCESSED_DATE = "REPORT_LAST_PROCESSED_DATE";
     private ViewPager mViewPager;
 
     public void onResume() {
@@ -59,6 +55,7 @@ public class MyPerformanceActivity extends AppCompatActivity {
         }
     }
 
+    // TODO -> Update this to  ViewPager2 & FragmentStateAdapter
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -122,12 +119,12 @@ public class MyPerformanceActivity extends AppCompatActivity {
     /**
      * Refresh the indicator data by scheduling the IndicatorGeneratingJob immediately
      */
-    public void refreshIndicatorData() {
+    /*public void refreshIndicatorData() {
         // Compute everything afresh. Last processed date is set to null to avoid messing with the processing timeline
         ChwApplication.getInstance().getContext().allSharedPreferences().savePreference(REPORT_LAST_PROCESSED_DATE, null);
         RecurringIndicatorGeneratingJob.scheduleJobImmediately(RecurringIndicatorGeneratingJob.TAG);
         Timber.d("IndicatorGeneratingJob scheduled immediately to compute latest counts...");
         Toast.makeText(getApplicationContext(), getString(R.string.indicators_updating), Toast.LENGTH_LONG).show();
-    }
+    }*/
 
 }

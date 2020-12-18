@@ -6,4 +6,8 @@ public class ReportingConstants {
         public static String COUNT_TASKS_COMPLETED = "total_tasks_completed_last_30_days";
         public static String COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS = "total_preg_last_30_days";
     }
+
+    public static class ProgressTargets {
+        public static int PREGNANCY_REGISTRATION_TARGET = 4; // Todo -> How can the supervisor set this?
+    }
 }

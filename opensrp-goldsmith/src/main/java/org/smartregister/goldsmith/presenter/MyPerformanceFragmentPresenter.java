@@ -21,7 +21,8 @@ public class MyPerformanceFragmentPresenter implements GoldsmithReportingContrac
 
     @Override
     public void fetchIndicatorDailyTallies() {
-        getView().showProgressBar(true);
+        if (getView() != null)
+            getView().showProgressBar(true);
         interactor.fetchIndicatorDailyTallies(this);
     }
 
@@ -34,8 +35,10 @@ public class MyPerformanceFragmentPresenter implements GoldsmithReportingContrac
 
     @Override
     public void onTalliesFetched(List<Map<String, IndicatorTally>> dailyTallies) {
-        getView().setIndicatorTallies(dailyTallies);
-        getView().refreshUI();
-        getView().showProgressBar(false);
+        if (getView() != null) {
+            getView().setIndicatorTallies(dailyTallies);
+            getView().refreshUI();
+            getView().showProgressBar(false);
+        }
     }
 }
