@@ -21,6 +21,7 @@ public class Constants extends CoreConstants {
     public interface Client {
         String PHONE_NUMBER = "phone_number";
         String FIRST_NAME = "first_name";
+        String LAST_NAME = "last_name";
     }
 
     public static class IntentKeys {

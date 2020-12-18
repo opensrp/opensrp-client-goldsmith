@@ -57,6 +57,13 @@
         "type": "hidden"
       },
       {
+        "key": "last_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "last_name",
+        "type": "hidden"
+      },
+      {
         "key": "last_menstrual_period",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
