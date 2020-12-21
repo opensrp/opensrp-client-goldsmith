@@ -64,8 +64,9 @@ public class AncFormProcessor implements ModuleFormProcessor {
     }
 
     @Override
-    public JSONObject getFormAsJson(@NonNull JSONObject form, @NonNull String formName, @NonNull String entityId,
-                                    @NonNull String currentLocationId, @Nullable HashMap<String, String> injectedFieldValues) throws JSONException {
+    public JSONObject getFormAsJson(@NonNull JSONObject form, @NonNull String formName,
+                                    @NonNull String entityId, @NonNull String currentLocationId,
+                                    @Nullable HashMap<String, String> injectedFieldValues) throws JSONException {
         form.getJSONObject(METADATA).put(ENCOUNTER_LOCATION, currentLocationId);
         form.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, entityId);
 
