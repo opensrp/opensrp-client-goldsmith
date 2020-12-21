@@ -1,5 +1,6 @@
 package org.smartregister.goldsmith.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -25,17 +26,17 @@ public class RegisterSelectDialogOptionModel implements DialogOptionModel {
     }
 
     @Override
-    public void onDialogOptionSelection(DialogOption option, Object tag) {
+    public void onDialogOptionSelection(Activity activity, DialogOption option, Object tag) {
         String optionName = option.name();
         switch (optionName) {
             case Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES:
-                loadRegister(Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES);
+                loadRegister(Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES, activity);
                 break;
             case Constants.RegisterViewConstants.ModuleOptions.ANC:
-                loadRegister(Constants.RegisterViewConstants.ModuleOptions.ANC);
+                loadRegister(Constants.RegisterViewConstants.ModuleOptions.ANC, activity);
                 break;
             case Constants.RegisterViewConstants.ModuleOptions.PNC:
-                loadRegister(Constants.RegisterViewConstants.ModuleOptions.PNC);
+                loadRegister(Constants.RegisterViewConstants.ModuleOptions.PNC, activity);
                 break;
             default:
                 // Do nothing
@@ -43,12 +44,12 @@ public class RegisterSelectDialogOptionModel implements DialogOptionModel {
         }
     }
 
-    private void loadRegister(String moduleName) {
-        Context context = ChwApplication.getInstance().getApplicationContext();
+    private void loadRegister(String moduleName, Activity activity) {
         CoreLibrary.getInstance().setCurrentModule(moduleName);
-        Intent intent = new Intent(context, BaseConfigurableRegisterActivity.class);
+        Intent intent = new Intent(activity, BaseConfigurableRegisterActivity.class);
         intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, moduleName);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        context.startActivity(intent);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }
