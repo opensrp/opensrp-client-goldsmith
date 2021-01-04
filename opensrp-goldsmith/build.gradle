@@ -171,7 +171,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 
-    api ('org.smartregister:opensrp-client-core:3.1.0.10-GS-PREVIEW-SNAPSHOT'){
+    implementation(project(':opensrp-app')) {
+        // api ('org.smartregister:opensrp-client-core:3.1.0.10-GS-PREVIEW-SNAPSHOT'){
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
@@ -179,7 +180,7 @@ dependencies {
 
     //` Use the opensrp-client-tasking branch -> goldsmith-merge-map-stuff
     //implementation (project(':opensrp-tasking')) {
-    implementation ('org.smartregister:opensrp-client-tasking:0.0.3.6-GS-PREVIEW-SNAPSHOT') {
+    implementation('org.smartregister:opensrp-client-tasking:0.0.3.6-GS-PREVIEW-SNAPSHOT') {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'io.ona.rdt-capture'
@@ -198,7 +199,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
     }
 
-    implementation ('org.smartregister:opensrp-plan-evaluator:0.1.6.4-GS-SNAPSHOT'){
+    implementation('org.smartregister:opensrp-plan-evaluator:0.1.6.4-GS-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
     }
