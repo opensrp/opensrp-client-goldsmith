@@ -39,6 +39,8 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
 
     private String baseEntityId;
     private CommonPersonObjectClient client;
+    private String gender;
+    private int age;
 
     @Override
     protected void initializePresenter() {
@@ -49,8 +51,8 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         String primaryCaregiver = getIntent().getExtras().getString(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         String villageTown = getIntent().getExtras().getString(Constants.INTENT_KEY.VILLAGE_TOWN);
         baseEntityId = client.getColumnmaps().get(Constants.INTENT_KEY.BASE_ENTITY_ID);
-        String gender = client.getColumnmaps().get(IntentKeys.GENDER);
-        int age = Years.yearsBetween(new DateTime(client.getColumnmaps().get(IntentKeys.DOB)), DateTime.now()).getYears();
+        gender = client.getColumnmaps().get(IntentKeys.GENDER);
+        age = Years.yearsBetween(new DateTime(client.getColumnmaps().get(IntentKeys.DOB)), DateTime.now()).getYears();
         presenter = new FamilyOtherMemberActivityPresenter(this, new BaseFamilyOtherMemberProfileActivityModel(),
                 null, familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
     }
@@ -75,7 +77,7 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
             addMember.setVisible(false);
         }
         getMenuInflater().inflate(org.smartregister.chw.core.R.menu.other_member_menu, menu);
-        if (showAncRegistration()) {
+        if (shouldShowAncRegistration()) {
             menu.findItem(R.id.action_anc_registration).setVisible(true);
         }
         return true;
@@ -111,10 +113,8 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         context.startActivity(intent);
     }
 
-    private boolean showAncRegistration() {
-       /* String gender = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.GENDER, false);
-        return (!presenter().isWomanAlreadyRegisteredOnAnc(client)) && isOfReproductiveAge(client, gender) && "Female".equalsIgnoreCase(gender);*/
-        return true;
+    private boolean shouldShowAncRegistration() {
+        return (!presenter().isWomanAlreadyRegisteredOnAnc(client)) && isOfReproductiveAge(client, gender) && "Female".equalsIgnoreCase(gender);
     }
 
     public boolean isOfReproductiveAge(CommonPersonObjectClient commonPersonObject, String gender) {
@@ -126,7 +126,6 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
             return false;
         }
     }
-
 
     public FamilyOtherMemberActivityPresenter presenter() {
         return (FamilyOtherMemberActivityPresenter) presenter;
