@@ -54,7 +54,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
         List<EventClient> childrenEventClientList = getChildrenEventClients(jsonString);
 
         HashMap<Client, List<Event>> clientEventHashMap = getEventClientHashMap(childrenEventClientList);
-        clientEventHashMap.put(pncRegistrationEventClient.getClient(), eventList); // Add PNC E,C
+        clientEventHashMap.put(pncRegistrationEventClient.getClient(), eventList);
 
         return clientEventHashMap;
     }
