@@ -1,12 +1,10 @@
 package org.smartregister.goldsmith.model;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
-import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.domain.RegisterSelectDialogOption;
 import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.view.activity.BaseConfigurableRegisterActivity;

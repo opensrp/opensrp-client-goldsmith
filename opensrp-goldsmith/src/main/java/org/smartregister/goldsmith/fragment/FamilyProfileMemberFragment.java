@@ -14,7 +14,6 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.FamilyOtherMemberProfileActivity;
 
-
 import java.util.HashMap;
 
 public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment {

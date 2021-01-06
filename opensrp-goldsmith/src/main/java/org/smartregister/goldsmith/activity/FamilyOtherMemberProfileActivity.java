@@ -11,28 +11,23 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-
 import org.joda.time.DateTime;
 import org.joda.time.Years;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
-
 import org.smartregister.chw.core.contract.FamilyOtherMemberProfileExtendedContract;
 import org.smartregister.chw.core.fragment.CoreFamilyOtherMemberProfileFragment;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-
 import org.smartregister.family.activity.BaseFamilyOtherMemberProfileActivity;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
 import org.smartregister.family.util.Constants;
-
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.FamilyOtherMemberProfileFragment;
 import org.smartregister.goldsmith.presenter.FamilyOtherMemberActivityPresenter;
 import org.smartregister.goldsmith.util.Constants.IntentKeys;
-
 import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 
 public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfileActivity implements FamilyOtherMemberProfileExtendedContract.View {
@@ -40,7 +35,6 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
     private String baseEntityId;
     private CommonPersonObjectClient client;
     private String gender;
-    private int age;
 
     @Override
     protected void initializePresenter() {
@@ -52,7 +46,7 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         String villageTown = getIntent().getExtras().getString(Constants.INTENT_KEY.VILLAGE_TOWN);
         baseEntityId = client.getColumnmaps().get(Constants.INTENT_KEY.BASE_ENTITY_ID);
         gender = client.getColumnmaps().get(IntentKeys.GENDER);
-        age = Years.yearsBetween(new DateTime(client.getColumnmaps().get(IntentKeys.DOB)), DateTime.now()).getYears();
+        int age = Years.yearsBetween(new DateTime(client.getColumnmaps().get(IntentKeys.DOB)), DateTime.now()).getYears();
         presenter = new FamilyOtherMemberActivityPresenter(this, new BaseFamilyOtherMemberProfileActivityModel(),
                 null, familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
     }
