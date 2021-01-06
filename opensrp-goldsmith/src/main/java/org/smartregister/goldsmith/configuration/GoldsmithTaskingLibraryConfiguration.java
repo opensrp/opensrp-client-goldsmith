@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +23,9 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.chw.anc.activity.BaseAncHomeVisitActivity;
 import org.smartregister.chw.anc.domain.MemberObject;
+import org.smartregister.chw.core.dao.AncDao;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Location;
@@ -30,6 +33,7 @@ import org.smartregister.domain.PlanDefinition;
 import org.smartregister.domain.Task;
 import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.activity.AncHomeVisitActivity;
 import org.smartregister.goldsmith.activity.PncHomeVisitActivity;
 import org.smartregister.tasking.activity.TaskingHomeActivity;
 import org.smartregister.tasking.adapter.TaskRegisterAdapter;
@@ -395,33 +399,51 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public void onTaskRegisterItemClicked(@NonNull Activity activity, @NonNull TaskDetails taskDetails) {
-        CommonPersonObjectClient client = taskDetails.getClient();
-        client.setColumnmaps(client.getDetails());
+        String taskCode = taskDetails.getTaskCode().toLowerCase();
+        if (taskCode.startsWith("pnc day")) {
+            CommonPersonObjectClient client = taskDetails.getClient();
+            client.setColumnmaps(client.getDetails());
 
-        // Fetch the mother details here from ec_family_member & pass this below
-        // to enable showing the names on the home visit task page & child tasks also
-        String relationships = client.getDetails().get("relationships");
-        int motherIdPos = relationships.indexOf("mother=[") + "mother=[".length();
-        String motherId = relationships.substring(motherIdPos, motherIdPos + 36);
+            // Fetch the mother details here from ec_family_member & pass this below
+            // to enable showing the names on the home visit task page & child tasks also
+            String relationships = client.getDetails().get("relationships");
+            int motherIdPos = relationships.indexOf("mother=[") + "mother=[".length();
+            String motherId = relationships.substring(motherIdPos, motherIdPos + 36);
         /*CommonPersonObjectClient motherClient = CoreLibrary.getInstance().context().getEventClientRepository().fetchCommonPersonObjectClientByBaseEntityId(motherId);
         motherClient.setColumnmaps(motherClient.getDetails());*/
 
-        CommonPersonObjectClient guardianClient = null;
-        CommonPersonObjectClient motherClientMember = CoreLibrary.getInstance().context().getEventClientRepository()
-                .fetchCommonPersonObjectClientByBaseEntityId("ec_family_member", motherId, null);
-        guardianClient = motherClientMember;
+            CommonPersonObjectClient guardianClient = null;
+            CommonPersonObjectClient motherClientMember = CoreLibrary.getInstance().context().getEventClientRepository()
+                    .fetchCommonPersonObjectClientByBaseEntityId("ec_family_member", motherId, null);
+            guardianClient = motherClientMember;
 
-        if (guardianClient == null || guardianClient.getColumnmaps() == null) {
-            CommonPersonObjectClient family = CoreLibrary.getInstance().context().getEventClientRepository()
-                    .fetchCommonPersonObjectClientByBaseEntityId("ec_family", motherId, null);
-            guardianClient = family;
-        }
+            if (guardianClient == null || guardianClient.getColumnmaps() == null) {
+                CommonPersonObjectClient family = CoreLibrary.getInstance().context().getEventClientRepository()
+                        .fetchCommonPersonObjectClientByBaseEntityId("ec_family", motherId, null);
+                guardianClient = family;
+            }
 
-        if (guardianClient != null && guardianClient.getColumnmaps() != null) {
-            PncHomeVisitActivity.startMe(activity, new MemberObject(guardianClient), false);
-        } else {
-            Toast.makeText(activity, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
-                    .show();
+            if (guardianClient != null && guardianClient.getColumnmaps() != null) {
+                PncHomeVisitActivity.startMe(activity, AncDao.getMember(client.getCaseId()), false);
+            } else {
+                Toast.makeText(activity, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
+                        .show();
+            }
+        } else if (taskCode.startsWith("anc contact")) {
+            CommonPersonObjectClient client = taskDetails.getClient();
+            client.setColumnmaps(client.getDetails());
+
+            String baseEntityId = client.getCaseId();
+            if (TextUtils.isEmpty(baseEntityId)) {
+                baseEntityId = client.getDetails().get("baseEntityId");
+            }
+
+            Intent intent = new Intent(activity, BaseAncHomeVisitActivity.class);
+            intent.putExtra("MemberObject", new MemberObject(client));
+            intent.putExtra("editMode", false);
+            //activity.startActivity(intent);
+
+            AncHomeVisitActivity.startMe(activity, baseEntityId, false);
         }
     }
 
