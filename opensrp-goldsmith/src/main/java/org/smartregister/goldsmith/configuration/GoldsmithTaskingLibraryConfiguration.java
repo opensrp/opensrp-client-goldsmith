@@ -338,6 +338,33 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
             }
 
+
+            if (taskTitle != null && taskTitle.toLowerCase().startsWith("anc contact")) {
+
+                int iconResource = -1;
+                switch (taskDetails.getPriority()) {
+                    case 0:
+                        iconResource = R.drawable.anc_04;
+                        break;
+
+                    case 1:
+                        iconResource = R.drawable.anc_03;
+                        break;
+
+                    case 2:
+                        iconResource = R.drawable.anc_02_offset;
+                        break;
+
+                    case 3:
+                        iconResource = R.drawable.anc_01_offset;
+                }
+
+                if (iconResource != -1) {
+                    taskViewHolder.setTaskIcon(iconResource);
+                }
+            }
+
+            // TODO: Fix dob for birth approximations
             String dob = taskDetails.getClient().getDetails().get("birthdate");
             /*if (TextUtils.isEmpty(dob)) {
                 dob = taskDetails.getClient().getDetails().get("dob");
