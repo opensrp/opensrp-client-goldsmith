@@ -48,7 +48,7 @@
             android:name=".activity.FamilyWizardFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionBarAndTitle"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <activity

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/goldsmith_blue"
         android:paddingTop="8dp"
-        android:theme="@style/AppThem.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
