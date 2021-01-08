@@ -108,6 +108,9 @@
           "json_mapping": {
             "field": "entityType"
           }
+        },
+        {
+          "column_name": "structure_uuid"
         }
       ]
     },
