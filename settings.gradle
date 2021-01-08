@@ -2,6 +2,6 @@ rootProject.name = 'opensrp-client-goldsmith'
 include ':opensrp-goldsmith'
 
 
-include ':opensrp-app'
-project(":opensrp-app").projectDir = new File("../opensrp-client-core/opensrp-app")
+/*include ':opensrp-app'
+project(":opensrp-app").projectDir = new File("../opensrp-client-core/opensrp-app")*/
 
