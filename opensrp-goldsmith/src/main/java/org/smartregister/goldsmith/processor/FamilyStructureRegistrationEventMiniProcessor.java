@@ -29,11 +29,11 @@ import java.util.List;
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 08-01-2021.
  */
-public class FamilyStructureRegistrationEventProcessor implements MiniClientProcessorForJava {
+public class FamilyStructureRegistrationEventMiniProcessor implements MiniClientProcessorForJava {
 
     public HashSet<String> eventTypes = new HashSet<>();
 
-    public FamilyStructureRegistrationEventProcessor() {
+    public FamilyStructureRegistrationEventMiniProcessor() {
         eventTypes.add(Constants.GoldsmithEventTypes.REGISTER_FAMILY_STRUCTURE_EVENT);
     }
 

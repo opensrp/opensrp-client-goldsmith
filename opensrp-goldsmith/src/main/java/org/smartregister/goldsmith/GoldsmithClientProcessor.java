@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.Obs;
 import org.smartregister.domain.db.EventClient;
-import org.smartregister.goldsmith.processor.FamilyStructureRegistrationEventProcessor;
+import org.smartregister.goldsmith.processor.FamilyStructureRegistrationEventMiniProcessor;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.view.activity.DrishtiApplication;
@@ -29,7 +29,7 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
     public GoldsmithClientProcessor(Context context) {
         super(context);
 
-        addMiniProcessors(new FamilyStructureRegistrationEventProcessor());
+        addMiniProcessors(new FamilyStructureRegistrationEventMiniProcessor());
     }
 
     public static ClientProcessorForJava getInstance(Context context) {
