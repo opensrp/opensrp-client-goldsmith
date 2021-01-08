@@ -135,11 +135,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "163277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_data_type": "text",
-        "type": "gps",
-        "v_required": {
-          "value": "true",
-          "err": "Please add a GPS"
-        }
+        "type": "gps"
       },
       {
         "key": "spacer",
