@@ -12,6 +12,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.JsonFormUtils;
 import org.smartregister.clientandeventmodel.Client;
@@ -21,6 +22,7 @@ import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.sync.helper.ECSyncHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ import static org.smartregister.goldsmith.util.SampleAppJsonFormUtils.populateIn
 import static org.smartregister.util.JsonFormUtils.ENCOUNTER_LOCATION;
 
 public class AncFormProcessor implements ModuleFormProcessor {
+
     @Override
     public HashMap<Client, List<Event>> extractEventClient(@NonNull String jsonString, @Nullable Intent data, @Nullable FormTag formTag) throws JSONException {
 
@@ -50,6 +53,15 @@ public class AncFormProcessor implements ModuleFormProcessor {
 
         AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
         EventClient registrationEventClient = JsonFormUtils.processRegistrationForm(allSharedPreferences, jsonString, org.smartregister.chw.anc.util.Constants.TABLES.ANC_MEMBERS);
+
+        // TODO: Implement a merge client that prioritises non-null values over empty or null values in other processors. !NOT THIS ONE
+        // Some empty values might be the actual client updates
+        if (registrationEventClient.getClient() != null) {
+            Client originalClient = retrieveOriginalClient(registrationEventClient.getClient().getBaseEntityId());
+            if (originalClient != null) {
+                registrationEventClient.setClient(originalClient);
+            }
+        }
 
         HashMap<Client, List<Event>> clientEventHashMap = new HashMap<>();
         ArrayList<Event> eventList = new ArrayList<>();
@@ -86,5 +98,12 @@ public class AncFormProcessor implements ModuleFormProcessor {
     @Override
     public boolean saveFormImages(Client client, List<Event> list, String s) {
         return false;
+    }
+
+    public Client retrieveOriginalClient(String baseEntityId) {
+        ECSyncHelper ecSyncHelper = ECSyncHelper.getInstance(CoreLibrary.getInstance().context().applicationContext());
+        JSONObject originalClientJsonObject = ecSyncHelper.getClient(baseEntityId);
+
+        return org.smartregister.util.JsonFormUtils.gson.fromJson(originalClientJsonObject.toString(), Client.class);
     }
 }

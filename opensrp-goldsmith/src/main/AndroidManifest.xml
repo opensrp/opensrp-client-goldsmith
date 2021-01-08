@@ -92,8 +92,7 @@
         <service android:name="org.smartregister.service.ImageUploadSyncService" />
         <service android:name="org.smartregister.tasking.sync.LocationTaskIntentService" />
 
-
-        <activity android:name="org.smartregister.chw.pnc.activity.BasePncHomeVisitActivity" />
+        <activity android:name=".activity.AncHomeVisitActivity" />
         <activity android:name=".activity.PncHomeVisitActivity" />
     </application>
 
