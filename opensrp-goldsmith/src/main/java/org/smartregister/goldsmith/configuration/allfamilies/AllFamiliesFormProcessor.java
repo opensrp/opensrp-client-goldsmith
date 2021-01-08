@@ -1,15 +1,22 @@
 package org.smartregister.goldsmith.configuration.allfamilies;
 
 import android.content.Intent;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cocoahero.android.geojson.Feature;
+import com.cocoahero.android.geojson.Point;
+
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.domain.FamilyEventClient;
@@ -55,6 +62,86 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
 
         familyEventClientList.add(familyEventClient);
         familyEventClientList.add(headEventClient);
+
+
+        // Add a Register Family Structure
+        String fieldValue  = org.smartregister.util.JsonFormUtils.getFieldValue(jsonString, "gps");
+        if (!TextUtils.isEmpty(fieldValue)) {
+            String[] coordinates = fieldValue.split(" ");
+            if (coordinates.length > 1 && !TextUtils.isEmpty(coordinates[0]) && !TextUtils.isEmpty(coordinates[1]) ) {
+                Event registerFamilyStructure = JsonFormUtils.createEvent(new JSONArray(), new JSONObject(), JsonFormUtils.formTag(CoreLibrary.getInstance().context().allSharedPreferences()), familyClient.getBaseEntityId(), org.smartregister.goldsmith.util.Constants.GoldsmithEventTypes.REGISTER_FAMILY_STRUCTURE_EVENT, "structure");
+
+                // uuid obs
+                Obs uuidObservation = new Obs();
+                uuidObservation.setFieldType("formSubmissionField");
+                uuidObservation.setFieldDataType("text");
+                uuidObservation.setFieldCode("");
+                uuidObservation.setParentCode("");
+                uuidObservation.setHumanReadableValues(new ArrayList<>());
+
+                uuidObservation.setFormSubmissionField("uuid");
+                ArrayList<Object> values = new ArrayList<>();
+                values.add(JsonFormUtils.generateRandomUUIDString());
+                uuidObservation.setValues(values);
+
+                /// latitude Obs
+                Obs latitudeObservation = new Obs();
+                latitudeObservation.setFieldType("formSubmissionField");
+                latitudeObservation.setFieldDataType("text");
+                latitudeObservation.setFieldCode("");
+                latitudeObservation.setParentCode("");
+                latitudeObservation.setHumanReadableValues(new ArrayList<>());
+
+                latitudeObservation.setFormSubmissionField("latitude");
+                ArrayList<Object> latitudeValues = new ArrayList<>();
+                latitudeValues.add(coordinates[0]);
+                latitudeObservation.setValues(latitudeValues);
+
+
+                // longitude Obs
+                Obs longitudeObservation = new Obs();
+                longitudeObservation.setFieldType("formSubmissionField");
+                longitudeObservation.setFieldDataType("text");
+                longitudeObservation.setFieldCode("");
+                longitudeObservation.setParentCode("");
+                longitudeObservation.setHumanReadableValues(new ArrayList<>());
+
+                longitudeObservation.setFormSubmissionField("longitude");
+                ArrayList<Object> longitudeValues = new ArrayList<>();
+                longitudeValues.add(coordinates[1]);
+                longitudeObservation.setValues(longitudeValues);
+
+                // geojson Obs
+                Obs geojsonObservation = new Obs();
+                geojsonObservation.setFieldType("formSubmissionField");
+                geojsonObservation.setFieldDataType("text");
+                geojsonObservation.setFieldCode("");
+                geojsonObservation.setParentCode("");
+                geojsonObservation.setHumanReadableValues(new ArrayList<>());
+
+                Point structurePoint = new Point(Double.parseDouble(coordinates[0]), Double.parseDouble(coordinates[1]));
+                Feature feature = new Feature(structurePoint);
+
+                JSONObject properties = new JSONObject();
+                properties.put("uuid", uuidObservation.getValues().get(0));
+
+                feature.setProperties(properties);
+
+                geojsonObservation.setFormSubmissionField("geojson");
+                ArrayList<Object> geojsonValues = new ArrayList<>();
+                geojsonValues.add(feature.toJSON().toString());
+                geojsonObservation.setValues(geojsonValues);
+
+                registerFamilyStructure.addObs(uuidObservation);
+                registerFamilyStructure.addObs(latitudeObservation);
+                registerFamilyStructure.addObs(longitudeObservation);
+                registerFamilyStructure.addObs(geojsonObservation);
+
+                familyEventClientList.add(new FamilyEventClient(familyClient, registerFamilyStructure));
+            }
+        }
+
+
         return getEventClientHashMap(familyEventClientList);
     }
 
