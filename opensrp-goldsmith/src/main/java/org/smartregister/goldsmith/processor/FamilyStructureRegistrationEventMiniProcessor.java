@@ -82,6 +82,8 @@ public class FamilyStructureRegistrationEventMiniProcessor implements MiniClient
                 if (key.equals("uuid")) {
                     locationUUID = properties.getString("uuid");
                     locationProperties.setUid(locationUUID);
+                } else if (key.equals("id")) {
+                    location.setId(properties.getString("id"));
                 } else {
                     Object value = properties.get(key);
                     customProperties.put(key, JsonFormUtils.gson.toJson(value));

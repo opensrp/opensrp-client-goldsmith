@@ -24,6 +24,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.util.SampleAppJsonFormUtils;
+import org.smartregister.repository.AllSharedPreferences;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,11 +66,41 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
 
 
         // Add a Register Family Structure
+        FamilyEventClient familyStructureRegistrationEventClient = generateStructureRegistrationEvent(jsonString, familyClient);
+        if (familyStructureRegistrationEventClient != null) {
+            familyEventClientList.add(familyStructureRegistrationEventClient);
+        }
+
+
+        return getEventClientHashMap(familyEventClientList);
+    }
+
+    protected FamilyEventClient generateStructureRegistrationEvent(@NonNull String jsonString, Client familyClient) throws JSONException {
         String fieldValue  = org.smartregister.util.JsonFormUtils.getFieldValue(jsonString, "gps");
         if (!TextUtils.isEmpty(fieldValue)) {
             String[] coordinates = fieldValue.split(" ");
             if (coordinates.length > 1 && !TextUtils.isEmpty(coordinates[0]) && !TextUtils.isEmpty(coordinates[1]) ) {
-                Event registerFamilyStructure = JsonFormUtils.createEvent(new JSONArray(), new JSONObject(), JsonFormUtils.formTag(CoreLibrary.getInstance().context().allSharedPreferences()), familyClient.getBaseEntityId(), org.smartregister.goldsmith.util.Constants.GoldsmithEventTypes.REGISTER_FAMILY_STRUCTURE_EVENT, "structure");
+                AllSharedPreferences allSharedPreferences = CoreLibrary.getInstance().context().allSharedPreferences();
+                FormTag formTag = JsonFormUtils.formTag(allSharedPreferences);
+                formTag.locationId = allSharedPreferences.fetchUserLocalityId(allSharedPreferences.fetchRegisteredANM());
+                formTag.team = allSharedPreferences.fetchDefaultTeam(allSharedPreferences.fetchRegisteredANM());
+                formTag.teamId = allSharedPreferences.fetchDefaultTeamId(allSharedPreferences.fetchRegisteredANM());
+
+                Event registerFamilyStructure = JsonFormUtils.createEvent(new JSONArray(), new JSONObject(), formTag, familyClient.getBaseEntityId(), org.smartregister.goldsmith.util.Constants.GoldsmithEventTypes.REGISTER_FAMILY_STRUCTURE_EVENT, "structure");
+                String structureId = JsonFormUtils.generateRandomUUIDString();
+
+                // id obs
+                Obs idObservation = new Obs();
+                idObservation.setFieldType("formSubmissionField");
+                idObservation.setFieldDataType("text");
+                idObservation.setFieldCode("");
+                idObservation.setParentCode("");
+                idObservation.setHumanReadableValues(new ArrayList<>());
+
+                idObservation.setFormSubmissionField("id");
+                ArrayList<Object> idValues = new ArrayList<>();
+                idValues.add(structureId);
+                idObservation.setValues(idValues);
 
                 // uuid obs
                 Obs uuidObservation = new Obs();
@@ -81,7 +112,7 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
 
                 uuidObservation.setFormSubmissionField("uuid");
                 ArrayList<Object> values = new ArrayList<>();
-                values.add(JsonFormUtils.generateRandomUUIDString());
+                values.add(structureId);
                 uuidObservation.setValues(values);
 
                 /// latitude Obs
@@ -124,6 +155,7 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
 
                 JSONObject properties = new JSONObject();
                 properties.put("uuid", uuidObservation.getValues().get(0));
+                properties.put("id", idObservation.getValues().get(0));
 
                 feature.setProperties(properties);
 
@@ -132,17 +164,17 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
                 geojsonValues.add(feature.toJSON().toString());
                 geojsonObservation.setValues(geojsonValues);
 
+                registerFamilyStructure.addObs(idObservation);
                 registerFamilyStructure.addObs(uuidObservation);
                 registerFamilyStructure.addObs(latitudeObservation);
                 registerFamilyStructure.addObs(longitudeObservation);
                 registerFamilyStructure.addObs(geojsonObservation);
 
-                familyEventClientList.add(new FamilyEventClient(familyClient, registerFamilyStructure));
+                return new FamilyEventClient(familyClient, registerFamilyStructure);
             }
         }
 
-
-        return getEventClientHashMap(familyEventClientList);
+        return null;
     }
 
     @Override
@@ -187,8 +219,15 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
         HashMap<Client, List<Event>> clientEventHashMap = new HashMap<>();
 
         for (FamilyEventClient familyEventClient: familyEventClients) {
-            ArrayList<Event> eventList = new ArrayList<>();
+            List<Event> eventList = null;
+            if (clientEventHashMap.containsKey(familyEventClient.getClient())) {
+                eventList = clientEventHashMap.get(familyEventClient.getClient());
+            } else {
+                eventList = new ArrayList<>();
+            }
+
             eventList.add(familyEventClient.getEvent());
+
             clientEventHashMap.put(familyEventClient.getClient(), eventList);
         }
 
