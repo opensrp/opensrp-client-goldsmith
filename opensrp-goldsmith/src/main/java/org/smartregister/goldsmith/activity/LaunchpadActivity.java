@@ -1,12 +1,11 @@
 package org.smartregister.goldsmith.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.smartregister.CoreLibrary;
 import org.smartregister.goldsmith.R;

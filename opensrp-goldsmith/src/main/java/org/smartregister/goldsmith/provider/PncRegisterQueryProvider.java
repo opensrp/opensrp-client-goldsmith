@@ -22,7 +22,7 @@ public class PncRegisterQueryProvider extends ModuleRegisterQueryProviderContrac
     @Override
     public String getObjectIdsQuery(@Nullable String filters, @Nullable String mainCondition) {
         if (TextUtils.isEmpty(filters)) {
-            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_pregnancy_outcome_search WHERE  date_removed is NULL AND (entity_type is NULL OR entity_type = 'ec_pregnancy_outcome')) ORDER BY last_interacted_with DESC";
+            return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_pregnancy_outcome_search WHERE  is_closed is 0) ORDER BY last_interacted_with DESC";
         } else {
             return "SELECT object_id FROM (SELECT object_id, last_interacted_with FROM ec_pregnancy_outcome_search WHERE  date_removed is NULL AND (entity_type is NULL OR entity_type = 'ec_pregnancy_outcome') AND PHRASE MATCH '"
                     + filters

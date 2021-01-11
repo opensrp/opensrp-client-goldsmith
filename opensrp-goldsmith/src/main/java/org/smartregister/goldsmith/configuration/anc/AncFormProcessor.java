@@ -12,9 +12,9 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.JsonFormUtils;
-import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.EventClient;
@@ -22,21 +22,19 @@ import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.sync.helper.ECSyncHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID;
 import static org.smartregister.family.util.JsonFormUtils.METADATA;
-import static org.smartregister.goldsmith.util.Constants.Client.FIRST_NAME;
 import static org.smartregister.goldsmith.util.SampleAppJsonFormUtils.populateInjectedFields;
 import static org.smartregister.util.JsonFormUtils.ENCOUNTER_LOCATION;
-import static org.smartregister.util.JsonFormUtils.FIELDS;
-import static org.smartregister.util.JsonFormUtils.STEP1;
 
 public class AncFormProcessor implements ModuleFormProcessor {
+
     @Override
     public HashMap<Client, List<Event>> extractEventClient(@NonNull String jsonString, @Nullable Intent data, @Nullable FormTag formTag) throws JSONException {
 

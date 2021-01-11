@@ -1,8 +1,8 @@
 package org.smartregister.goldsmith.dao;
 
 import org.smartregister.chw.core.domain.Person;
-import org.smartregister.goldsmith.domain.PncBaby;
 import org.smartregister.dao.AbstractDao;
+import org.smartregister.goldsmith.domain.PncBaby;
 
 import java.text.ParseException;
 import java.util.ArrayList;

@@ -26,7 +26,6 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.family.model.BaseFamilyProfileModel;
-
 import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.FamilyProfileMemberFragment;
