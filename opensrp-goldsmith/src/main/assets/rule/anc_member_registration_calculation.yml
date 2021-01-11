@@ -36,7 +36,7 @@ description: last_menstrual_period calculated
 priority: 1
 condition: "true"
 actions:
-  - "calculation = helper.subtractDuration(step1_edd,'280d')"
+  - "calculation = step1_last_menstrual_period_date != '' ? step1_last_menstrual_period_date : helper.subtractDuration(step1_edd,'280d')"
 
 ---
 name: step1_edd_note
