@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.anc.activity.BaseAncHomeVisitActivity;
 import org.smartregister.chw.anc.domain.MemberObject;
-import org.smartregister.chw.core.dao.AncDao;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Location;
@@ -424,7 +423,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
             }
 
             if (guardianClient != null && guardianClient.getColumnmaps() != null) {
-                PncHomeVisitActivity.startMe(activity, AncDao.getMember(client.getCaseId()), false);
+                PncHomeVisitActivity.startMe(activity, new MemberObject(guardianClient), false);
             } else {
                 Toast.makeText(activity, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
                         .show();
