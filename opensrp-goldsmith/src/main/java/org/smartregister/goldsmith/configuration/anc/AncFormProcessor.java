@@ -54,15 +54,6 @@ public class AncFormProcessor implements ModuleFormProcessor {
         AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
         EventClient registrationEventClient = JsonFormUtils.processRegistrationForm(allSharedPreferences, jsonString, org.smartregister.chw.anc.util.Constants.TABLES.ANC_MEMBERS);
 
-        // TODO: Implement a merge client that prioritises non-null values over empty or null values in other processors. !NOT THIS ONE
-        // Some empty values might be the actual client updates
-        if (registrationEventClient.getClient() != null) {
-            Client originalClient = retrieveOriginalClient(registrationEventClient.getClient().getBaseEntityId());
-            if (originalClient != null) {
-                registrationEventClient.setClient(originalClient);
-            }
-        }
-
         HashMap<Client, List<Event>> clientEventHashMap = new HashMap<>();
         ArrayList<Event> eventList = new ArrayList<>();
         eventList.add(registrationEventClient.getEvent());
@@ -98,12 +89,5 @@ public class AncFormProcessor implements ModuleFormProcessor {
     @Override
     public boolean saveFormImages(Client client, List<Event> list, String s) {
         return false;
-    }
-
-    public Client retrieveOriginalClient(String baseEntityId) {
-        ECSyncHelper ecSyncHelper = ECSyncHelper.getInstance(CoreLibrary.getInstance().context().applicationContext());
-        JSONObject originalClientJsonObject = ecSyncHelper.getClient(baseEntityId);
-
-        return org.smartregister.util.JsonFormUtils.gson.fromJson(originalClientJsonObject.toString(), Client.class);
     }
 }
