@@ -5,9 +5,10 @@ import android.content.ContentValues;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cocoahero.android.geojson.Feature;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mapbox.geojson.Feature;
 
-import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.Geometry;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 08-01-2021.
@@ -62,36 +64,34 @@ public class FamilyStructureRegistrationEventMiniProcessor implements MiniClient
             if ("geojson".equals(obs.getFormSubmissionField()) && obs.getValues() != null && obs.getValues().size() > 0) {
                 Object geojson = obs.getValues().get(0);
                 if (geojson instanceof String) {
-                    feature = new Feature(new JSONObject((String) geojson));
+                    feature = Feature.fromJson((String) geojson);
                     break;
                 }
             }
         }
 
         if (feature != null) {
-            location.setGeometry(JsonFormUtils.gson.fromJson(feature.getGeometry().toJSON().toString(), Geometry.class));
-            JSONObject properties = feature.getProperties();
+            location.setGeometry(JsonFormUtils.gson.fromJson(feature.geometry().toJson(), Geometry.class));
+            JsonObject properties = feature.properties();
 
             LocationProperty locationProperties = new LocationProperty();
             HashMap<String, String> customProperties = new HashMap<>();
             String locationUUID = null;
 
-            Iterator<String> keysIterator = properties.keys();
-            while (keysIterator.hasNext()) {
-                String key = keysIterator.next();
-                if (key.equals("uuid")) {
-                    locationUUID = properties.getString("uuid");
-                    locationProperties.setUid(locationUUID);
-                } else if (key.equals("id")) {
-                    location.setId(properties.getString("id"));
-                } else {
-                    Object value = properties.get(key);
-                    customProperties.put(key, JsonFormUtils.gson.toJson(value));
-                }
+            Iterator<Map.Entry<String, JsonElement>> entriesIterator = properties.entrySet().iterator();
+
+            location.setId(feature.getStringProperty("id"));
+            locationProperties.setParentId(feature.getStringProperty("parentId"));
+            locationProperties.setUid(feature.getStringProperty("uuid"));
+
+            while (entriesIterator.hasNext()) {
+                Map.Entry<String, JsonElement> propertyEntry = entriesIterator.next();
+                customProperties.put(propertyEntry.getKey(), propertyEntry.getValue().toString());
             }
 
             locationProperties.setCustomProperties(customProperties);
             location.setProperties(locationProperties);
+            location.setType("Feature");
 
             structureRepository.addOrUpdate(location);
 
