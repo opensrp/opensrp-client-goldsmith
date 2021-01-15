@@ -10,10 +10,6 @@
       "ios": "4.4.0"
     }
   },
-  "center": [
-    32.449160147068596,
-    -14.08573404883333
-  ],
   "zoom": 8.735062037248435,
   "bearing": 0,
   "pitch": 0,
@@ -62,8 +58,6 @@
           [
             "zoom"
           ],
-          13.98,
-          0,
           17.79,
           10,
           18.8,
@@ -73,52 +67,28 @@
           "match",
           [
             "get",
-            "taskBusinessStatus"
+            "taskPriority"
           ],
           [
-            "Not Visited"
+            "0"
           ],
-          "hsl(46, 88%, 62%)",
+          "rgb(241, 37, 37)",
           [
-            "Not Sprayed",
-            "Incomplete",
-            "In Progress",
-            "None Received"
+            "1"
           ],
-          "hsl(3, 71%, 54%)",
+          "rgb(255, 136, 0)",
           [
-            "Sprayed",
-            "Complete",
-            "Fully Received"
+            "2"
           ],
-          "hsl(89, 52%, 48%)",
+          "rgb(0, 116, 191)",
           [
-            "Not Sprayable",
-            "Not Eligible"
+            "3"
           ],
-          "hsl(0, 0%, 9%)",
-          [
-            "Family Registered"
-          ],
-          "hsl(335, 100%, 79%)",
-          [
-            "Bednet Distributed",
-            "Adherence Visit Done"
-          ],
-          "hsl(199, 68%, 55%)",
-          [
-            "Blood Screening Complete"
-          ],
-          "hsl(262, 100%, 68%)",
-          [
-            "Partially Sprayed",
-            "Partially Received"
-          ],
-          "hsl(26, 84%, 56%)",
-          "hsl(0, 0%, 78%)"
+          "rgb(0, 116, 191)",
+          "rgb(56, 181, 0)"
         ],
         "circle-stroke-width": 1,
-        "circle-opacity": 0.5
+        "circle-opacity": 0.9
       }
     },
     {
