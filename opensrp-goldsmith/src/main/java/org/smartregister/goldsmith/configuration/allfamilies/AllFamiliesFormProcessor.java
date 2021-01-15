@@ -6,8 +6,8 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cocoahero.android.geojson.Feature;
-import com.cocoahero.android.geojson.Point;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.Point;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
@@ -18,6 +18,7 @@ import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.configuration.ModuleFormProcessor;
+import org.smartregister.domain.Location;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.domain.FamilyEventClient;
 import org.smartregister.family.util.Constants;
@@ -25,6 +26,7 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.util.SampleAppJsonFormUtils;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.tasking.util.PreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,6 +117,27 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
                 values.add(structureId);
                 uuidObservation.setValues(values);
 
+                // parent-id obs
+                String operationalArea = PreferencesUtil.getInstance().getCurrentOperationalArea();
+
+                Obs parentIdObservation = new Obs();
+                if (!TextUtils.isEmpty(operationalArea)) {
+                    Location location = org.smartregister.tasking.util.Utils.getOperationalAreaLocation(operationalArea);
+
+                    if (location != null && !TextUtils.isEmpty(location.getId())) {
+                        parentIdObservation.setFieldType("formSubmissionField");
+                        parentIdObservation.setFieldDataType("text");
+                        parentIdObservation.setFieldCode("");
+                        parentIdObservation.setParentCode("");
+                        parentIdObservation.setHumanReadableValues(new ArrayList<>());
+
+                        parentIdObservation.setFormSubmissionField("parentId");
+                        ArrayList<Object> parentIdValues = new ArrayList<>();
+                        parentIdValues.add(location.getId());
+                        parentIdObservation.setValues(parentIdValues);
+                    }
+                }
+
                 /// latitude Obs
                 Obs latitudeObservation = new Obs();
                 latitudeObservation.setFieldType("formSubmissionField");
@@ -150,22 +173,25 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
                 geojsonObservation.setParentCode("");
                 geojsonObservation.setHumanReadableValues(new ArrayList<>());
 
-                Point structurePoint = new Point(Double.parseDouble(coordinates[0]), Double.parseDouble(coordinates[1]));
-                Feature feature = new Feature(structurePoint);
+                com.mapbox.geojson.Point structurePoint = Point.fromLngLat(Double.parseDouble(coordinates[1]), Double.parseDouble(coordinates[0]));
+                com.mapbox.geojson.Feature feature = Feature.fromGeometry(structurePoint);
 
-                JSONObject properties = new JSONObject();
-                properties.put("uuid", uuidObservation.getValues().get(0));
-                properties.put("id", idObservation.getValues().get(0));
-
-                feature.setProperties(properties);
+                feature.addStringProperty("uuid", (String) uuidObservation.getValues().get(0));
+                feature.addStringProperty("id", (String) idObservation.getValues().get(0));
+                if (parentIdObservation.getValues() != null) {
+                    feature.addStringProperty("parentId", (String) parentIdObservation.getValues().get(0));
+                }
 
                 geojsonObservation.setFormSubmissionField("geojson");
                 ArrayList<Object> geojsonValues = new ArrayList<>();
-                geojsonValues.add(feature.toJSON().toString());
+                geojsonValues.add(feature.toJson());
                 geojsonObservation.setValues(geojsonValues);
 
                 registerFamilyStructure.addObs(idObservation);
                 registerFamilyStructure.addObs(uuidObservation);
+                if (parentIdObservation.getValues() != null) {
+                    registerFamilyStructure.addObs(parentIdObservation);
+                }
                 registerFamilyStructure.addObs(latitudeObservation);
                 registerFamilyStructure.addObs(longitudeObservation);
                 registerFamilyStructure.addObs(geojsonObservation);
