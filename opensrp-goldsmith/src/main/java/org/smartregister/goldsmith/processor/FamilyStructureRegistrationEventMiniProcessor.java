@@ -76,13 +76,13 @@ public class FamilyStructureRegistrationEventMiniProcessor implements MiniClient
 
             LocationProperty locationProperties = new LocationProperty();
             HashMap<String, String> customProperties = new HashMap<>();
-            String locationUUID = null;
+            String locationUUID = feature.getStringProperty("uuid");
 
             Iterator<Map.Entry<String, JsonElement>> entriesIterator = properties.entrySet().iterator();
 
             location.setId(feature.getStringProperty("id"));
             locationProperties.setParentId(feature.getStringProperty("parentId"));
-            locationProperties.setUid(feature.getStringProperty("uuid"));
+            locationProperties.setUid(locationUUID);
 
             while (entriesIterator.hasNext()) {
                 Map.Entry<String, JsonElement> propertyEntry = entriesIterator.next();
