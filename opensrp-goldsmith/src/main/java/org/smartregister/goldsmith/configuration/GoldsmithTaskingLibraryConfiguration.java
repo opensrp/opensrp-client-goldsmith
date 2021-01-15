@@ -72,6 +72,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     private AppExecutors appExecutors = new AppExecutors();
     private TaskRegisterConfiguration taskRegisterConfiguration;
+    private TaskingMapHelper taskingMapHelper;
 
     public GoldsmithTaskingLibraryConfiguration() {
         taskRegisterConfiguration = new TaskRegisterV2Configuration();
@@ -697,7 +698,10 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public TaskingMapHelper getMapHelper() {
-        return new TaskingMapHelper();
+        if (taskingMapHelper == null) {
+            taskingMapHelper = new TaskingMapHelper();
+        }
+        return taskingMapHelper;
     }
 
     @Override
