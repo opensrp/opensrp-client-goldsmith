@@ -9,6 +9,6 @@ public class ReportingConstants {
     }
 
     public static class ProgressTargets {
-        public static int PREGNANCY_REGISTRATION_TARGET = 4; // Todo -> How can the supervisor set this?
+        public static float PREGNANCY_REGISTRATION_TARGET = 4; // Todo -> How can the supervisor set this?
     }
 }

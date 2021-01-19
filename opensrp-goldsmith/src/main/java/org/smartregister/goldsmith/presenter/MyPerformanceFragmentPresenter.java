@@ -2,8 +2,8 @@ package org.smartregister.goldsmith.presenter;
 
 import org.smartregister.goldsmith.contract.GoldsmithReportingContract;
 import org.smartregister.goldsmith.interactor.ReportingInteractor;
-import org.smartregister.reporting.domain.BaseReportIndicatorsModel;
 import org.smartregister.reporting.domain.IndicatorTally;
+import org.smartregister.reporting.model.BaseReportIndicatorsModel;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
