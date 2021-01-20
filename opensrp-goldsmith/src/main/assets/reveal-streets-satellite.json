@@ -92,6 +92,52 @@
       }
     },
     {
+      "id": "reveal-data-points-priority",
+      "type": "circle",
+      "source": "reveal-data-set",
+      "filter": [
+        "==",
+        "$type",
+        "Point"
+      ],
+      "layout": {
+        "visible": "none"
+      },
+      "paint": {
+        "circle-radius": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          17.79,
+          10,
+          18.8,
+          15
+        ],
+        "circle-color": [
+          "match",
+          [
+            "get",
+            "taskPriority"
+          ],
+          [
+            "0"
+          ],
+          "rgb(241, 37, 37)",
+          [
+            "1"
+          ],
+          "rgb(255, 136, 0)",
+          "rgba(56, 181, 0, 0)"
+        ],
+        "circle-stroke-width": 1,
+        "circle-opacity": 0.9
+      }
+    },
+    {
       "id": "select-layer-circles",
       "type": "circle",
       "source": "select-data",
