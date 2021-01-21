@@ -111,7 +111,9 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 getRegisteredActivities(), flavor.hasP2P());*/
 
         if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
+            if (Timber.forest().size() == 0) {
+                Timber.plant(new Timber.DebugTree());
+            }
         } else {
             Timber.plant(new CrashlyticsTree(ChwApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM()));
         }

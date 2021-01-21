@@ -113,8 +113,7 @@
           "column_name": "structure_uuid",
           "type": "Event",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "entry_poin"
+            "field": "vers"
           }
         }
       ]
