@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.mapbox.geojson.Feature;
 
 import org.smartregister.CoreLibrary;
+import org.smartregister.commonregistry.AllCommonsRepository;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.Geometry;
 import org.smartregister.domain.Location;
@@ -21,12 +22,16 @@ import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.goldsmith.util.JsonFormUtils;
 import org.smartregister.repository.StructureRepository;
 import org.smartregister.sync.MiniClientProcessorForJava;
+import org.smartregister.tasking.util.TaskingConstants;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import timber.log.Timber;
 
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 08-01-2021.
@@ -95,11 +100,30 @@ public class FamilyStructureRegistrationEventMiniProcessor implements MiniClient
 
             structureRepository.addOrUpdate(location);
 
-            ContentValues contentValues = new ContentValues();
-            contentValues.put("structure_uuid", locationUUID);
+            String familyEntityId = eventClient.getClient().getBaseEntityId();
 
-            CoreLibrary.getInstance().context().commonrepository("ec_family")
-                    .updateColumn("ec_family", contentValues, eventClient.getClient().getBaseEntityId());
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("id", familyEntityId);
+            contentValues.put("structure_uuid", locationUUID);
+            contentValues.put("family_base_entity_id", familyEntityId);
+
+            long insertedRecords = DrishtiApplication.getInstance().getRepository()
+                    .getWritableDatabase()
+                    .insert(TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP, null, contentValues);
+
+            AllCommonsRepository allCommonsRepository = CoreLibrary.getInstance().context().
+                    allCommonsRepositoryobjects(TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP);
+
+            if (allCommonsRepository != null) {
+                allCommonsRepository.updateSearch(familyEntityId);
+                Timber.d("Finished updateFTSsearch table: " + TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP);
+            }
+
+            if (insertedRecords > 0) {
+                Timber.i("Structure-Family relationship added");
+            } else {
+                Timber.i("Structure-Family relationship added");
+            }
         }
     }
 

@@ -16,6 +16,7 @@ import com.vijay.jsonwizard.NativeFormLibrary;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
@@ -31,6 +32,7 @@ import org.smartregister.chw.core.utils.FormUtils;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.chw.pnc.PncLibrary;
 import org.smartregister.chw.pnc.activity.BasePncMemberProfileActivity;
+import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.configuration.ModuleConfiguration;
@@ -75,6 +77,7 @@ import org.smartregister.repository.Repository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.tasking.TaskingLibrary;
 import org.smartregister.tasking.util.PreferencesUtil;
+import org.smartregister.tasking.util.TaskingConstants;
 import org.smartregister.view.activity.FormActivity;
 
 import java.util.ArrayList;
@@ -100,7 +103,9 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
         mInstance = this;
         context = Context.getInstance();
         context.updateApplicationContext(getApplicationContext());
-        context.updateCommonFtsObject(createCommonFtsObject());
+
+        CommonFtsObject commonFtsObject = getCommonFtsObject();
+        context.updateCommonFtsObject(commonFtsObject);
 
         //Necessary to determine the right form to pick from assets
         CoreConstants.JSON_FORM.setLocaleAndAssetManager(ChwApplication.getCurrentLocale(),
@@ -169,6 +174,28 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
 
         ValidateAssignmentReceiver.init(this);
         ValidateAssignmentReceiver.getInstance().addListener(this);
+    }
+
+    @NotNull
+    protected CommonFtsObject getCommonFtsObject() {
+        CommonFtsObject commonFtsObject = createCommonFtsObject();
+        String[] previousTables = commonFtsObject.getTables();
+        String[] tables = new String[previousTables.length + 1];
+
+        for (int i = 0; i < tables.length - 1; i++) {
+            tables[i] = previousTables[i];
+        }
+
+        tables[tables.length - 1] = TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP;
+
+        CommonFtsObject updatedFtsObject = new CommonFtsObject(tables);
+        for (String table: commonFtsObject.getTables()) {
+            updatedFtsObject.updateSearchFields(table, commonFtsObject.getSearchFields(table));
+            updatedFtsObject.updateSortFields(table, commonFtsObject.getSortFields(table));
+        }
+
+        updatedFtsObject.updateSearchFields(TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP, new String[]{"family_base_entity_id"});
+        return updatedFtsObject;
     }
 
     private void initializeRegisters() {
