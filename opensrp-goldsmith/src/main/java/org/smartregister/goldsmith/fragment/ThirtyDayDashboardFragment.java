@@ -28,6 +28,7 @@ import java.util.Map;
 public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithReportingContract.View {
 
     private static GoldsmithReportingContract.Presenter presenter;
+    private View rootView;
     private ViewGroup visualizationsViewGroup;
     private ProgressBar progressBar;
     private List<Map<String, IndicatorTally>> indicatorTallies;
@@ -67,9 +68,9 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_thirty_day_dashboard, container, false);
+        rootView = inflater.inflate(R.layout.fragment_thirty_day_dashboard, container, false);
         progressBar = rootView.findViewById(R.id.progress_bar);
-        visualizationsViewGroup = rootView.findViewById(R.id.indicator_dashboard);
+        visualizationsViewGroup = rootView.findViewById(R.id.health_indicators_layout);
         getPresenter().fetchIndicatorDailyTallies();
         return rootView;
     }
@@ -97,7 +98,7 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
 
     @Override
     public void buildVisualization(ViewGroup viewGroup) {
-        updateTasksComplete(viewGroup);
+        updateTasksComplete();
         GoldsmithReport.showIndicatorVisualisations(viewGroup, indicatorTallies);
     }
 
@@ -109,9 +110,9 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
         this.indicatorTallies = indicatorTallies;
     }
 
-    public void updateTasksComplete(ViewGroup viewGroup) {
-        TextView tvPercentComplete = viewGroup.findViewById(R.id.tv_percentage);
-        TextView tvTasksCompleted = viewGroup.findViewById(R.id.tv_tasks_completed);
+    public void updateTasksComplete() {
+        TextView tvPercentComplete = rootView.findViewById(R.id.tv_percentage);
+        TextView tvTasksCompleted = rootView.findViewById(R.id.tv_tasks_completed);
         float tasksCompletedCount = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
                 ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TASKS_COMPLETED);
         float pendingTasksCount = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
@@ -119,7 +120,7 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
         float totalTaskCount = tasksCompletedCount + pendingTasksCount;
         int percentage = (int) ((tasksCompletedCount / totalTaskCount) * 100);
 
-        tvPercentComplete.setText(MessageFormat.format(viewGroup.getContext().getString(R.string.performance_completed_percentage), percentage));
-        tvTasksCompleted.setText(MessageFormat.format(viewGroup.getContext().getString(R.string.performance_completed_fraction), tasksCompletedCount, totalTaskCount));
+        tvPercentComplete.setText(MessageFormat.format(rootView.getContext().getString(R.string.performance_completed_percentage), percentage));
+        tvTasksCompleted.setText(MessageFormat.format(rootView.getContext().getString(R.string.performance_completed_fraction), tasksCompletedCount, totalTaskCount));
     }
 }
