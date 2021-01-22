@@ -51,25 +51,6 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
             }
         }
 
-        // TODO: Fix this for production eg. p2p -> break record dependency into standalone tables
-        //  2. use ec_client_fields to generate the table & update the table. Requires rewriting the task register queries
-        // Reorganise local events
-        if (local.size() == 3) {
-            EventClient[] localArranged = new EventClient[3];
-            for (EventClient eventClient : local) {
-                String eventType = eventClient.getEvent().getEventType();
-                if ("Family Registration".equals(eventType)) {
-                    localArranged[0] = eventClient;
-                } else if ("Register_Family_Structure_Event".equals(eventType)) {
-                    localArranged[2] = eventClient;
-                } else {
-                    localArranged[1] = eventClient;
-                }
-            }
-
-            local = new ArrayList<>(Arrays.asList(localArranged));
-        }
-
         // TODO: Fix this issue at a better position
         // This is a pain for home visits which generate a lot of events
         for (EventClient eventClient: eventClientList) {
