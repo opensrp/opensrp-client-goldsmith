@@ -822,4 +822,10 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
         return taskRegisterConfiguration;
     }
 
+    @Nullable
+    @Override
+    public MapConfiguration getMapConfiguration() {
+        return null;
+    }
+
 }
