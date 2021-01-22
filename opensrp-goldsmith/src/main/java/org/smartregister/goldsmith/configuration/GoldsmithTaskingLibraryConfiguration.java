@@ -51,6 +51,7 @@ import org.smartregister.tasking.repository.TaskingMappingHelper;
 import org.smartregister.tasking.util.ActivityConfiguration;
 import org.smartregister.tasking.util.Constants;
 import org.smartregister.tasking.util.GeoJsonUtils;
+import org.smartregister.tasking.util.TaskingConstants;
 import org.smartregister.tasking.util.TaskingJsonFormUtils;
 import org.smartregister.tasking.util.TaskingMapHelper;
 import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
@@ -793,7 +794,52 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void onFeatureSelectedByClick(Feature feature, TaskingHomeActivityContract.Presenter taskingHomePresenter) {
+        if (taskingHomePresenter.getView() == null || taskingHomePresenter.getView().getContext() == null) {
+            return;
+        }
 
+        Context context = taskingHomePresenter.getView().getContext();
+
+        String taskCode = feature.getStringProperty(TaskingConstants.Properties.TASK_CODE);
+        if (TextUtils.isEmpty(taskCode)) {
+            Toast.makeText(context, "Task does not have a task code", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        taskCode = taskCode.toLowerCase();
+
+        if (taskCode.startsWith("pnc day")) {
+            String motherId = feature.getStringProperty(TaskingConstants.Properties.MOTHER_ID);
+
+            if (motherId != null) {
+                CommonPersonObjectClient guardianClient = CoreLibrary.getInstance().context().getEventClientRepository()
+                        .fetchCommonPersonObjectClientByBaseEntityId("ec_family_member", motherId, null);
+
+                if (guardianClient == null || guardianClient.getColumnmaps() == null) {
+                    CommonPersonObjectClient family = CoreLibrary.getInstance().context().getEventClientRepository()
+                            .fetchCommonPersonObjectClientByBaseEntityId("ec_family", motherId, null);
+                    guardianClient = family;
+                }
+
+                if (guardianClient != null && guardianClient.getColumnmaps() != null) {
+                    PncHomeVisitActivity.startMe(context, new MemberObject(guardianClient), false);
+                } else {
+                    Toast.makeText(context, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
+                            .show();
+                }
+            } else {
+                Toast.makeText(context, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
+                        .show();
+            }
+        } else if (taskCode.startsWith("anc contact")) {
+
+            String baseEntityId = feature.getStringProperty(TaskingConstants.Properties.BASE_ENTITY_ID);
+            if (TextUtils.isEmpty(baseEntityId)) {
+                return;
+            }
+
+            AncHomeVisitActivity.startMe(context, baseEntityId, false);
+        }
     }
 
     @Override

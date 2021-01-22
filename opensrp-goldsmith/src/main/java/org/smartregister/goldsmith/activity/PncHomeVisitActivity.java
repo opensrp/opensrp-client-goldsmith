@@ -1,6 +1,5 @@
 package org.smartregister.goldsmith.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -25,11 +24,12 @@ import java.util.Date;
 
 public class PncHomeVisitActivity extends BasePncHomeVisitActivity {
 
-    public static void startMe(Activity activity, MemberObject memberObject, Boolean isEditMode) {
+    public static void startMe(Context activity, MemberObject memberObject, Boolean isEditMode) {
         Intent intent = new Intent(activity, PncHomeVisitActivity.class);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.MEMBER_PROFILE_OBJECT, memberObject);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
-        activity.startActivityForResult(intent, org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT);
+        //activity.startActivityForResult(intent, org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT);
+        activity.startActivity(intent);
     }
 
     @Override
