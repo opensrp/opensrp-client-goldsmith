@@ -36,6 +36,7 @@ import org.smartregister.goldsmith.activity.AncHomeVisitActivity;
 import org.smartregister.goldsmith.activity.PncHomeVisitActivity;
 import org.smartregister.tasking.activity.TaskingHomeActivity;
 import org.smartregister.tasking.adapter.TaskRegisterAdapter;
+import org.smartregister.tasking.configuration.DefaultTaskingLibraryConfiguration;
 import org.smartregister.tasking.configuration.TaskRegisterV2Configuration;
 import org.smartregister.tasking.contract.BaseContract;
 import org.smartregister.tasking.contract.BaseDrawerContract;
@@ -51,7 +52,6 @@ import org.smartregister.tasking.util.ActivityConfiguration;
 import org.smartregister.tasking.util.Constants;
 import org.smartregister.tasking.util.GeoJsonUtils;
 import org.smartregister.tasking.util.TaskingJsonFormUtils;
-import org.smartregister.tasking.util.TaskingLibraryConfiguration;
 import org.smartregister.tasking.util.TaskingMapHelper;
 import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
 import org.smartregister.util.AppExecutors;
@@ -68,7 +68,7 @@ import timber.log.Timber;
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 02-10-2020.
  */
-public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfiguration {
+public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryConfiguration {
 
     private AppExecutors appExecutors = new AppExecutors();
     private TaskRegisterConfiguration taskRegisterConfiguration;
@@ -794,11 +794,6 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     @Override
     public void onFeatureSelectedByClick(Feature feature, TaskingHomeActivityContract.Presenter taskingHomePresenter) {
 
-    }
-
-    @Override
-    public double getOnClickMaxZoomLevel() {
-        return 0;
     }
 
     @Override
