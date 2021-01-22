@@ -73,14 +73,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_health_indicators_title">
 
-                <TextView
-                    android:id="@+id/tv_indicator_label"
-                    style="@style/IndicatorLabelStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="Indicator label" />
-
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
