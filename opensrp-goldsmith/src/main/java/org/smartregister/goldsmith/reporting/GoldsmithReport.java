@@ -53,11 +53,11 @@ public class GoldsmithReport {
     }
 
     public static int getPercentage(int count, float target) {
-        return  (int) ((count / target) * 100) - 100;
+        return  (int) ((count / target) * 100);
     }
 
     public static String getProgressIndicatorTitle(int count, int percentage) {
-        String signedPercent = percentage < 0 ? String.valueOf(percentage) : "+"+percentage;
+        String signedPercent = percentage < 0 ? String.valueOf(percentage-100) : "+"+percentage;
         return MessageFormat.format("{0} ({1}%)", count, signedPercent);
     }
 
