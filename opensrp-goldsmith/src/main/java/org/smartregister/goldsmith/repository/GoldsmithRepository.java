@@ -186,7 +186,6 @@ public class GoldsmithRepository extends Repository {
     }
 
 
-
     private static void upgradeToVersion2(Context context, SQLiteDatabase db) {
         try {
             // add missing vaccine columns
