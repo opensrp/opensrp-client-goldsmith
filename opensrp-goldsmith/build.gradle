@@ -178,14 +178,25 @@ dependencies {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
+        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
     }
 
     //` Use the opensrp-client-tasking branch -> goldsmith-merge-map-stuff
     //implementation (project(':opensrp-tasking')) {
-    implementation ('org.smartregister:opensrp-client-tasking:0.0.3.8-GS-PREVIEW-SNAPSHOT') {
+    implementation('org.smartregister:opensrp-client-tasking:0.0.3.10-GS-PREVIEW-SNAPSHOT') {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'io.ona.rdt-capture'
+        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
+    }
+
+    implementation('org.smartregister:opensrp-client-reporting:0.1.0-SNAPSHOT') {
+        transitive = true
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.github.lecho', module: 'hellocharts-library'
     }
 
     implementation('org.smartregister:opensrp-client-chw-core:1.6.0.4-GS-PREVIEW-SNAPSHOT') {
@@ -199,6 +210,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-simprints'
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
+        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
     }
 
     implementation('org.smartregister:opensrp-plan-evaluator:0.1.6.4-GS-SNAPSHOT') {

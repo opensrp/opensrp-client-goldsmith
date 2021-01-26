@@ -1,9 +1,13 @@
 indicators:
   - key: "total_tasks_completed_last_30_days"
     description: "total_tasks_completed_last_30_days"
-    indicatorQuery: "select task.status, count(*) as count from task where STRFTIME('%Y-%m-%d %H:%M:%S', datetime(task.authored_on/1000,'unixepoch')) >= date('now', '-1 month') group by task.status"
+    indicatorQuery: "select task.status, count(*) as count from task
+                     where STRFTIME('%Y-%m-%d %H:%M:%S', datetime(task.authored_on/1000,'unixepoch')) >= date('now', '-1 month')
+                     group by task.status"
     isMultiResult: true
 
   - key: "total_preg_last_30_days"
     description: "Pregnancies registered last 30 days"
-    indicatorQuery: "select count(base_entity_id) from ec_anc_register"
+    indicatorQuery: "select count(ec_anc_register.base_entity_id) from ec_anc_register
+                     inner join ec_anc_log on ec_anc_register.base_entity_id  = ec_anc_log.base_entity_id
+                     WHERE  STRFTIME('%Y-%m-%d %H:%M:%S', ec_anc_log.date_created) >= date('now', '-1 month')"

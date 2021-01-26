@@ -13,5 +13,6 @@
 
     <color name="progressbar_red">#DE413F</color>
     <color name="progressbar_green">#70BE59</color>
+    <color name="progressbar_amber">#F8B263</color>
 
 </resources>

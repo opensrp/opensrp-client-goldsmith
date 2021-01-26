@@ -16,10 +16,10 @@ import org.jetbrains.annotations.NotNull;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.contract.GoldsmithReportingContract;
 import org.smartregister.goldsmith.presenter.MyPerformanceFragmentPresenter;
+import org.smartregister.goldsmith.reporting.GoldsmithReport;
 import org.smartregister.goldsmith.util.ReportingConstants;
 import org.smartregister.reporting.domain.IndicatorTally;
 import org.smartregister.reporting.util.ReportingUtil;
-import org.smartregister.reporting.view.ProgressIndicatorView;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -28,6 +28,7 @@ import java.util.Map;
 public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithReportingContract.View {
 
     private static GoldsmithReportingContract.Presenter presenter;
+    private View rootView;
     private ViewGroup visualizationsViewGroup;
     private ProgressBar progressBar;
     private List<Map<String, IndicatorTally>> indicatorTallies;
@@ -67,9 +68,9 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_thirty_day_dashboard, container, false);
+        rootView = inflater.inflate(R.layout.fragment_thirty_day_dashboard, container, false);
         progressBar = rootView.findViewById(R.id.progress_bar);
-        visualizationsViewGroup = rootView.findViewById(R.id.indicator_dashboard);
+        visualizationsViewGroup = rootView.findViewById(R.id.health_indicators_layout);
         getPresenter().fetchIndicatorDailyTallies();
         return rootView;
     }
@@ -97,9 +98,8 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
 
     @Override
     public void buildVisualization(ViewGroup viewGroup) {
-        updateTasksComplete(viewGroup);
-        // TODO -> Refactor this and preferably use RecyclerView in v2
-        updateTotalPregnancies(viewGroup);
+        updateTasksComplete();
+        GoldsmithReport.showIndicatorVisualisations(viewGroup, indicatorTallies);
     }
 
     public List<Map<String, IndicatorTally>> getIndicatorTallies() {
@@ -110,9 +110,9 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
         this.indicatorTallies = indicatorTallies;
     }
 
-    public void updateTasksComplete(ViewGroup viewGroup) {
-        TextView tvPercentComplete = viewGroup.findViewById(R.id.tv_percentage);
-        TextView tvTasksCompleted = viewGroup.findViewById(R.id.tv_tasks_completed);
+    public void updateTasksComplete() {
+        TextView tvPercentComplete = rootView.findViewById(R.id.tv_percentage);
+        TextView tvTasksCompleted = rootView.findViewById(R.id.tv_tasks_completed);
         float tasksCompletedCount = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
                 ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TASKS_COMPLETED);
         float pendingTasksCount = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
@@ -120,20 +120,7 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
         float totalTaskCount = tasksCompletedCount + pendingTasksCount;
         int percentage = (int) ((tasksCompletedCount / totalTaskCount) * 100);
 
-        tvPercentComplete.setText(MessageFormat.format(viewGroup.getContext().getString(R.string.performance_completed_percentage), percentage));
-        tvTasksCompleted.setText(MessageFormat.format(viewGroup.getContext().getString(R.string.performance_completed_fraction), tasksCompletedCount, totalTaskCount));
-    }
-
-    public void updateTotalPregnancies(ViewGroup viewGroup) {
-        TextView indicatorLabel = viewGroup.findViewById(R.id.tv_indicator_label);
-        indicatorLabel.setText(viewGroup.getContext().getString(R.string.pregnancies_registered_last_30_label));
-        float count = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(), ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS);
-        double percentage = (count / ReportingConstants.ProgressTargets.PREGNANCY_REGISTRATION_TARGET) * 100;
-        ProgressIndicatorView progressWidget = viewGroup.findViewById(R.id.progressIndicatorView);
-        progressWidget.setProgress((int) percentage);
-        progressWidget.setTitle("");
-        progressWidget.setProgressDrawable(R.drawable.progress_indicator_bg);
-        progressWidget.setProgressBarForegroundColor(viewGroup.getResources().getColor(R.color.progressbar_green));
-        progressWidget.setProgressBarBackgroundColor(viewGroup.getResources().getColor(R.color.progressbar_red));
+        tvPercentComplete.setText(MessageFormat.format(rootView.getContext().getString(R.string.performance_completed_percentage), percentage));
+        tvTasksCompleted.setText(MessageFormat.format(rootView.getContext().getString(R.string.performance_completed_fraction), tasksCompletedCount, totalTaskCount));
     }
 }
