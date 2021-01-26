@@ -2337,6 +2337,26 @@
           }
         }
       ]
+    },
+    {
+      "name": "structure_family_relationship",
+      "columns": [
+        {
+          "column_name": "family_base_entity_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "baseEntityId"
+          }
+        },
+        {
+          "column_name": "structure_uuid",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.formSubmissionField",
+            "concept": "structure_uuid"
+          }
+        }
+      ]
     }
   ]
 }

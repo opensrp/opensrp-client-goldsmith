@@ -14,7 +14,6 @@ import org.smartregister.chw.core.repository.ScheduleRepository;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.domain.db.Column;
 import org.smartregister.goldsmith.BuildConfig;
-import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.util.RepositoryUtils;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
@@ -63,7 +62,7 @@ public class GoldsmithRepository extends Repository {
                 AllConstants.DATABASE_NAME,
                 BuildConfig.DATABASE_VERSION,
                 openSRPContext.session(),
-                ChwApplication.createCommonFtsObject(),
+                openSRPContext.commonFtsObject(),
                 openSRPContext.sharedRepositoriesArray());
     }
 

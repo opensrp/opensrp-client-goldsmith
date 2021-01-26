@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.anc.activity.BaseAncHomeVisitActivity;
 import org.smartregister.chw.anc.domain.MemberObject;
-import org.smartregister.chw.core.dao.AncDao;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Location;
@@ -37,6 +36,7 @@ import org.smartregister.goldsmith.activity.AncHomeVisitActivity;
 import org.smartregister.goldsmith.activity.PncHomeVisitActivity;
 import org.smartregister.tasking.activity.TaskingHomeActivity;
 import org.smartregister.tasking.adapter.TaskRegisterAdapter;
+import org.smartregister.tasking.configuration.DefaultTaskingLibraryConfiguration;
 import org.smartregister.tasking.configuration.TaskRegisterV2Configuration;
 import org.smartregister.tasking.contract.BaseContract;
 import org.smartregister.tasking.contract.BaseDrawerContract;
@@ -51,8 +51,8 @@ import org.smartregister.tasking.repository.TaskingMappingHelper;
 import org.smartregister.tasking.util.ActivityConfiguration;
 import org.smartregister.tasking.util.Constants;
 import org.smartregister.tasking.util.GeoJsonUtils;
+import org.smartregister.tasking.util.TaskingConstants;
 import org.smartregister.tasking.util.TaskingJsonFormUtils;
-import org.smartregister.tasking.util.TaskingLibraryConfiguration;
 import org.smartregister.tasking.util.TaskingMapHelper;
 import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
 import org.smartregister.util.AppExecutors;
@@ -69,10 +69,12 @@ import timber.log.Timber;
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 02-10-2020.
  */
-public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfiguration {
+public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryConfiguration {
 
     private AppExecutors appExecutors = new AppExecutors();
     private TaskRegisterConfiguration taskRegisterConfiguration;
+    private TaskingMapHelper taskingMapHelper;
+    private MapConfiguration mapConfiguration;
 
     public GoldsmithTaskingLibraryConfiguration() {
         taskRegisterConfiguration = new TaskRegisterV2Configuration();
@@ -424,7 +426,7 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
             }
 
             if (guardianClient != null && guardianClient.getColumnmaps() != null) {
-                PncHomeVisitActivity.startMe(activity, AncDao.getMember(client.getCaseId()), false);
+                PncHomeVisitActivity.startMe(activity, new MemberObject(guardianClient), false);
             } else {
                 Toast.makeText(activity, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
                         .show();
@@ -698,7 +700,10 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public TaskingMapHelper getMapHelper() {
-        return new TaskingMapHelper();
+        if (taskingMapHelper == null) {
+            taskingMapHelper = new TaskingMapHelper();
+        }
+        return taskingMapHelper;
     }
 
     @Override
@@ -789,12 +794,52 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
 
     @Override
     public void onFeatureSelectedByClick(Feature feature, TaskingHomeActivityContract.Presenter taskingHomePresenter) {
+        if (taskingHomePresenter.getView() == null || taskingHomePresenter.getView().getContext() == null) {
+            return;
+        }
 
-    }
+        Context context = taskingHomePresenter.getView().getContext();
 
-    @Override
-    public double getOnClickMaxZoomLevel() {
-        return 0;
+        String taskCode = feature.getStringProperty(TaskingConstants.Properties.TASK_CODE);
+        if (TextUtils.isEmpty(taskCode)) {
+            Toast.makeText(context, "Task does not have a task code", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        taskCode = taskCode.toLowerCase();
+
+        if (taskCode.startsWith("pnc day")) {
+            String motherId = feature.getStringProperty(TaskingConstants.Properties.MOTHER_ID);
+
+            if (motherId != null) {
+                CommonPersonObjectClient guardianClient = CoreLibrary.getInstance().context().getEventClientRepository()
+                        .fetchCommonPersonObjectClientByBaseEntityId("ec_family_member", motherId, null);
+
+                if (guardianClient == null || guardianClient.getColumnmaps() == null) {
+                    CommonPersonObjectClient family = CoreLibrary.getInstance().context().getEventClientRepository()
+                            .fetchCommonPersonObjectClientByBaseEntityId("ec_family", motherId, null);
+                    guardianClient = family;
+                }
+
+                if (guardianClient != null && guardianClient.getColumnmaps() != null) {
+                    PncHomeVisitActivity.startMe(context, new MemberObject(guardianClient), false);
+                } else {
+                    Toast.makeText(context, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
+                            .show();
+                }
+            } else {
+                Toast.makeText(context, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
+                        .show();
+            }
+        } else if (taskCode.startsWith("anc contact")) {
+
+            String baseEntityId = feature.getStringProperty(TaskingConstants.Properties.BASE_ENTITY_ID);
+            if (TextUtils.isEmpty(baseEntityId)) {
+                return;
+            }
+
+            AncHomeVisitActivity.startMe(context, baseEntityId, false);
+        }
     }
 
     @Override
@@ -825,7 +870,11 @@ public class GoldsmithTaskingLibraryConfiguration extends TaskingLibraryConfigur
     @Nullable
     @Override
     public MapConfiguration getMapConfiguration() {
-        return null;
+        if (mapConfiguration == null) {
+            mapConfiguration = new GoldsmithMapConfiguration();
+        }
+
+        return mapConfiguration;
     }
 
 }
