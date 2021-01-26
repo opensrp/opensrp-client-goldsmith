@@ -4,6 +4,3 @@ include ':opensrp-goldsmith'
 
 /*include ':opensrp-app'
 project(":opensrp-app").projectDir = new File("../opensrp-client-core/opensrp-app")*/
-
-include ':opensrp-chw'
-project(":opensrp-chw").projectDir = new File("../opensrp-client-chw/opensrp-chw")
