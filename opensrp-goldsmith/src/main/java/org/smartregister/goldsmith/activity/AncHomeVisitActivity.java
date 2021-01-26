@@ -1,6 +1,5 @@
 package org.smartregister.goldsmith.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -29,11 +28,12 @@ import timber.log.Timber;
  */
 public class AncHomeVisitActivity extends BaseAncHomeVisitActivity {
 
-    public static void startMe(Activity activity, String baseEntityID, Boolean isEditMode) {
+    public static void startMe(Context activity, String baseEntityID, Boolean isEditMode) {
         Intent intent = new Intent(activity, AncHomeVisitActivity.class);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.BASE_ENTITY_ID, baseEntityID);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
-        activity.startActivityForResult(intent, org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT);
+        //activity.startActivityForResult(intent, org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT);
+        activity.startActivity(intent);
     }
 
     @Override

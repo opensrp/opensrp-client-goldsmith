@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.Obs;
 import org.smartregister.domain.db.EventClient;
+import org.smartregister.goldsmith.processor.FamilyStructureRegistrationEventMiniProcessor;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.view.activity.DrishtiApplication;
@@ -27,6 +28,8 @@ import timber.log.Timber;
 public class GoldsmithClientProcessor extends ClientProcessorForJava {
     public GoldsmithClientProcessor(Context context) {
         super(context);
+
+        addMiniProcessors(new FamilyStructureRegistrationEventMiniProcessor());
     }
 
     public static ClientProcessorForJava getInstance(Context context) {
@@ -70,6 +73,8 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
             // TODO: Fix this in the event processing of each module later
             // This fixes an event where the event.obs.values can contain one item which is a literal null in JSON
             fixObsHavingNullValuesItem(event);
+
+            Timber.i("Processing: %s", event.getEventType());
         }
 
         super.processClient(local, true);

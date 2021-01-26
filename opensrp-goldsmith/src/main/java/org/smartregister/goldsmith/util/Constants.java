@@ -37,4 +37,8 @@ public class Constants extends CoreConstants {
     public interface FORM_SUBMISSION_FIELD {
         String pncHfNextVisitDateFieldType = "pnc_hf_next_visit_date";
     }
+
+    public interface GoldsmithEventTypes {
+        String REGISTER_FAMILY_STRUCTURE_EVENT = "Register_Family_Structure_Event";
+    }
 }
