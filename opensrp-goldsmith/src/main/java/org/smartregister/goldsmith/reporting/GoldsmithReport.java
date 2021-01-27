@@ -12,12 +12,13 @@ import org.smartregister.reporting.view.ProgressIndicatorView;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
 
-import static org.smartregister.goldsmith.util.ReportingConstants.ProgressTargets.PREGNANCY_REGISTRATION_TARGET;
+import static org.smartregister.goldsmith.util.ReportingConstants.ProgressTargets.NEW_BORN_VISITS_30_DAY_TARGET;
+import static org.smartregister.goldsmith.util.ReportingConstants.ProgressTargets.PREGNANCY_REGISTRATION_30_DAY_TARGET;
+import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS;
 import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS;
 
 public class GoldsmithReport {
@@ -27,21 +28,39 @@ public class GoldsmithReport {
     static int inProgressColor;
 
     public static void showIndicatorVisualisations(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
-        defaultBackgroundColor = mainLayout.getResources().getColor(R.color.progressbar_red);
+        defaultBackgroundColor = mainLayout.getResources().getColor(R.color.progressbar_grey);
         positiveColor = mainLayout.getResources().getColor(R.color.progressbar_green);
         negativeColor = mainLayout.getResources().getColor(R.color.progressbar_red);
         inProgressColor = mainLayout.getResources().getColor(R.color.progressbar_amber);
 
-        showTotalPregnanciesIndicator(mainLayout, indicatorTallies);
+        show30DayTotalPregnanciesIndicator(mainLayout, indicatorTallies);
+        show30DayTotalNewBornVisits(mainLayout, indicatorTallies);
+
     }
 
-    public static void showTotalPregnanciesIndicator(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
+    public static void show30DayTotalPregnanciesIndicator(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
         String indicatorLabel = mainLayout.getContext().getString(R.string.pregnancies_registered_last_30_label);
         int count = (int) ReportingUtil.getCount(ReportContract.IndicatorView.CountType.LATEST_COUNT, COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS, indicatorTallies);
-        int percentage = getPercentage(count, PREGNANCY_REGISTRATION_TARGET);
+        int percentage = getPercentage(count, PREGNANCY_REGISTRATION_30_DAY_TARGET);
         int progressColor = getBarColor(percentage);
-        ProgressIndicatorDisplayOptions displayOptions = new ProgressIndicatorDisplayOptions.ProgressIndicatorBuilder()
-                .withIndicatorLabel(indicatorLabel)
+        ProgressIndicatorDisplayOptions displayOptions = getProgressIndicatorDisplayOptions(indicatorLabel, count, percentage, progressColor);
+
+        appendView(mainLayout, new ProgressIndicatorView(mainLayout.getContext(), displayOptions));
+    }
+
+    public static void show30DayTotalNewBornVisits(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
+        String indicatorLabel = mainLayout.getContext().getString(R.string.new_born_visits_last_30_label);
+        int count = (int) ReportingUtil.getCount(ReportContract.IndicatorView.CountType.LATEST_COUNT, COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS, indicatorTallies);
+        int percentage = getPercentage(count, NEW_BORN_VISITS_30_DAY_TARGET);
+        int progressColor = getBarColor(percentage);
+        ProgressIndicatorDisplayOptions displayOptions = getProgressIndicatorDisplayOptions(indicatorLabel, count, percentage, progressColor);
+
+        appendView(mainLayout, new ProgressIndicatorView(mainLayout.getContext(), displayOptions));
+    }
+
+    public static ProgressIndicatorDisplayOptions getProgressIndicatorDisplayOptions(String label, int count, int percentage, int progressColor) {
+        return new ProgressIndicatorDisplayOptions.ProgressIndicatorBuilder()
+                .withIndicatorLabel(label)
                 .withProgressIndicatorTitle(getProgressIndicatorTitle(count, percentage))
                 .withProgressIndicatorTitleColor(progressColor)
                 .withProgressValue(percentage)
@@ -49,9 +68,6 @@ public class GoldsmithReport {
                 .withBackgroundColor(defaultBackgroundColor)
                 .withForegroundColor(progressColor)
                 .build();
-
-        appendView(mainLayout, new ProgressIndicatorView(mainLayout.getContext(), displayOptions));
-
     }
 
     public static int getPercentage(int count, float target) {
@@ -59,8 +75,8 @@ public class GoldsmithReport {
     }
 
     public static String getProgressIndicatorTitle(int count, int percentage) {
-        String signedPercent = percentage < 0 ? String.valueOf(percentage - 100) : "+" + percentage;
-        return MessageFormat.format("{0} ({1}%)", count, signedPercent);
+        String signedValue = percentage < 0 ? String.valueOf(percentage - 100) : "+" + percentage;
+        return MessageFormat.format("{0} ({1}%)", count, signedValue);
     }
 
     public static int getBarColor(int percentage) {
