@@ -877,4 +877,9 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
         return mapConfiguration;
     }
 
+    @Override
+    public boolean showCurrentLocationButton() {
+        return true;
+    }
+
 }
