@@ -123,6 +123,7 @@
     <string name="performance_trending_down">Trending down</string>
     <string name="performance_health_indicators_title">KEY HEALTH INDICATORS</string>
     <string name="pregnancies_registered_last_30_label">Pregnancies registered last 30 days</string>
+    <string name="new_born_visits_last_30_label">New born visits last 30 days</string>
     <!-- End of My performance -->
 
 
