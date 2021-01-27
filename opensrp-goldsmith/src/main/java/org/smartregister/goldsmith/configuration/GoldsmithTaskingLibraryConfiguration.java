@@ -426,7 +426,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
             }
 
             if (guardianClient != null && guardianClient.getColumnmaps() != null) {
-                PncHomeVisitActivity.startMe(activity, new MemberObject(guardianClient), false);
+                PncHomeVisitActivity.startMe((Context) activity, new MemberObject(guardianClient), false);
             } else {
                 Toast.makeText(activity, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
                         .show();
@@ -445,7 +445,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
             intent.putExtra("editMode", false);
             //activity.startActivity(intent);
 
-            AncHomeVisitActivity.startMe(activity, baseEntityId, false);
+            AncHomeVisitActivity.startMe((Context) activity, baseEntityId, false);
         }
     }
 
