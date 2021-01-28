@@ -99,7 +99,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void startImmediateSync() {
-
+        // Do nothing for now
     }
 
     @Override
@@ -152,7 +152,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void tagEventTaskDetails(List<Event> list, SQLiteDatabase sqLiteDatabase) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -187,12 +187,12 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void formatCardDetails(CardDetails cardDetails) {
-
+        // Do nothing for now
     }
 
     @Override
     public void processServerConfigs() {
-
+        // Do nothing for now
     }
 
     @Override
@@ -202,12 +202,12 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void showBasicForm(BaseFormFragmentContract.View view, Context context, String s) {
-
+        // Do nothing for now
     }
 
     @Override
     public void onLocationValidated(@NonNull Context context, @NonNull BaseFormFragmentContract.View view, @NonNull BaseFormFragmentContract.Interactor interactor, @NonNull BaseTaskDetails baseTaskDetails, @NonNull Location location) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -237,7 +237,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void saveCaseConfirmation(BaseContract.BaseInteractor baseInteractor, BaseContract.BasePresenter basePresenter, JSONObject jsonObject, String s) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -257,7 +257,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void setSynced(boolean b) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -267,7 +267,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void setMyLocationComponentEnabled(boolean b) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -277,32 +277,32 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void saveLocationInterventionForm(BaseContract.BaseInteractor baseInteractor, BaseContract.BasePresenter basePresenter, JSONObject jsonObject) {
-
+        // Do nothing for now
     }
 
     @Override
     public void saveJsonForm(BaseContract.BaseInteractor baseInteractor, String s) {
-
+        // Do nothing for now
     }
 
     @Override
     public void openFilterActivity(Activity activity, TaskFilterParams taskFilterParams) {
-
+        // Do nothing for now
     }
 
     @Override
     public void openFamilyProfile(Activity activity, CommonPersonObjectClient commonPersonObjectClient, BaseTaskDetails baseTaskDetails) {
-
+        // Do nothing for now
     }
 
     @Override
     public void setTaskDetails(Activity activity, TaskRegisterAdapter taskRegisterAdapter, List<TaskDetails> list) {
-
+        // Do nothing for now
     }
 
     @Override
     public void showNotFoundPopup(Activity activity, String s) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -466,22 +466,22 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
             @Override
             public void initializeDrawerLayout() {
-
+                // Do nothing for now
             }
 
             @Override
             public void setUpViews(NavigationView navigationView) {
-
+                // Do nothing for now
             }
 
             @Override
             public void setPlan(String campaign) {
-
+                // Do nothing for now
             }
 
             @Override
             public void setOperationalArea(String operationalArea) {
-
+                // Do nothing for now
             }
 
             @Override
@@ -496,57 +496,57 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
             @Override
             public void setDistrict(String district) {
-
+                // Do nothing for now
             }
 
             @Override
             public void setFacility(String facility, String facilityLevel) {
-
+                // Do nothing for now
             }
 
             @Override
             public void setOperator() {
-
+                // Do nothing for now
             }
 
             @Override
             public void lockNavigationDrawerForSelection(int title, int message) {
-
+                // Do nothing for now
             }
 
             @Override
             public void unlockNavigationDrawer() {
-
+                // Do nothing for now
             }
 
             @Override
             public void lockNavigationDrawerForSelection() {
-
+                // Do nothing for now
             }
 
             @Override
             public void showOperationalAreaSelector(Pair<String, ArrayList<String>> locationHierarchy) {
-
+                // Do nothing for now
             }
 
             @Override
             public void showPlanSelector(List<String> campaigns, String entireTreeString) {
-
+                // Do nothing for now
             }
 
             @Override
             public void displayNotification(int title, int message, Object... formatArgs) {
-
+                // Do nothing for now
             }
 
             @Override
             public void openDrawerLayout() {
-
+                // Do nothing for now
             }
 
             @Override
             public void closeDrawerLayout() {
-
+                // Do nothing for now
             }
 
             @Override
@@ -555,37 +555,37 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                 return new BaseDrawerContract.Presenter() {
                     @Override
                     public void onDrawerClosed() {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void onShowOperationalAreaSelector() {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void onOperationalAreaSelectorClicked(ArrayList<String> name) {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void onShowPlanSelector() {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void onPlanSelectorClicked(ArrayList<String> value, ArrayList<String> name) {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void onPlansFetched(Set<PlanDefinition> planDefinitionSet) {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void unlockDrawerLayout() {
-
+                        // Do nothing for now
                     }
 
                     @Override
@@ -595,7 +595,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
                     @Override
                     public void setChangedCurrentSelection(boolean changedCurrentSelection) {
-
+                        // Do nothing for now
                     }
 
                     @Override
@@ -605,12 +605,12 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
                     @Override
                     public void onViewResumed() {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void onShowOfflineMaps() {
-
+                        // Do nothing for now
                     }
 
                     @Override
@@ -620,49 +620,49 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
                     @Override
                     public void onPlanValidated(boolean isValid) {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void updateSyncStatusDisplay(boolean synced) {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void startOtherFormsActivity() {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void onShowFilledForms() {
-
+                        // Do nothing for now
                     }
 
                     @Override
                     public void checkSynced() {
-
+                        // Do nothing for now
                     }
                 };
             }
 
             @Override
             public void onResume() {
-
+                // Do nothing for now
             }
 
             @Override
             public void openOfflineMapsView() {
-
+                // Do nothing for now
             }
 
             @Override
             public void checkSynced() {
-
+                // Do nothing for now
             }
 
             @Override
             public void toggleProgressBarView(boolean syncing) {
-
+                // Do nothing for now
             }
 
             @Nullable
@@ -713,12 +713,12 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void setRefreshMapOnEventSaved(boolean isRefreshMapOnEventSaved) {
-
+        // Do nothing for now
     }
 
     @Override
     public void setFeatureCollection(FeatureCollection featureCollection) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -743,12 +743,12 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void registerFamily(Feature selectedFeature) {
-
+        // Do nothing for now
     }
 
     @Override
     public void openTaskRegister(TaskFilterParams filterParams, TaskingHomeActivity taskingHomeActivity) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -784,12 +784,12 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void onShowFilledForms() {
-
+        // Do nothing for now
     }
 
     @Override
     public void onFeatureSelectedByLongClick(Feature feature, TaskingHomeActivityContract.Presenter taskingHomePresenter) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -844,22 +844,22 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void fetchPlans(String jurisdictionName, BaseDrawerContract.Presenter presenter) {
-
+        // Do nothing for now
     }
 
     @Override
     public void validateCurrentPlan(String selectedOperationalArea, String currentPlanId, BaseDrawerContract.Presenter presenter) {
-
+        // Do nothing for now
     }
 
     @Override
     public void setFacility(List<String> defaultLocation, BaseDrawerContract.View view) {
-
+        // Do nothing for now
     }
 
     @Override
     public void openFilterTaskActivity(TaskFilterParams filterParams, TaskingHomeActivity activity) {
-
+        // Do nothing for now
     }
 
     @Override

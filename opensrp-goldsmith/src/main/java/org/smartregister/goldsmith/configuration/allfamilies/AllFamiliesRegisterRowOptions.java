@@ -119,9 +119,9 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
             tasksActionWrapper = itemView.findViewById(R.id.task_action_wrapper);
         }
 
-        private void setDistanceFromProvider(String distanceMKm) {
+        /*private void setDistanceFromProvider(String distanceMKm) {
             tasksActionWrapper.setVisibility(View.VISIBLE);
             distanceFromProvider.setText(distanceMKm);
-        }
+        }*/
     }
 }
