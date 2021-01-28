@@ -24,8 +24,8 @@ import io.ona.kujaku.utils.Permissions;
 
 
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
-    public static final String TAG = BaseLoginActivity.class.getCanonicalName();
-    private static final String WFH_CSV_PARSED = "WEIGHT_FOR_HEIGHT_CSV_PARSED";
+    /*public static final String TAG = BaseLoginActivity.class.getCanonicalName();
+    private static final String WFH_CSV_PARSED = "WEIGHT_FOR_HEIGHT_CSV_PARSED";*/
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 983;
 
     private PinLogger pinLogger = PinLoginUtil.getPinLogger();
