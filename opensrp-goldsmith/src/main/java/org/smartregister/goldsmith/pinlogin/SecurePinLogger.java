@@ -9,9 +9,7 @@ import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.smartregister.CoreLibrary;
 import org.smartregister.goldsmith.ChwApplication;
-import org.smartregister.service.UserService;
 import org.smartregister.util.Utils;
 
 import java.util.Date;
@@ -150,8 +148,9 @@ public class SecurePinLogger implements PinLogger {
 
     @Override
     public void autoLogin(@NotNull EventListener listener) {
-        ChwApplication application = (ChwApplication) ChwApplication.getInstance();
-        /*application.getAppExecutors();
+        // To be uncommented and implemented later
+        /*ChwApplication application = (ChwApplication) ChwApplication.getInstance();
+        application.getAppExecutors();
 
         Runnable runnable = () -> {
 
@@ -181,7 +180,7 @@ public class SecurePinLogger implements PinLogger {
         application.getAppExecutors().diskIO().execute(runnable);*/
     }
 
-    private UserService getUserService() {
+    /*private UserService getUserService() {
         return CoreLibrary.getInstance().context().userService();
-    }
+    }*/
 }

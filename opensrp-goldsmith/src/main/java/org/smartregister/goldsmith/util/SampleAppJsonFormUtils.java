@@ -54,16 +54,8 @@ import timber.log.Timber;
 public class SampleAppJsonFormUtils extends JsonFormUtils {
 
     public static final String METADATA = "metadata";
-    public static final String ENCOUNTER_TYPE = "encounter_type";
-    public static final int REQUEST_CODE_GET_JSON = 2244;
     public static final String STEP2 = "step2";
-    public static final String CURRENT_OPENSRP_ID = "current_opensrp_id";
     public static final String OPENSRP_ID = "OPENSRP_ID";
-    public static final String ZEIR_ID = "zeir_id";
-    public static final String CURRENT_ZEIR_ID = "current_zeir_id";
-    public static final String READ_ONLY = "read_only";
-    public static final String HOME_ADDRESS = "home_address";
-    public static final String PERSON_IDENTIFIER = "person_identifier";
 
     public static JSONObject getFormAsJson(@NonNull JSONObject form, @NonNull String formName, @NonNull String id, @NonNull String currentLocationId) throws JSONException {
         return getFormAsJson(form, formName, id, currentLocationId, null);
