@@ -12,7 +12,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.CoreLibrary;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.JsonFormUtils;
 import org.smartregister.clientandeventmodel.Client;
@@ -22,7 +21,6 @@ import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.repository.AllSharedPreferences;
-import org.smartregister.sync.helper.ECSyncHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

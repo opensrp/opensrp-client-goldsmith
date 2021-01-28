@@ -407,7 +407,7 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
 
     @Override
     public void onUserAssignmentRevoked(UserAssignmentDTO userAssignmentDTO) {
-
+        // Do nothing for now
     }
 
 
@@ -415,12 +415,12 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
 
         @Override
         public void registerViewConfigurations(List<String> viewIdentifiers) {
-
+            // Do nothing for now
         }
 
         @Override
         public void unregisterViewConfigurations(List<String> viewIdentifiers) {
-
+            // Do nothing for now
         }
     }
 
@@ -430,7 +430,7 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
         @NonNull
         @Override
         public ArrayList<String> getAllowedLevels() {
-            return new ArrayList<String>(Arrays.asList("Country", "County"));
+            return new ArrayList<>(Arrays.asList("Country", "County"));
         }
 
         @NonNull

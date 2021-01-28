@@ -320,7 +320,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
             taskTitle = taskDetails.getTaskCode();
             if (taskTitle != null && taskTitle.toLowerCase().startsWith("pnc day")) {
 
-                int iconResource = -1;
+                int iconResource;
                 switch (taskDetails.getPriority()) {
                     case 0:
                         iconResource = R.drawable.pnc_04;
@@ -336,6 +336,10 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
                     case 3:
                         iconResource = R.drawable.pnc_01_offset;
+                        break;
+                    default:
+                        iconResource = -1;
+                        break;
                 }
 
                 if (iconResource != -1) {

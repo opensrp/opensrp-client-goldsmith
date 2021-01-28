@@ -2,8 +2,6 @@ package org.smartregister.goldsmith.configuration.allfamilies;
 
 import android.os.Build;
 
-import junit.framework.TestCase;
-
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;

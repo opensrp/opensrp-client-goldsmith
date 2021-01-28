@@ -20,7 +20,7 @@ public class GoldsmithMapConfiguration implements TaskingLibraryConfiguration.Ma
 
     @Override
     public void onPriorityTasksToggle(@NonNull TaskingMapView taskingMapView, boolean on) {
-
+        // Do nothing for now
     }
 
     @Override

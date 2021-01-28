@@ -124,8 +124,8 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
                 // longitude Obs
                 Obs longitudeObservation = generateObs("longitude", coordinates[1]);
 
-                com.mapbox.geojson.Point structurePoint = Point.fromLngLat(Double.parseDouble(coordinates[1]), Double.parseDouble(coordinates[0]));
-                com.mapbox.geojson.Feature feature = Feature.fromGeometry(structurePoint);
+                Point structurePoint = Point.fromLngLat(Double.parseDouble(coordinates[1]), Double.parseDouble(coordinates[0]));
+                Feature feature = Feature.fromGeometry(structurePoint);
 
                 feature.addStringProperty("uuid", (String) uuidObservation.getValues().get(0));
                 feature.addStringProperty("id", (String) idObservation.getValues().get(0));

@@ -42,6 +42,7 @@ public class TestApplication extends DrishtiApplication {
 
     @Override
     public void logoutCurrentUser() {
+        // Do nothing for now
     }
 
     @Override

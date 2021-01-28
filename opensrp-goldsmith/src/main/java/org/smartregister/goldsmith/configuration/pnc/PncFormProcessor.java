@@ -108,7 +108,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
             String dob = deliveryDate.optString(JsonFormUtils.VALUE);
 
             JSONObject familyIdObject = JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.RELATIONAL_ID);
-            String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
+            String familyBaseEntityId = familyIdObject.getString(JsonFormUtils.VALUE);
 
             Map<String, List<JSONObject>> jsonObjectMap = PncRegistrationUtils.getChildFieldMaps(fields);
 
@@ -129,7 +129,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
                 childFields = new JSONArray();
                 for (JSONObject jsonObject : entry.getValue()) {
                     try {
-                        String replaceString = jsonObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.KEY);
+                        String replaceString = jsonObject.getString(JsonFormUtils.KEY);
                         JSONObject childField = new JSONObject(jsonObject.toString().replaceAll(replaceString, replaceString.substring(0, replaceString.lastIndexOf("_"))));
                         childFields.put(childField);
                     } catch (JSONException e) {
@@ -142,7 +142,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
                     String childBaseEntityId = JsonFormUtils.generateRandomUUIDString();
                     try {
                         JSONObject surNameObject = JsonFormUtils.getFieldJSONObject(childFields, DBConstants.KEY.SUR_NAME);
-                        String surName = surNameObject != null ? surNameObject.optString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE) : null;
+                        String surName = surNameObject != null ? surNameObject.optString(JsonFormUtils.VALUE) : null;
                         String lastName = PncRegistrationUtils.sameASFamilyNameCheck(childFields) ? familyName : surName;
 
                         JSONObject pncForm = FormUtils

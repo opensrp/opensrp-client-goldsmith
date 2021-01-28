@@ -11,8 +11,6 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import org.joda.time.DateTime;
-import org.joda.time.Years;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.core.contract.FamilyOtherMemberProfileExtendedContract;
@@ -46,7 +44,6 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         String villageTown = getIntent().getExtras().getString(Constants.INTENT_KEY.VILLAGE_TOWN);
         baseEntityId = client.getColumnmaps().get(Constants.INTENT_KEY.BASE_ENTITY_ID);
         gender = client.getColumnmaps().get(IntentKeys.GENDER);
-        int age = Years.yearsBetween(new DateTime(client.getColumnmaps().get(IntentKeys.DOB)), DateTime.now()).getYears();
         presenter = new FamilyOtherMemberActivityPresenter(this, new BaseFamilyOtherMemberProfileActivityModel(),
                 null, familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
     }
@@ -152,7 +149,7 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
 
     @Override
     public void updateHasPhone(boolean hasPhone) {
-
+        // Do nothing for now
     }
 
     @Override

@@ -91,13 +91,13 @@ public class PncRegistrationUtils {
 
     public static void saveVaccineEvents(JSONArray fields, String baseID, String dob) {
 
-        JSONObject vaccinesAtBirthObject = JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.VACCINES_AT_BIRTH);
+        JSONObject vaccinesAtBirthObject = getFieldJSONObject(fields, DBConstants.KEY.VACCINES_AT_BIRTH);
         JSONArray vaccinesAtBirthArray = vaccinesAtBirthObject != null ? vaccinesAtBirthObject.optJSONArray(DBConstants.KEY.OPTIONS) : null;
 
         if (vaccinesAtBirthArray != null) {
             for (int i = 0; i < vaccinesAtBirthArray.length(); i++) {
                 JSONObject currentVaccine = vaccinesAtBirthArray.optJSONObject(i);
-                if (currentVaccine != null && currentVaccine.optBoolean(JsonFormUtils.VALUE)
+                if (currentVaccine != null && currentVaccine.optBoolean(VALUE)
                         && !currentVaccine.optString(JsonFormUtils.KEY).equals("chk_none")) {
                     String VaccineName = currentVaccine.optString(JsonFormUtils.KEY).equals("chk_bcg") ? "bcg" : "opv_0";
                     VisitUtils.savePncChildVaccines(VaccineName, baseID, vaccinationDate(dob));
@@ -116,7 +116,7 @@ public class PncRegistrationUtils {
                 String vaccineDate = getFieldJSONObject(fields, vaccines[i]).optString(VALUE);
                 if (StringUtils.isNotBlank(vaccineDate)) {
                     Date dateVaccinated = vaccinationDate(vaccineDate);
-                    String VaccineName = vaccines[i] == "bcg_date" ? "bcg" : "opv_0";
+                    String VaccineName = vaccines[i].equals("bcg_date") ? "bcg" : "opv_0";
                     VisitUtils.savePncChildVaccines(VaccineName, baseID, dateVaccinated);
                 }
             } catch (NullPointerException e) {
@@ -138,12 +138,11 @@ public class PncRegistrationUtils {
 
     public static boolean sameASFamilyNameCheck(JSONArray childFields) {
         if (childFields.length() > 0) {
-            JSONObject sameAsFamNameCheck = JsonFormUtils.getFieldJSONObject(childFields, DBConstants.KEY.SAME_AS_FAM_NAME_CHK);
-            sameAsFamNameCheck = sameAsFamNameCheck != null ? sameAsFamNameCheck :
-                    JsonFormUtils.getFieldJSONObject(childFields, DBConstants.KEY.SAME_AS_FAM_NAME);
+            JSONObject sameAsFamNameCheck = getFieldJSONObject(childFields, DBConstants.KEY.SAME_AS_FAM_NAME_CHK);
+            sameAsFamNameCheck = sameAsFamNameCheck != null ? sameAsFamNameCheck : getFieldJSONObject(childFields, DBConstants.KEY.SAME_AS_FAM_NAME);
             JSONObject sameAsFamNameObject = sameAsFamNameCheck.optJSONArray(DBConstants.KEY.OPTIONS).optJSONObject(0);
             if (sameAsFamNameCheck != null) {
-                return sameAsFamNameObject.optBoolean(JsonFormUtils.VALUE);
+                return sameAsFamNameObject.optBoolean(VALUE);
             }
         }
         return false;

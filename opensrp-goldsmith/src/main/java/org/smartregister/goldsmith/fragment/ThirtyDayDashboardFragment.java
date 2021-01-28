@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.contract.GoldsmithReportingContract;
 import org.smartregister.goldsmith.presenter.MyPerformanceFragmentPresenter;
-import org.smartregister.goldsmith.reporting.GoldsmithReport;
+import org.smartregister.goldsmith.reporting.GoldsmithReportUtils;
 import org.smartregister.goldsmith.util.ReportingConstants;
 import org.smartregister.reporting.domain.IndicatorTally;
 import org.smartregister.reporting.util.ReportingUtil;
@@ -32,10 +32,6 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
     private ViewGroup visualizationsViewGroup;
     private ProgressBar progressBar;
     private List<Map<String, IndicatorTally>> indicatorTallies;
-
-    public ThirtyDayDashboardFragment() {
-        // Required empty public constructor
-    }
 
     public static ThirtyDayDashboardFragment newInstance() {
         return new ThirtyDayDashboardFragment();
@@ -99,7 +95,7 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
     @Override
     public void buildVisualization(ViewGroup viewGroup) {
         updateTasksComplete();
-        GoldsmithReport.showIndicatorVisualisations(viewGroup, indicatorTallies);
+        GoldsmithReportUtils.showIndicatorVisualisations(viewGroup, indicatorTallies);
     }
 
     public List<Map<String, IndicatorTally>> getIndicatorTallies() {
@@ -114,9 +110,9 @@ public class ThirtyDayDashboardFragment extends Fragment implements GoldsmithRep
         TextView tvPercentComplete = rootView.findViewById(R.id.tv_percentage);
         TextView tvTasksCompleted = rootView.findViewById(R.id.tv_tasks_completed);
         float tasksCompletedCount = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
-                ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TASKS_COMPLETED);
+                ReportingConstants.ThirtyDayIndicatorKeysConstants.COUNT_TASKS_COMPLETED);
         float pendingTasksCount = ReportingUtil.getLatestCountBasedOnDate(getIndicatorTallies(),
-                ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TASKS_READY);
+                ReportingConstants.ThirtyDayIndicatorKeysConstants.COUNT_TASKS_READY);
         float totalTaskCount = tasksCompletedCount + pendingTasksCount;
         int percentage = (int) ((tasksCompletedCount / totalTaskCount) * 100);
 

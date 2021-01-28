@@ -16,16 +16,16 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-import static org.smartregister.goldsmith.util.ReportingConstants.ProgressTargets.NEW_BORN_VISITS_30_DAY_TARGET;
-import static org.smartregister.goldsmith.util.ReportingConstants.ProgressTargets.PREGNANCY_REGISTRATION_30_DAY_TARGET;
-import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS;
-import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeys.COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS;
+import static org.smartregister.goldsmith.util.ReportingConstants.ProgressTargetsConstants.NEW_BORN_VISITS_30_DAY_TARGET;
+import static org.smartregister.goldsmith.util.ReportingConstants.ProgressTargetsConstants.PREGNANCY_REGISTRATION_30_DAY_TARGET;
+import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeysConstants.COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS;
+import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeysConstants.COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS;
 
-public class GoldsmithReport {
-    static int defaultBackgroundColor;
-    static int positiveColor;
-    static int negativeColor;
-    static int inProgressColor;
+public class GoldsmithReportUtils {
+    private static int defaultBackgroundColor;
+    private static int positiveColor;
+    private static int negativeColor;
+    private static int inProgressColor;
 
     public static void showIndicatorVisualisations(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
         defaultBackgroundColor = mainLayout.getResources().getColor(R.color.progressbar_grey);
