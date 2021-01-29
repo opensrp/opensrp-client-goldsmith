@@ -30,7 +30,7 @@ public class Constants extends CoreConstants {
     }
 
 
-    public static final class DATE_FORMATS_CONSTANTS {
+    public static final class DateFormatsConstants {
         public static final String HOME_VISIT_DISPLAY = "dd MMM yyyy";
     }
 

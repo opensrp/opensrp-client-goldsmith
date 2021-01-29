@@ -467,224 +467,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
     @Override
     public BaseDrawerContract.View getDrawerMenuView(BaseDrawerContract.DrawerActivity drawerActivity) {
         // TODO: Fix this
-        return new BaseDrawerContract.View() {
-            @Override
-            public Activity getContext() {
-                return null;
-            }
-
-            @Override
-            public void initializeDrawerLayout() {
-                // Do nothing for now
-            }
-
-            @Override
-            public void setUpViews(NavigationView navigationView) {
-                // Do nothing for now
-            }
-
-            @Override
-            public void setPlan(String campaign) {
-                // Do nothing for now
-            }
-
-            @Override
-            public void setOperationalArea(String operationalArea) {
-                // Do nothing for now
-            }
-
-            @Override
-            public String getPlan() {
-                return null;
-            }
-
-            @Override
-            public String getOperationalArea() {
-                return null;
-            }
-
-            @Override
-            public void setDistrict(String district) {
-                // Do nothing for now
-            }
-
-            @Override
-            public void setFacility(String facility, String facilityLevel) {
-                // Do nothing for now
-            }
-
-            @Override
-            public void setOperator() {
-                // Do nothing for now
-            }
-
-            @Override
-            public void lockNavigationDrawerForSelection(int title, int message) {
-                // Do nothing for now
-            }
-
-            @Override
-            public void unlockNavigationDrawer() {
-                // Do nothing for now
-            }
-
-            @Override
-            public void lockNavigationDrawerForSelection() {
-                // Do nothing for now
-            }
-
-            @Override
-            public void showOperationalAreaSelector(Pair<String, ArrayList<String>> locationHierarchy) {
-                // Do nothing for now
-            }
-
-            @Override
-            public void showPlanSelector(List<String> campaigns, String entireTreeString) {
-                // Do nothing for now
-            }
-
-            @Override
-            public void displayNotification(int title, int message, Object... formatArgs) {
-                // Do nothing for now
-            }
-
-            @Override
-            public void openDrawerLayout() {
-                // Do nothing for now
-            }
-
-            @Override
-            public void closeDrawerLayout() {
-                // Do nothing for now
-            }
-
-            @Override
-            public BaseDrawerContract.Presenter getPresenter() {
-                // TODO: Fix this
-                return new BaseDrawerContract.Presenter() {
-                    @Override
-                    public void onDrawerClosed() {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void onShowOperationalAreaSelector() {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void onOperationalAreaSelectorClicked(ArrayList<String> name) {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void onShowPlanSelector() {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void onPlanSelectorClicked(ArrayList<String> value, ArrayList<String> name) {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void onPlansFetched(Set<PlanDefinition> planDefinitionSet) {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void unlockDrawerLayout() {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public boolean isChangedCurrentSelection() {
-                        return false;
-                    }
-
-                    @Override
-                    public void setChangedCurrentSelection(boolean changedCurrentSelection) {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public BaseDrawerContract.View getView() {
-                        return null;
-                    }
-
-                    @Override
-                    public void onViewResumed() {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void onShowOfflineMaps() {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public boolean isPlanAndOperationalAreaSelected() {
-                        return false;
-                    }
-
-                    @Override
-                    public void onPlanValidated(boolean isValid) {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void updateSyncStatusDisplay(boolean synced) {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void startOtherFormsActivity() {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void onShowFilledForms() {
-                        // Do nothing for now
-                    }
-
-                    @Override
-                    public void checkSynced() {
-                        // Do nothing for now
-                    }
-                };
-            }
-
-            @Override
-            public void onResume() {
-                // Do nothing for now
-            }
-
-            @Override
-            public void openOfflineMapsView() {
-                // Do nothing for now
-            }
-
-            @Override
-            public void checkSynced() {
-                // Do nothing for now
-            }
-
-            @Override
-            public void toggleProgressBarView(boolean syncing) {
-                // Do nothing for now
-            }
-
-            @Nullable
-            @Override
-            public String getManifestVersion() {
-                return null;
-            }
-
-            @Override
-            public BaseDrawerContract.DrawerActivity getActivity() {
-                return null;
-            }
-        };
+        return new TaskingLibBaseDrawerContractImpl();
     }
 
     @Override
@@ -889,6 +672,226 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
     @Override
     public boolean showCurrentLocationButton() {
         return true;
+    }
+
+    public class TaskingLibBaseDrawerContractImpl implements BaseDrawerContract.View {
+
+        @Override
+        public Activity getContext() {
+            return null;
+        }
+
+        @Override
+        public void initializeDrawerLayout() {
+            // Do nothing for now
+        }
+
+        @Override
+        public void setUpViews(NavigationView navigationView) {
+            // Do nothing for now
+        }
+
+        @Override
+        public void setPlan(String campaign) {
+            // Do nothing for now
+        }
+
+        @Override
+        public void setOperationalArea(String operationalArea) {
+            // Do nothing for now
+        }
+
+        @Override
+        public String getPlan() {
+            return null;
+        }
+
+        @Override
+        public String getOperationalArea() {
+            return null;
+        }
+
+        @Override
+        public void setDistrict(String district) {
+            // Do nothing for now
+        }
+
+        @Override
+        public void setFacility(String facility, String facilityLevel) {
+            // Do nothing for now
+        }
+
+        @Override
+        public void setOperator() {
+            // Do nothing for now
+        }
+
+        @Override
+        public void lockNavigationDrawerForSelection(int title, int message) {
+            // Do nothing for now
+        }
+
+        @Override
+        public void unlockNavigationDrawer() {
+            // Do nothing for now
+        }
+
+        @Override
+        public void lockNavigationDrawerForSelection() {
+            // Do nothing for now
+        }
+
+        @Override
+        public void showOperationalAreaSelector(Pair<String, ArrayList<String>> locationHierarchy) {
+            // Do nothing for now
+        }
+
+        @Override
+        public void showPlanSelector(List<String> campaigns, String entireTreeString) {
+            // Do nothing for now
+        }
+
+        @Override
+        public void displayNotification(int title, int message, Object... formatArgs) {
+            // Do nothing for now
+        }
+
+        @Override
+        public void openDrawerLayout() {
+            // Do nothing for now
+        }
+
+        @Override
+        public void closeDrawerLayout() {
+            // Do nothing for now
+        }
+
+        @Override
+        public BaseDrawerContract.Presenter getPresenter() {
+            // TODO: Fix this
+            return new BaseDrawerContract.Presenter() {
+                @Override
+                public void onDrawerClosed() {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void onShowOperationalAreaSelector() {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void onOperationalAreaSelectorClicked(ArrayList<String> name) {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void onShowPlanSelector() {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void onPlanSelectorClicked(ArrayList<String> value, ArrayList<String> name) {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void onPlansFetched(Set<PlanDefinition> planDefinitionSet) {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void unlockDrawerLayout() {
+                    // Do nothing for now
+                }
+
+                @Override
+                public boolean isChangedCurrentSelection() {
+                    return false;
+                }
+
+                @Override
+                public void setChangedCurrentSelection(boolean changedCurrentSelection) {
+                    // Do nothing for now
+                }
+
+                @Override
+                public BaseDrawerContract.View getView() {
+                    return null;
+                }
+
+                @Override
+                public void onViewResumed() {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void onShowOfflineMaps() {
+                    // Do nothing for now
+                }
+
+                @Override
+                public boolean isPlanAndOperationalAreaSelected() {
+                    return false;
+                }
+
+                @Override
+                public void onPlanValidated(boolean isValid) {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void updateSyncStatusDisplay(boolean synced) {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void startOtherFormsActivity() {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void onShowFilledForms() {
+                    // Do nothing for now
+                }
+
+                @Override
+                public void checkSynced() {
+                    // Do nothing for now
+                }
+            };
+        }
+
+        @Override
+        public void onResume() {
+            // Do nothing for now
+        }
+
+        @Override
+        public void openOfflineMapsView() {
+            // Do nothing for now
+        }
+
+        @Override
+        public void checkSynced() {
+            // Do nothing for now
+        }
+
+        @Override
+        public void toggleProgressBarView(boolean syncing) {
+            // Do nothing for now
+        }
+
+        @Nullable
+        @Override
+        public String getManifestVersion() {
+            return null;
+        }
+
+        @Override
+        public BaseDrawerContract.DrawerActivity getActivity() {
+            return null;
+        }
     }
 
 }

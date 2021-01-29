@@ -9,12 +9,10 @@ import android.view.MenuItem;
 import androidx.annotation.Nullable;
 
 import org.smartregister.family.util.Constants;
-import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.pinlogin.PinLogger;
 import org.smartregister.goldsmith.pinlogin.PinLoginUtil;
 import org.smartregister.goldsmith.presenter.LoginPresenter;
-import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.task.SaveTeamLocationsTask;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;

@@ -30,7 +30,6 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.FamilyProfileMemberFragment;
 import org.smartregister.goldsmith.presenter.FamilyProfilePresenter;
-import org.smartregister.view.fragment.BaseRegisterFragment;
 
 import java.util.HashMap;
 

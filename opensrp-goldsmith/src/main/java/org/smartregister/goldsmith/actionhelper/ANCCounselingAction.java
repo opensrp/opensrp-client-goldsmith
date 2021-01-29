@@ -99,23 +99,9 @@ public class ANCCounselingAction implements BaseAncHomeVisitAction.AncHomeVisitA
     public String evaluateSubTitle() {
         List<String> yes = new ArrayList<>();
         List<String> nos = new ArrayList<>();
-        if ("Yes".equalsIgnoreCase(anc_counseling)) {
-            yes.add(context.getString(R.string.anc_visit_counselling));
-        } else {
-            nos.add(context.getString(R.string.anc_visit_counselling));
-        }
 
-        if ("Yes".equalsIgnoreCase(birth_hf_counseling)) {
-            yes.add(context.getString(R.string.delivery_at_facilty_counselling));
-        } else {
-            nos.add(context.getString(R.string.delivery_at_facilty_counselling));
-        }
+        assignCounselingStatus(yes, nos);
 
-        if ("Yes".equalsIgnoreCase(nutrition_counseling)) {
-            yes.add(context.getString(R.string.nutrition_counselling));
-        } else {
-            nos.add(context.getString(R.string.nutrition_counselling));
-        }
         StringBuilder stringBuilder = new StringBuilder();
 
         if (yes.size() > 0) {
@@ -165,5 +151,25 @@ public class ANCCounselingAction implements BaseAncHomeVisitAction.AncHomeVisitA
     @Override
     public void onPayloadReceived(BaseAncHomeVisitAction baseAncHomeVisitAction) {
         Timber.d("onPayloadReceived");
+    }
+
+    private void assignCounselingStatus(List<String> yesList, List<String> noList) {
+        if ("Yes".equalsIgnoreCase(anc_counseling)) {
+            yesList.add(context.getString(R.string.anc_visit_counselling));
+        } else {
+            noList.add(context.getString(R.string.anc_visit_counselling));
+        }
+
+        if ("Yes".equalsIgnoreCase(birth_hf_counseling)) {
+            yesList.add(context.getString(R.string.delivery_at_facilty_counselling));
+        } else {
+            noList.add(context.getString(R.string.delivery_at_facilty_counselling));
+        }
+
+        if ("Yes".equalsIgnoreCase(nutrition_counseling)) {
+            yesList.add(context.getString(R.string.nutrition_counselling));
+        } else {
+            noList.add(context.getString(R.string.nutrition_counselling));
+        }
     }
 }

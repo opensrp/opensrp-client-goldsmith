@@ -24,7 +24,7 @@ import org.smartregister.family.domain.FamilyEventClient;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
-import org.smartregister.goldsmith.util.SampleAppJsonFormUtils;
+import org.smartregister.goldsmith.util.FormProcessorJsonFormUtils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.tasking.util.PreferencesUtil;
 
@@ -172,7 +172,7 @@ public class AllFamiliesFormProcessor implements ModuleFormProcessor {
     @Override
     public JSONObject getFormAsJson(@NonNull JSONObject form, @NonNull String formName, @NonNull String entityId,
                                     @NonNull String currentLocationId, @Nullable HashMap<String, String> injectedFieldValues) throws JSONException {
-        return SampleAppJsonFormUtils.getFormAsJson(form, formName, entityId, currentLocationId, injectedFieldValues);
+        return FormProcessorJsonFormUtils.getFormAsJson(form, formName, entityId, currentLocationId, injectedFieldValues);
     }
 
     @Override
