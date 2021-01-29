@@ -192,11 +192,11 @@ public class FormProcessorJsonFormUtils extends JsonFormUtils {
             if (uniqueId != null) {
                 uniqueId.remove(org.smartregister.family.util.JsonFormUtils.VALUE);
                 uniqueId.put(org.smartregister.family.util.JsonFormUtils.VALUE, entityId + "_Family");
+            } else {
+                // Inject OpenSRP id into the form
+                JSONArray fields = fields(form, STEP2);
+                uniqueId = getFieldJSONObject(fields, Constants.JSON_FORM_KEY.UNIQUE_ID);
             }
-
-            // Inject OpenSRP id into the form
-            JSONArray fields = fields(form, STEP2);
-            uniqueId = getFieldJSONObject(fields, Constants.JSON_FORM_KEY.UNIQUE_ID);
         }
         if (uniqueId != null) {
             uniqueId.remove(org.smartregister.family.util.JsonFormUtils.VALUE);
