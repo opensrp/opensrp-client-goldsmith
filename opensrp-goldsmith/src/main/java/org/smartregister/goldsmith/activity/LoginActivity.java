@@ -65,7 +65,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }*/
     }
 
-    private boolean hasPinLogin(){
+    private boolean hasPinLogin() {
         return false;
     }
 
@@ -125,10 +125,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     }
 
     private void startPinHome(boolean remote) {
-        /*if (remote)
+        if (remote)
             pinLogger.resetPinLogin();
-
-        if (pinLogger.isFirstAuthentication()) {
+        // TODO -> Complete this implementation
+        /*if (pinLogger.isFirstAuthentication()) {
             EditText passwordEditText = findViewById(org.smartregister.R.id.login_password_edit_text);
             pinLogger.savePassword(passwordEditText.getText().toString());
         }
@@ -147,8 +147,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     }
 
     private void processWeightForHeightZscoreCSV() {
-        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
-        /*if (ChwApplication.getApplicationFlavor().hasChildSickForm() && !allSharedPreferences.getPreference(WFH_CSV_PARSED).equals("true")) {
+        // To implement later
+        /*AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        if (ChwApplication.getApplicationFlavor().hasChildSickForm() && !allSharedPreferences.getPreference(WFH_CSV_PARSED).equals("true")) {
             WeightForHeightIntentService.startParseWFHZScores(this);
             allSharedPreferences.savePreference(WFH_CSV_PARSED, "true");
         }*/

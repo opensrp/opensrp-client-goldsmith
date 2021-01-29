@@ -24,17 +24,17 @@ public class Constants extends CoreConstants {
         String LAST_NAME = "last_name";
     }
 
-    public static class IntentKeys {
+    public static class IntentKeysConstants {
         public static String GENDER = "gender";
         public static String DOB = "dob";
     }
 
 
-    public static final class DATE_FORMATS {
+    public static final class DATE_FORMATS_CONSTANTS {
         public static final String HOME_VISIT_DISPLAY = "dd MMM yyyy";
     }
 
-    public interface FORM_SUBMISSION_FIELD {
+    public interface FormSubmissionField {
         String pncHfNextVisitDateFieldType = "pnc_hf_next_visit_date";
     }
 

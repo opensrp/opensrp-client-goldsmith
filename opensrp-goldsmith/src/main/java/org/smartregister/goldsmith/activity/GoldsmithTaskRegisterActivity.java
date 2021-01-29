@@ -27,7 +27,7 @@ public class GoldsmithTaskRegisterActivity extends TaskRegisterActivity implemen
 
     @Override
     public void startFormActivity(String s, String s1, Map<String, String> map) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -40,7 +40,7 @@ public class GoldsmithTaskRegisterActivity extends TaskRegisterActivity implemen
 
     @Override
     public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
-
+        // Do nothing for now
     }
 
     @Override

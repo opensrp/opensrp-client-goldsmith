@@ -22,9 +22,7 @@ public class ThreeMonthDashboardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // Implementation to be provided later
-        }
+        // Implementation to be provided later
     }
 
     @Override

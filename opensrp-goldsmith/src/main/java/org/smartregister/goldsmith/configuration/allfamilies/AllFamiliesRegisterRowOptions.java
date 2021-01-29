@@ -77,9 +77,10 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
         if (view != null) {
             String viewType = (String) view.getTag(org.smartregister.R.id.VIEW_TYPE);
             CommonPersonObjectClient client = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
-            if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
+            /*if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
                 // Go to tasks?
-            } else if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
+            }*/
+            if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
                 goToFamilyProfile(client,view.getContext());
             }
         }

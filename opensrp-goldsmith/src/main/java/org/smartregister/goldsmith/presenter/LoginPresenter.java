@@ -41,14 +41,16 @@ public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContr
 
             CheckBox showPasswordCheckBox = getLoginView().getActivityContext().findViewById(R.id.login_show_password_checkbox);
             TextView showPasswordTextView = getLoginView().getActivityContext().findViewById(R.id.login_show_password_text_view);
-            //if (!metadata.getShowPasswordCheckbox()) {
-            if (false) {
+            /*if (!metadata.getShowPasswordCheckbox()) {
                 showPasswordCheckBox.setVisibility(View.GONE);
                 showPasswordTextView.setVisibility(View.GONE);
             } else {
                 showPasswordCheckBox.setVisibility(View.VISIBLE);
                 showPasswordTextView.setVisibility(View.VISIBLE);
-            }
+            }*/
+
+            showPasswordCheckBox.setVisibility(View.GONE);
+            showPasswordTextView.setVisibility(View.GONE);
 /*
             if (background.getOrientation() != null && background.getStartColor() != null && background.getEndColor() != null) {
                 View loginLayout = getLoginView().getActivityContext().findViewById(R.id.login_layout);

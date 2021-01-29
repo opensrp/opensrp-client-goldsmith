@@ -25,7 +25,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.FamilyOtherMemberProfileFragment;
 import org.smartregister.goldsmith.presenter.FamilyOtherMemberActivityPresenter;
-import org.smartregister.goldsmith.util.Constants.IntentKeys;
+import org.smartregister.goldsmith.util.Constants.IntentKeysConstants;
 import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 
 public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfileActivity implements FamilyOtherMemberProfileExtendedContract.View {
@@ -43,7 +43,7 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
         String primaryCaregiver = getIntent().getExtras().getString(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         String villageTown = getIntent().getExtras().getString(Constants.INTENT_KEY.VILLAGE_TOWN);
         baseEntityId = client.getColumnmaps().get(Constants.INTENT_KEY.BASE_ENTITY_ID);
-        gender = client.getColumnmaps().get(IntentKeys.GENDER);
+        gender = client.getColumnmaps().get(IntentKeysConstants.GENDER);
         presenter = new FamilyOtherMemberActivityPresenter(this, new BaseFamilyOtherMemberProfileActivityModel(),
                 null, familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
     }
@@ -164,10 +164,9 @@ public class FamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfi
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == org.smartregister.chw.core.R.id.family_has_row) {
-            // TODO
-        } else {
+        if (view.getId() != org.smartregister.chw.core.R.id.family_has_row) {
             super.onClick(view);
         }
+        // TODO -> Handle family has row click
     }
 }

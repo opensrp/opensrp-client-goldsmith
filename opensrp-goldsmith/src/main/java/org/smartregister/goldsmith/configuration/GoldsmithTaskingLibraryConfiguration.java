@@ -351,7 +351,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
             if (taskTitle != null && taskTitle.toLowerCase().startsWith("anc contact")) {
 
-                int iconResource = -1;
+                int iconResource;
                 switch (taskDetails.getPriority()) {
                     case 0:
                         iconResource = R.drawable.anc_04;
@@ -367,6 +367,11 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
                     case 3:
                         iconResource = R.drawable.anc_01_offset;
+                        break;
+
+                    default:
+                        iconResource = -1;
+                        break;
                 }
 
                 if (iconResource != -1) {
@@ -684,7 +689,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public void showTasksCompleteActionView(TextView textView) {
-
+        // Do nothing for now
     }
 
     @Override

@@ -199,7 +199,7 @@ public class GoldsmithRepository extends Repository {
 
             // add missing event repository table
             Column[] columns = {EventClientRepository.event_column.formSubmissionId};
-            EventClientRepository.createIndex(db, EventClientRepository.Table.event, columns);
+            EventClientRepository.createIndex(db, event, columns);
 
             db.execSQL(VaccineRepository.ALTER_ADD_CREATED_AT_COLUMN);
             VaccineRepository.migrateCreatedAt(db);

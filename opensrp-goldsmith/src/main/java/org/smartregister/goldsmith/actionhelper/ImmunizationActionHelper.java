@@ -159,7 +159,7 @@ public class ImmunizationActionHelper implements BaseAncHomeVisitAction.AncHomeV
     @Override
     public String evaluateSubTitle() {
         SimpleDateFormat native_date = AbstractDao.getDobDateFormat();
-        SimpleDateFormat new_date = new SimpleDateFormat(org.smartregister.goldsmith.util.Constants.DATE_FORMATS.HOME_VISIT_DISPLAY, Locale.getDefault());
+        SimpleDateFormat new_date = new SimpleDateFormat(org.smartregister.goldsmith.util.Constants.DATE_FORMATS_CONSTANTS.HOME_VISIT_DISPLAY, Locale.getDefault());
 
         StringBuilder builder = new StringBuilder();
 

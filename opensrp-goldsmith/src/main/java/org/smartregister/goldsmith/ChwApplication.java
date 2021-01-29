@@ -41,7 +41,6 @@ import org.smartregister.dto.UserAssignmentDTO;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.domain.FamilyMetadata;
-import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.goldsmith.activity.FamilyProfileActivity;
 import org.smartregister.goldsmith.activity.FamilyWizardFormActivity;
@@ -65,6 +64,7 @@ import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.PncRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
+import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.opd.OpdLibrary;
@@ -255,7 +255,7 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
 
     public void initializeAllFamiliesRegister() {
         ModuleConfiguration allFamiliesConfiguration = new ModuleConfiguration.Builder(
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
+                Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 AllFamiliesRegisterQueryProvider.class,
                 new ConfigViewsLib(),
                 AllFamiliesRegisterActivityStarter.class
@@ -265,7 +265,7 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 CoreConstants.EventType.FAMILY_REGISTRATION,
                 CoreConstants.EventType.UPDATE_FAMILY_REGISTRATION,
                 locationTagsConfiguration,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
+                Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 FormActivity.class,
                 BaseFamilyProfileActivity.class,
                 false,
@@ -277,13 +277,13 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 .setToolbarOptions(ToolbarOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(true,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
+                Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 allFamiliesConfiguration);
     }
 
     public void initializeAncRegisters() {
         ModuleConfiguration ancModuleConfiguration = new ModuleConfiguration.Builder(
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
+                Constants.RegisterViewConstants.ModuleOptions.ANC,
                 AncRegisterQueryProvider.class,
                 new ConfigViewsLib(),
                 AncRegisterActivityStarter.class
@@ -293,7 +293,7 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 CoreConstants.EventType.ANC_REGISTRATION,
                 CoreConstants.EventType.UPDATE_ANC_REGISTRATION,
                 locationTagsConfiguration,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
+                Constants.RegisterViewConstants.ModuleOptions.ANC,
                 FormActivity.class,
                 BaseAncMemberProfileActivity.class,
                 false,
@@ -306,23 +306,23 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 .setMemberProfileOptionsClass(AncMemberProfileOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(false,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
+                Constants.RegisterViewConstants.ModuleOptions.ANC,
                 ancModuleConfiguration);
     }
 
     public void initializePncRegisters() {
         ModuleConfiguration pncModuleConfiguration = new ModuleConfiguration.Builder(
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
+                Constants.RegisterViewConstants.ModuleOptions.PNC,
                 PncRegisterQueryProvider.class,
                 new ConfigViewsLib(),
                 PncRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
                 "pregnancy_outcome",
                 CoreConstants.TABLE_NAME.PNC_MEMBER,
-                org.smartregister.goldsmith.util.Constants.EventType.PREGNANCY_OUTCOME,
+                Constants.EventType.PREGNANCY_OUTCOME,
                 null,
                 locationTagsConfiguration,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
+                Constants.RegisterViewConstants.ModuleOptions.PNC,
                 FormActivity.class,
                 BasePncMemberProfileActivity.class,
                 false,
@@ -336,7 +336,7 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(
                 false,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
+                Constants.RegisterViewConstants.ModuleOptions.PNC,
                 pncModuleConfiguration);
     }
 
@@ -361,8 +361,8 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
         FamilyMetadata metadata = FormUtils.getFamilyMetadata(new FamilyProfileActivity(), getDefaultLocationLevel(), getFacilityHierarchy(), getFamilyLocationFields());
 
         HashMap<String, String> setting = new HashMap<>();
-        setting.put(Constants.CustomConfig.FAMILY_FORM_IMAGE_STEP, JsonFormUtils.STEP1);
-        setting.put(Constants.CustomConfig.FAMILY_MEMBER_FORM_IMAGE_STEP, JsonFormUtils.STEP2);
+        setting.put(org.smartregister.family.util.Constants.CustomConfig.FAMILY_FORM_IMAGE_STEP, JsonFormUtils.STEP1);
+        setting.put(org.smartregister.family.util.Constants.CustomConfig.FAMILY_MEMBER_FORM_IMAGE_STEP, JsonFormUtils.STEP2);
         metadata.setCustomConfigs(setting);
         return metadata;
     }

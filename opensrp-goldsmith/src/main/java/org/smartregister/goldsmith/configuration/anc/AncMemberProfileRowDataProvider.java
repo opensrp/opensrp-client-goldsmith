@@ -16,6 +16,8 @@ import org.smartregister.domain.AlertStatus;
 import org.smartregister.domain.ConfigurableMemberProfileRowData;
 import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.dao.ChwANCDao;
+import org.smartregister.goldsmith.dao.FamilyDao;
 import org.smartregister.goldsmith.interactor.AncUpcomingServicesInteractorFlv;
 
 import java.text.SimpleDateFormat;
@@ -47,8 +49,6 @@ public class AncMemberProfileRowDataProvider implements ConfigurableMemberProfil
 
     public void addMedicalHistoryData(List<ConfigurableMemberProfileRowData> rowDataList) {
         Date lastVisitDate = getLastVisitDate(commonPersonClient);
-        if (lastVisitDate == null)
-            return;
 
         rowData = new ConfigurableMemberProfileRowData();
         rowData.setRowIconId(R.drawable.ic_medical_history);
@@ -85,13 +85,11 @@ public class AncMemberProfileRowDataProvider implements ConfigurableMemberProfil
     }
 
     private Date getLastVisitDate(CommonPersonObjectClient client) {
-        return new Date(); // TODO -> Plug in actual method call
-        // return ChwANCDao.getLatestVisitDate(client.getDetails().get(AllConstants.Client.BASE_ENTITY_ID));
+        return ChwANCDao.getLatestVisitDate(client.getDetails().get(AllConstants.Client.BASE_ENTITY_ID));
     }
 
     private AlertStatus getFamilyAlertStatus(CommonPersonObjectClient client) {
-        return AlertStatus.normal; // TODO -> Plug in actual method call
-        // return FamilyDao.getFamilyAlertStatus(client.getDetails().get(AllConstants.Client.BASE_ENTITY_ID));
+        return FamilyDao.getFamilyAlertStatus(client.getDetails().get(AllConstants.Client.BASE_ENTITY_ID));
     }
 
     public Alert getUpcomingServicesAlert(CommonPersonObjectClient client) {
