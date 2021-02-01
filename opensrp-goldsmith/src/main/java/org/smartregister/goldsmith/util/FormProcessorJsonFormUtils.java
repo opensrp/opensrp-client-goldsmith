@@ -49,16 +49,12 @@ public class FormProcessorJsonFormUtils extends JsonFormUtils {
             populateInjectedFields(form, injectedFieldValues);
         }
 
-
         if (org.smartregister.family.util.Utils.metadata().familyRegister.formName.equals(formName) || org.smartregister.family.util.Utils.metadata().familyMemberRegister.formName.equals(formName)) {
             if (StringUtils.isNotBlank(entityId)) {
                 entityId = entityId.replace("-", "");
             }
 
-            JSONArray field = fields(form, STEP1);
-            JSONObject uniqueId = getFieldJSONObject(field, Constants.JSON_FORM_KEY.UNIQUE_ID);
-
-            updateUniqueId(formName, form, entityId, uniqueId);
+            updateUniqueId(formName, form, entityId);
         }
 
         if (CoreLibrary.getInstance().getModuleConfiguration(CoreLibrary.getInstance().getCurrentModuleName()).getModuleMetadata().getRegistrationFormName().equals(formName)) {
@@ -187,7 +183,9 @@ public class FormProcessorJsonFormUtils extends JsonFormUtils {
         return null;
     }
 
-    protected static void updateUniqueId(String formName, JSONObject form, String entityId, JSONObject uniqueId) throws JSONException {
+    protected static void updateUniqueId(String formName, JSONObject form, String entityId) throws JSONException {
+        JSONArray field = fields(form, STEP1);
+        JSONObject uniqueId = getFieldJSONObject(field, Constants.JSON_FORM_KEY.UNIQUE_ID);
         if (formName.equals(org.smartregister.family.util.Utils.metadata().familyRegister.formName)) {
             // Inject OpenSRP id into the form
             if (uniqueId == null) {
