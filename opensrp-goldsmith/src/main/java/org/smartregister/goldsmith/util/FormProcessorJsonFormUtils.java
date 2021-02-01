@@ -58,20 +58,7 @@ public class FormProcessorJsonFormUtils extends JsonFormUtils {
             JSONArray field = fields(form, STEP1);
             JSONObject uniqueId = getFieldJSONObject(field, Constants.JSON_FORM_KEY.UNIQUE_ID);
 
-            if (formName.equals(org.smartregister.family.util.Utils.metadata().familyRegister.formName)) {
-                if (uniqueId != null) {
-                    uniqueId.remove(org.smartregister.family.util.JsonFormUtils.VALUE);
-                    uniqueId.put(org.smartregister.family.util.JsonFormUtils.VALUE, entityId + "_Family");
-                }
-
-                // Inject opensrp id into the form
-                field = fields(form, STEP2);
-                uniqueId = getFieldJSONObject(field, Constants.JSON_FORM_KEY.UNIQUE_ID);
-            }
-            if (uniqueId != null) {
-                uniqueId.remove(org.smartregister.family.util.JsonFormUtils.VALUE);
-                uniqueId.put(org.smartregister.family.util.JsonFormUtils.VALUE, entityId);
-            }
+            updateUniqueId(formName, form, entityId, uniqueId);
         }
 
         if (CoreLibrary.getInstance().getModuleConfiguration(CoreLibrary.getInstance().getCurrentModuleName()).getModuleMetadata().getRegistrationFormName().equals(formName)) {
@@ -198,6 +185,23 @@ public class FormProcessorJsonFormUtils extends JsonFormUtils {
             Timber.e(e, "SampleAppJsonFormUtils --> fields");
         }
         return null;
+    }
+
+    protected static void updateUniqueId(String formName, JSONObject form, String entityId, JSONObject uniqueId) throws JSONException {
+        if (formName.equals(org.smartregister.family.util.Utils.metadata().familyRegister.formName)) {
+            // Inject OpenSRP id into the form
+            if (uniqueId == null) {
+                JSONArray fields = fields(form, STEP2);
+                uniqueId = getFieldJSONObject(fields, Constants.JSON_FORM_KEY.UNIQUE_ID);
+            } else {
+                uniqueId.remove(org.smartregister.family.util.JsonFormUtils.VALUE);
+                uniqueId.put(org.smartregister.family.util.JsonFormUtils.VALUE, entityId + "_Family");
+            }
+        }
+        if (uniqueId != null) {
+            uniqueId.remove(org.smartregister.family.util.JsonFormUtils.VALUE);
+            uniqueId.put(org.smartregister.family.util.JsonFormUtils.VALUE, entityId);
+        }
     }
 
     protected static void injectOpenSRPId(String entityId, JSONObject form) throws JSONException {
