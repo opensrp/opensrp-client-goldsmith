@@ -169,13 +169,13 @@ public abstract class DefaultAncHomeVisitInteractorFlv implements AncHomeVisitIn
     }
 
     protected void evaluateTTImmunization(VaccineTaskModel vaccineTaskModel) throws Exception {
-        if (ifPendingVaccines(vaccineTaskModel))
+        if (hasNoPendingVaccines(vaccineTaskModel))
             return;
 
         // compute the due date
         final Triple<DateTime, VaccineRepo.Vaccine, String> individualVaccine = VaccineScheduleUtil.getIndividualVaccine(vaccineTaskModel, "TT");// if there are no pending vaccines
 
-        if (vaccineOverdue(individualVaccine))
+        if (vaccineNotDueOrOverdue(individualVaccine))
             return;
 
         String title = MessageFormat.format(context.getString(R.string.anc_home_visit_tt_immunization), individualVaccine.getRight());
@@ -271,11 +271,11 @@ public abstract class DefaultAncHomeVisitInteractorFlv implements AncHomeVisitIn
         actionList.put(context.getString(R.string.anc_home_visit_observations_n_illnes), observation);
     }
 
-    private boolean ifPendingVaccines(VaccineTaskModel vaccineTaskModel) {
-        return vaccineTaskModel != null && vaccineTaskModel.getScheduleList().size() >= 1;
+    private boolean hasNoPendingVaccines(VaccineTaskModel vaccineTaskModel) {
+        return vaccineTaskModel == null || vaccineTaskModel.getScheduleList().size() < 1;
     }
 
-    private boolean vaccineOverdue(Triple<DateTime, VaccineRepo.Vaccine, String> individualVaccine) {
+    private boolean vaccineNotDueOrOverdue(Triple<DateTime, VaccineRepo.Vaccine, String> individualVaccine) {
         return individualVaccine == null || individualVaccine.getLeft().isAfter(new DateTime());
     }
 }

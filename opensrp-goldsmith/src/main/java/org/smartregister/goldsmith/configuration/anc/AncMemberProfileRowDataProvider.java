@@ -49,13 +49,14 @@ public class AncMemberProfileRowDataProvider implements ConfigurableMemberProfil
 
     public void addMedicalHistoryData(List<ConfigurableMemberProfileRowData> rowDataList) {
         Date lastVisitDate = getLastVisitDate(commonPersonClient);
+        if (lastVisitDate != null) {
+            rowData = new ConfigurableMemberProfileRowData();
+            rowData.setRowIconId(R.drawable.ic_medical_history);
+            rowData.setRowTitle(context.getString(R.string.view_medical_history));
+            rowData.setRowDetail(getMedicalHistoryDetailString(lastVisitDate));
 
-        rowData = new ConfigurableMemberProfileRowData();
-        rowData.setRowIconId(R.drawable.ic_medical_history);
-        rowData.setRowTitle(context.getString(R.string.view_medical_history));
-        rowData.setRowDetail(getMedicalHistoryDetailString(lastVisitDate));
-
-        rowDataList.add(rowData);
+            rowDataList.add(rowData);
+        }
     }
 
     public void addUpcomingServicesData(List<ConfigurableMemberProfileRowData> rowDataList) {
