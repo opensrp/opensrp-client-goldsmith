@@ -28,6 +28,8 @@ jobs:
         run: cd .. && git clone https://github.com/OpenSRP/opensrp-client-tasking.git && cd opensrp-client-tasking && git checkout integrate-goldsmith && cd ../opensrp-client-goldsmith
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Create google-services.json for Github actions CI
+        run: mv opensrp-goldsmith/google-services.json.dummy opensrp-goldsmith/google-services.json
       - name: Build project
         run: ./gradlew opensrp-goldsmith:build --stacktrace
       - name: Build APK (Maintain stability)
