@@ -14,7 +14,6 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.FamilyOtherMemberProfileActivity;
 
-
 import java.util.HashMap;
 
 public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment {
@@ -50,10 +49,8 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
     protected void onViewClicked(View view) {
         super.onViewClicked(view);
         int id = view.getId();
-        if (id == R.id.patient_column) {
-            if (view.getTag() != null && view.getTag(R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
-                goToOtherMemberProfileActivity((CommonPersonObjectClient) view.getTag());
-            }
+        if (id == R.id.patient_column && view.getTag() != null && view.getTag(R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
+            goToOtherMemberProfileActivity((CommonPersonObjectClient) view.getTag());
         }
     }
 

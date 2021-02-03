@@ -2,7 +2,6 @@ package org.smartregister.goldsmith.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
@@ -14,7 +13,6 @@ import org.smartregister.tasking.model.BaseTaskDetails;
 
 import java.util.Map;
 
-import io.ona.kujaku.utils.LocationSettingsHelper;
 import io.ona.kujaku.utils.Permissions;
 
 /**
@@ -29,7 +27,7 @@ public class GoldsmithTaskRegisterActivity extends TaskRegisterActivity implemen
 
     @Override
     public void startFormActivity(String s, String s1, Map<String, String> map) {
-
+        // Do nothing for now
     }
 
     @Override
@@ -42,7 +40,7 @@ public class GoldsmithTaskRegisterActivity extends TaskRegisterActivity implemen
 
     @Override
     public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
-
+        // Do nothing for now
     }
 
     @Override

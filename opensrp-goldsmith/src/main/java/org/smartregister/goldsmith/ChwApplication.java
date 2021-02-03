@@ -10,11 +10,13 @@ import androidx.annotation.NonNull;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
+import com.mapbox.mapboxsdk.Mapbox;
 import com.vijay.jsonwizard.NativeFormLibrary;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
@@ -30,49 +32,53 @@ import org.smartregister.chw.core.utils.FormUtils;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.chw.pnc.PncLibrary;
 import org.smartregister.chw.pnc.activity.BasePncMemberProfileActivity;
+import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.configuration.ModuleConfiguration;
 import org.smartregister.configuration.ModuleMetadata;
+import org.smartregister.dto.UserAssignmentDTO;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.domain.FamilyMetadata;
-import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.goldsmith.activity.FamilyProfileActivity;
 import org.smartregister.goldsmith.activity.FamilyWizardFormActivity;
 import org.smartregister.goldsmith.activity.LoginActivity;
+import org.smartregister.goldsmith.configuration.AncPncToolbarOptions;
+import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
+import org.smartregister.goldsmith.configuration.ToolbarOptions;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesFormProcessor;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.anc.AncFormProcessor;
 import org.smartregister.goldsmith.configuration.anc.AncMemberProfileOptions;
+import org.smartregister.goldsmith.configuration.anc.AncRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.anc.AncRegisterRowOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
 import org.smartregister.goldsmith.configuration.pnc.PncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterRowOptions;
 import org.smartregister.goldsmith.job.GoldsmithJobCreator;
-import org.smartregister.goldsmith.configuration.anc.AncFormProcessor;
-import org.smartregister.goldsmith.configuration.AncPncToolbarOptions;
-import org.smartregister.goldsmith.configuration.anc.AncRegisterActivityStarter;
-import org.smartregister.goldsmith.configuration.anc.AncRegisterRowOptions;
-import org.smartregister.goldsmith.configuration.ToolbarOptions;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
-import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
 import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.PncRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
+import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.opd.OpdLibrary;
 import org.smartregister.opd.configuration.OpdConfiguration;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
+import org.smartregister.receiver.ValidateAssignmentReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.Repository;
 import org.smartregister.sync.ClientProcessorForJava;
-import org.smartregister.tasking.util.PreferencesUtil;
-import org.smartregister.view.activity.FormActivity;
 import org.smartregister.tasking.TaskingLibrary;
+import org.smartregister.tasking.util.PreferencesUtil;
+import org.smartregister.tasking.util.TaskingConstants;
+import org.smartregister.view.activity.FormActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,7 +92,7 @@ import timber.log.Timber;
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 21-09-2020.
  */
-public class ChwApplication extends CoreChwApplication {
+public class ChwApplication extends CoreChwApplication implements ValidateAssignmentReceiver.UserAssignmentListener {
 
     private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
 
@@ -97,7 +103,9 @@ public class ChwApplication extends CoreChwApplication {
         mInstance = this;
         context = Context.getInstance();
         context.updateApplicationContext(getApplicationContext());
-        context.updateCommonFtsObject(createCommonFtsObject());
+
+        CommonFtsObject commonFtsObject = getCommonFtsObject();
+        context.updateCommonFtsObject(commonFtsObject);
 
         //Necessary to determine the right form to pick from assets
         CoreConstants.JSON_FORM.setLocaleAndAssetManager(ChwApplication.getCurrentLocale(),
@@ -108,7 +116,9 @@ public class ChwApplication extends CoreChwApplication {
                 getRegisteredActivities(), flavor.hasP2P());*/
 
         if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
+            if (Timber.forest().size() == 0) {
+                Timber.plant(new Timber.DebugTree());
+            }
         } else {
             Timber.plant(new CrashlyticsTree(ChwApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM()));
         }
@@ -159,6 +169,33 @@ public class ChwApplication extends CoreChwApplication {
         if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(BuildConfig.PNC_PLAN_ID)) {
             PreferencesUtil.getInstance().setCurrentPlanId(BuildConfig.PNC_PLAN_ID);
         }
+
+        Mapbox.getInstance(this, BuildConfig.MAPBOX_SDK_ACCESS_TOKEN);
+
+        ValidateAssignmentReceiver.init(this);
+        ValidateAssignmentReceiver.getInstance().addListener(this);
+    }
+
+    @NotNull
+    protected CommonFtsObject getCommonFtsObject() {
+        CommonFtsObject commonFtsObject = createCommonFtsObject();
+        String[] previousTables = commonFtsObject.getTables();
+        String[] tables = new String[previousTables.length + 1];
+
+        for (int i = 0; i < tables.length - 1; i++) {
+            tables[i] = previousTables[i];
+        }
+
+        tables[tables.length - 1] = TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP;
+
+        CommonFtsObject updatedFtsObject = new CommonFtsObject(tables);
+        for (String table: commonFtsObject.getTables()) {
+            updatedFtsObject.updateSearchFields(table, commonFtsObject.getSearchFields(table));
+            updatedFtsObject.updateSortFields(table, commonFtsObject.getSortFields(table));
+        }
+
+        updatedFtsObject.updateSearchFields(TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP, new String[]{"family_base_entity_id"});
+        return updatedFtsObject;
     }
 
     private void initializeRegisters() {
@@ -169,11 +206,10 @@ public class ChwApplication extends CoreChwApplication {
 
 
     private void initializeLibraries() {
+        // init libraries
 
         CoreLibrary.init(context, new ChwSyncConfiguration(), BuildConfig.BUILD_TIMESTAMP);
         CoreLibrary.getInstance().setEcClientFieldsFile(CoreConstants.EC_CLIENT_FIELDS);
-
-        // init libraries
         ImmunizationLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ConfigurableViewsLibrary.init(context);
         FamilyLibrary.init(context, getMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
@@ -185,9 +221,10 @@ public class ChwApplication extends CoreChwApplication {
         //TODO uncomment the below if Growth Monitoring is being used
        /* GrowthMonitoringConfig growthMonitoringConfig = new GrowthMonitoringConfig();
         growthMonitoringConfig.setWeightForHeightZScoreFile("weight_for_height.csv");
-        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);*/
-        /*
+        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION, growthMonitoringConfig);
+        */
 
+        /*
         if (hasReferrals()) {
             //Setup referral library
             ReferralLibrary.init(this);
@@ -212,15 +249,13 @@ public class ChwApplication extends CoreChwApplication {
         /*Form form = new Form();
         form.setDatePickerDisplayFormat("dd MMM yyyy");*/
 
-        // set up processor
-        //FamilyLibrary.getInstance().setClientProcessorForJava(ChwClientProcessor.getInstance(getApplicationContext()));
         NativeFormLibrary.getInstance().setClientFormDao(CoreLibrary.getInstance().context().getClientFormRepository());
         TaskingLibrary.init(new GoldsmithTaskingLibraryConfiguration());
     }
 
     public void initializeAllFamiliesRegister() {
         ModuleConfiguration allFamiliesConfiguration = new ModuleConfiguration.Builder(
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
+                Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 AllFamiliesRegisterQueryProvider.class,
                 new ConfigViewsLib(),
                 AllFamiliesRegisterActivityStarter.class
@@ -230,7 +265,7 @@ public class ChwApplication extends CoreChwApplication {
                 CoreConstants.EventType.FAMILY_REGISTRATION,
                 CoreConstants.EventType.UPDATE_FAMILY_REGISTRATION,
                 locationTagsConfiguration,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
+                Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 FormActivity.class,
                 BaseFamilyProfileActivity.class,
                 false,
@@ -242,13 +277,13 @@ public class ChwApplication extends CoreChwApplication {
                 .setToolbarOptions(ToolbarOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(true,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
+                Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 allFamiliesConfiguration);
     }
 
     public void initializeAncRegisters() {
         ModuleConfiguration ancModuleConfiguration = new ModuleConfiguration.Builder(
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
+                Constants.RegisterViewConstants.ModuleOptions.ANC,
                 AncRegisterQueryProvider.class,
                 new ConfigViewsLib(),
                 AncRegisterActivityStarter.class
@@ -258,7 +293,7 @@ public class ChwApplication extends CoreChwApplication {
                 CoreConstants.EventType.ANC_REGISTRATION,
                 CoreConstants.EventType.UPDATE_ANC_REGISTRATION,
                 locationTagsConfiguration,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
+                Constants.RegisterViewConstants.ModuleOptions.ANC,
                 FormActivity.class,
                 BaseAncMemberProfileActivity.class,
                 false,
@@ -271,23 +306,23 @@ public class ChwApplication extends CoreChwApplication {
                 .setMemberProfileOptionsClass(AncMemberProfileOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(false,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.ANC,
+                Constants.RegisterViewConstants.ModuleOptions.ANC,
                 ancModuleConfiguration);
     }
 
     public void initializePncRegisters() {
         ModuleConfiguration pncModuleConfiguration = new ModuleConfiguration.Builder(
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
+                Constants.RegisterViewConstants.ModuleOptions.PNC,
                 PncRegisterQueryProvider.class,
                 new ConfigViewsLib(),
                 PncRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
                 "pregnancy_outcome",
                 CoreConstants.TABLE_NAME.PNC_MEMBER,
-                org.smartregister.goldsmith.util.Constants.EventType.PREGNANCY_OUTCOME,
+                Constants.EventType.PREGNANCY_OUTCOME,
                 null,
                 locationTagsConfiguration,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
+                Constants.RegisterViewConstants.ModuleOptions.PNC,
                 FormActivity.class,
                 BasePncMemberProfileActivity.class,
                 false,
@@ -301,7 +336,7 @@ public class ChwApplication extends CoreChwApplication {
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(
                 false,
-                org.smartregister.goldsmith.util.Constants.RegisterViewConstants.ModuleOptions.PNC,
+                Constants.RegisterViewConstants.ModuleOptions.PNC,
                 pncModuleConfiguration);
     }
 
@@ -326,8 +361,8 @@ public class ChwApplication extends CoreChwApplication {
         FamilyMetadata metadata = FormUtils.getFamilyMetadata(new FamilyProfileActivity(), getDefaultLocationLevel(), getFacilityHierarchy(), getFamilyLocationFields());
 
         HashMap<String, String> setting = new HashMap<>();
-        setting.put(Constants.CustomConfig.FAMILY_FORM_IMAGE_STEP, JsonFormUtils.STEP1);
-        setting.put(Constants.CustomConfig.FAMILY_MEMBER_FORM_IMAGE_STEP, JsonFormUtils.STEP2);
+        setting.put(org.smartregister.family.util.Constants.CustomConfig.FAMILY_FORM_IMAGE_STEP, JsonFormUtils.STEP1);
+        setting.put(org.smartregister.family.util.Constants.CustomConfig.FAMILY_MEMBER_FORM_IMAGE_STEP, JsonFormUtils.STEP2);
         metadata.setCustomConfigs(setting);
         return metadata;
     }
@@ -370,17 +405,22 @@ public class ChwApplication extends CoreChwApplication {
         return repository;
     }
 
+    @Override
+    public void onUserAssignmentRevoked(UserAssignmentDTO userAssignmentDTO) {
+        // Do nothing for now
+    }
+
 
     static class ConfigViewsLib implements ModuleConfiguration.ConfigurableViewsLibrary {
 
         @Override
         public void registerViewConfigurations(List<String> viewIdentifiers) {
-
+            // Do nothing for now
         }
 
         @Override
         public void unregisterViewConfigurations(List<String> viewIdentifiers) {
-
+            // Do nothing for now
         }
     }
 
@@ -390,7 +430,7 @@ public class ChwApplication extends CoreChwApplication {
         @NonNull
         @Override
         public ArrayList<String> getAllowedLevels() {
-            return new ArrayList<String>(Arrays.asList("Country", "County"));
+            return new ArrayList<>(Arrays.asList("Country", "County"));
         }
 
         @NonNull

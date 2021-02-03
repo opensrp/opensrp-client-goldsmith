@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.Obs;
 import org.smartregister.domain.db.EventClient;
+import org.smartregister.goldsmith.processor.FamilyStructureRegistrationEventMiniProcessor;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.view.activity.DrishtiApplication;
@@ -27,6 +28,8 @@ import timber.log.Timber;
 public class GoldsmithClientProcessor extends ClientProcessorForJava {
     public GoldsmithClientProcessor(Context context) {
         super(context);
+
+        addMiniProcessors(new FamilyStructureRegistrationEventMiniProcessor());
     }
 
     public static ClientProcessorForJava getInstance(Context context) {
@@ -41,7 +44,7 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
         List<EventClient> local = new ArrayList<>();
         List<EventClient> remote = new ArrayList<>();
         for (EventClient eventClient : eventClientList) {
-            if (StringUtils.isBlank(eventClient.getEvent().getEventId()) || eventClient.getEvent().getServerVersion() ==0L) {
+            if (StringUtils.isBlank(eventClient.getEvent().getEventId()) || eventClient.getEvent().getServerVersion() == 0L) {
                 local.add(eventClient);
             } else {
                 remote.add(eventClient);
@@ -50,7 +53,7 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
 
         // TODO: Fix this issue at a better position
         // This is a pain for home visits which generate a lot of events
-        for (EventClient eventClient: eventClientList) {
+        for (EventClient eventClient : eventClientList) {
             Event event = eventClient.getEvent();
             Map<String, String> details = event.getDetails();
 
@@ -70,6 +73,8 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
             // TODO: Fix this in the event processing of each module later
             // This fixes an event where the event.obs.values can contain one item which is a literal null in JSON
             fixObsHavingNullValuesItem(event);
+
+            Timber.i("Processing: %s", event.getEventType());
         }
 
         super.processClient(local, true);
@@ -87,11 +92,9 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
                 Obs observation = obsArray[i];
                 List<Object> observationValues = observation.getValues();
 
-                if (observationValues != null && observationValues.size() > 0) {
-                    if (observationValues.get(0) == null) {
-                        obsUpdated = true;
-                        observation.setValues(new ArrayList<>());
-                    }
+                if (observationValues != null && observationValues.size() > 0 && observationValues.get(0) == null) {
+                    obsUpdated = true;
+                    observation.setValues(new ArrayList<>());
                 }
             }
 
@@ -102,7 +105,7 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
                 JSONArray obsJsonArray = eventJson.optJSONArray("obs");
                 if (obsJsonArray != null) {
                     for (int i = 0; i < obsJsonArray.length(); i++) {
-                        JSONObject observation =  obsJsonArray.optJSONObject(i);
+                        JSONObject observation = obsJsonArray.optJSONObject(i);
                         if (observation != null) {
                             JSONArray valuesArray = observation.optJSONArray("values");
                             if (valuesArray != null && valuesArray.length() > 0) {
@@ -125,9 +128,9 @@ public class GoldsmithClientProcessor extends ClientProcessorForJava {
 
             return DrishtiApplication.getInstance().getRepository().getWritableDatabase()
                     .update(EventClientRepository.Table.event.name(),
-                    values,
-                    EventClientRepository.event_column.formSubmissionId.name() + " = ?",
-                    new String[]{formSubmissionId});
+                            values,
+                            EventClientRepository.event_column.formSubmissionId.name() + " = ?",
+                            new String[]{formSubmissionId});
 
         } catch (Exception e) {
             Timber.e(e);

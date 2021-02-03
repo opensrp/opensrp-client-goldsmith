@@ -1,19 +1,10 @@
 package org.smartregister.goldsmith.presenter;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-
-import org.smartregister.chw.core.utils.ImageLoaderRequest;
-import org.smartregister.configurableviews.model.LoginConfiguration;
-import org.smartregister.configurableviews.model.ViewConfiguration;
 import org.smartregister.configurableviews.util.Constants;
-import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.interactor.LoginInteractor;
 import org.smartregister.login.model.BaseLoginModel;
@@ -26,7 +17,9 @@ import timber.log.Timber;
 
 public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContract.Presenter {
 
+/*
     private static final String TAG = LoginPresenter.class.getCanonicalName();
+*/
 
     public LoginPresenter(BaseLoginContract.View loginView) {
         mLoginView = new WeakReference<>(loginView);
@@ -48,14 +41,16 @@ public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContr
 
             CheckBox showPasswordCheckBox = getLoginView().getActivityContext().findViewById(R.id.login_show_password_checkbox);
             TextView showPasswordTextView = getLoginView().getActivityContext().findViewById(R.id.login_show_password_text_view);
-            //if (!metadata.getShowPasswordCheckbox()) {
-            if (false) {
+            /*if (!metadata.getShowPasswordCheckbox()) {
                 showPasswordCheckBox.setVisibility(View.GONE);
                 showPasswordTextView.setVisibility(View.GONE);
             } else {
                 showPasswordCheckBox.setVisibility(View.VISIBLE);
                 showPasswordTextView.setVisibility(View.VISIBLE);
-            }
+            }*/
+
+            showPasswordCheckBox.setVisibility(View.GONE);
+            showPasswordTextView.setVisibility(View.GONE);
 /*
             if (background.getOrientation() != null && background.getStartColor() != null && background.getEndColor() != null) {
                 View loginLayout = getLoginView().getActivityContext().findViewById(R.id.login_layout);

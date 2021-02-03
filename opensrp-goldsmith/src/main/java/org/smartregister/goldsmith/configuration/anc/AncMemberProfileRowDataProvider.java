@@ -49,15 +49,14 @@ public class AncMemberProfileRowDataProvider implements ConfigurableMemberProfil
 
     public void addMedicalHistoryData(List<ConfigurableMemberProfileRowData> rowDataList) {
         Date lastVisitDate = getLastVisitDate(commonPersonClient);
-        if (lastVisitDate == null)
-            return;
+        if (lastVisitDate != null) {
+            rowData = new ConfigurableMemberProfileRowData();
+            rowData.setRowIconId(R.drawable.ic_medical_history);
+            rowData.setRowTitle(context.getString(R.string.view_medical_history));
+            rowData.setRowDetail(getMedicalHistoryDetailString(lastVisitDate));
 
-        rowData = new ConfigurableMemberProfileRowData();
-        rowData.setRowIconId(R.drawable.ic_medical_history);
-        rowData.setRowTitle(context.getString(R.string.view_medical_history));
-        rowData.setRowDetail(getMedicalHistoryDetailString(lastVisitDate));
-
-        rowDataList.add(rowData);
+            rowDataList.add(rowData);
+        }
     }
 
     public void addUpcomingServicesData(List<ConfigurableMemberProfileRowData> rowDataList) {
@@ -87,13 +86,11 @@ public class AncMemberProfileRowDataProvider implements ConfigurableMemberProfil
     }
 
     private Date getLastVisitDate(CommonPersonObjectClient client) {
-        return new Date(); // TODO -> Plug in actual method call
-        // return ChwANCDao.getLatestVisitDate(client.getDetails().get(AllConstants.Client.BASE_ENTITY_ID));
+        return ChwANCDao.getLatestVisitDate(client.getDetails().get(AllConstants.Client.BASE_ENTITY_ID));
     }
 
     private AlertStatus getFamilyAlertStatus(CommonPersonObjectClient client) {
-        return AlertStatus.normal; // TODO -> Plug in actual method call
-        // return FamilyDao.getFamilyAlertStatus(client.getDetails().get(AllConstants.Client.BASE_ENTITY_ID));
+        return FamilyDao.getFamilyAlertStatus(client.getDetails().get(AllConstants.Client.BASE_ENTITY_ID));
     }
 
     public Alert getUpcomingServicesAlert(CommonPersonObjectClient client) {

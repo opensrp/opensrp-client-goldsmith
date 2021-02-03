@@ -14,12 +14,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.goldsmith.R;
-import org.smartregister.goldsmith.actionhelper.DangerSignsAction;
-import org.smartregister.goldsmith.actionhelper.ExclusiveBreastFeedingAction;
-import org.smartregister.goldsmith.actionhelper.ImmunizationActionHelper;
-import org.smartregister.goldsmith.actionhelper.ObservationAction;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.actionhelper.HomeVisitActionHelper;
 import org.smartregister.chw.anc.contract.BaseAncHomeVisitContract;
@@ -35,8 +29,16 @@ import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.anc.util.VisitUtils;
 import org.smartregister.chw.core.domain.Person;
 import org.smartregister.chw.core.rule.PNCHealthFacilityVisitRule;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.RecurringServiceUtil;
 import org.smartregister.chw.core.utils.VaccineScheduleUtil;
+import org.smartregister.domain.Alert;
+import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.actionhelper.DangerSignsAction;
+import org.smartregister.goldsmith.actionhelper.ExclusiveBreastFeedingAction;
+import org.smartregister.goldsmith.actionhelper.ImmunizationActionHelper;
+import org.smartregister.goldsmith.actionhelper.ObservationAction;
 import org.smartregister.goldsmith.dao.ChwPNCDao;
 import org.smartregister.goldsmith.dao.PersonDao;
 import org.smartregister.goldsmith.domain.PNCHealthFacilityVisitSummary;
@@ -44,10 +46,6 @@ import org.smartregister.goldsmith.domain.PncBaby;
 import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.goldsmith.util.JsonFormUtils;
 import org.smartregister.goldsmith.util.PNCVisitUtil;
-import org.smartregister.domain.Alert;
-import org.smartregister.goldsmith.ChwApplication;
-import org.smartregister.goldsmith.domain.PncBaby;
-import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.immunization.domain.ServiceWrapper;
 import org.smartregister.immunization.domain.VaccineWrapper;
 import org.smartregister.util.FormUtils;
@@ -665,7 +663,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
                         MessageFormat.format(pnc_visit_date.getString(JsonFormConstants.HINT), visitRule.getVisitName())
                 );
 
-                JSONObject pnc_hf_next_visit_date = JsonFormUtils.getFieldJSONObject(fields, Constants.FORM_SUBMISSION_FIELD.pncHfNextVisitDateFieldType);
+                JSONObject pnc_hf_next_visit_date = JsonFormUtils.getFieldJSONObject(fields, Constants.FormSubmissionField.pncHfNextVisitDateFieldType);
                 pnc_hf_next_visit_date.put(JsonFormConstants.VALUE, DateTimeFormat.forPattern("dd-MM-yyyy").print(visitRule.getDueDate()));
 
                 updateObjectRelevance(pnc_visit_date);
@@ -723,7 +721,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
                 JSONArray field = JsonFormUtils.fields(jsonObject);
                 JSONObject confirmed_visits = JsonFormUtils.getFieldJSONObject(field, "confirmed_health_facility_visits");
                 JSONObject facility_visit_date = JsonFormUtils.getFieldJSONObject(field, "last_health_facility_visit_date");
-                JSONObject pnc_hf_next_visit_date = JsonFormUtils.getFieldJSONObject(field, Constants.FORM_SUBMISSION_FIELD.pncHfNextVisitDateFieldType);
+                JSONObject pnc_hf_next_visit_date = JsonFormUtils.getFieldJSONObject(field, Constants.FormSubmissionField.pncHfNextVisitDateFieldType);
                 pnc_hf_visit_date = JsonFormUtils.getValue(jsonObject, MessageFormat.format("pnc_hf_visit{0}_date", visit_num));
 
                 String count = String.valueOf(visit_num);

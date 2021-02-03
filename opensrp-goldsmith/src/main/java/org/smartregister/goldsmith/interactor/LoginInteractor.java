@@ -1,7 +1,6 @@
 package org.smartregister.goldsmith.interactor;
 
 import org.smartregister.goldsmith.contract.LoginJobScheduler;
-import org.smartregister.goldsmith.contract.LoginJobScheduler;
 import org.smartregister.login.interactor.BaseLoginInteractor;
 import org.smartregister.view.contract.BaseLoginContract;
 

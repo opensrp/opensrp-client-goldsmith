@@ -1,26 +1,43 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!--
-        <style name="AppTheme.NoActionBar">
-            <item name="windowActionBar">false</item>
-            <item name="windowNoTitle">true</item>
-        </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-        <style name="AppTheme.Login" parent="Theme.AppCompat.Light.DarkActionBar">
-            <item name="colorControlNormal">@android:color/white</item>
-            <item name="android:textSize">@dimen/login_font_size</item>
-            <item name="colorControlActivated">@color/colorPrimaryDark</item>
-        </style>-->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MaterialAppThemeNoActionBarAndTitle" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryDark</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Login" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:textSize">@dimen/login_font_size</item>
+        <item name="colorControlActivated">@android:color/black</item>
+    </style>
 
     <style name="FamilyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -58,17 +75,6 @@
         <item name="colorBackgroundFloating">@color/white</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:colorBackground">@color/white</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.Login" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="android:textSize">@dimen/login_font_size</item>
-        <item name="colorControlActivated">@android:color/black</item>
     </style>
 
     <style name="TitleStyle">
@@ -111,6 +117,54 @@
         <item name="android:textColor">#FF999999</item>
         <item name="android:textSize">16sp</item>
         <item name="android:lineSpacingMultiplier">1.19</item>
+    </style>
+
+    <style name="MyPerformanceActivityTitleStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:lineSpacingMultiplier">1.18</item>
+    </style>
+
+    <style name="TasksPercentageCompletedStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#EB7D00</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="TasksCompletedStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="TrendingDownStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#FFE20502</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.36</item>
+    </style>
+
+
+    <style name="PerformanceSectionTitleStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FF005084</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+
+    <style name="IndicatorLabelStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingMultiplier">1.36</item>
     </style>
 
 </resources>

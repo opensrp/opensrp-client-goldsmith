@@ -6,6 +6,9 @@ import org.smartregister.goldsmith.contract.LoginJobScheduler;
 import org.smartregister.goldsmith.job.LocationTaskServiceJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.tasking.util.Utils;
+
+import java.util.concurrent.TimeUnit;
+
 /*import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.job.DocumentConfigurationServiceJob;
 import org.smartregister.job.ImageUploadServiceJob;
@@ -24,8 +27,6 @@ import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.chw.job.BasePncCloseJob;
 import org.smartregister.chw.job.ScheduleJob;
 import org.smartregister.goldsmith.ChwApplication;*/
-
-import java.util.concurrent.TimeUnit;
 
 public class LoginJobSchedulerProvider implements LoginJobScheduler {
 

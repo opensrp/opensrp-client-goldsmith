@@ -10,11 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.smartregister.AllConstants;
-import org.smartregister.CoreLibrary;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configuration.BaseRegisterRowOptions;
-import org.smartregister.family.util.Constants;
-import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.util.ConfigurableRegisterUtils;
@@ -80,9 +77,10 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
         if (view != null) {
             String viewType = (String) view.getTag(org.smartregister.R.id.VIEW_TYPE);
             CommonPersonObjectClient client = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
-            if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
+            /*if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.ACTION_BUTTON_COLUMN.equals(viewType)) {
                 // Go to tasks?
-            } else if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
+            }*/
+            if (org.smartregister.goldsmith.util.Constants.RegisterViewConstants.Provider.CLIENT_COLUMN.equals(viewType)) {
                 goToFamilyProfile(client,view.getContext());
             }
         }
@@ -122,9 +120,9 @@ public class AllFamiliesRegisterRowOptions extends BaseRegisterRowOptions implem
             tasksActionWrapper = itemView.findViewById(R.id.task_action_wrapper);
         }
 
-        private void setDistanceFromProvider(String distanceMKm) {
+        /*private void setDistanceFromProvider(String distanceMKm) {
             tasksActionWrapper.setVisibility(View.VISIBLE);
             distanceFromProvider.setText(distanceMKm);
-        }
+        }*/
     }
 }

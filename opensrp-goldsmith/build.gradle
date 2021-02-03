@@ -34,8 +34,8 @@ android {
         applicationId "org.smartregister.goldsmith"
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargetSdkVersion
-        versionCode 1
-        versionName "0.0.1"
+        versionCode 2
+        versionName "0.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -46,6 +46,7 @@ android {
         buildConfigField "int", "MAX_SYNC_RETRIES", '3'
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
         buildConfigField "boolean", "IS_SYNC_SETTINGS", "false"
+        buildConfigField "String", "MAPBOX_SDK_ACCESS_TOKEN", '"sample_token"'
 
 
         if (project.rootProject.file("local.properties").exists()) {
@@ -60,6 +61,13 @@ android {
 
             if (properties != null && properties.containsKey("oauth.client.secret")) {
                 buildConfigField "String", "OAUTH_CLIENT_SECRET", properties["oauth.client.secret"]
+            } else {
+                project.logger.error("oauth.client.secret variable is not set in your local.properties")
+            }
+
+            // Mapbox access token
+            if (properties != null && properties.containsKey("mapbox.sdk.token")) {
+                buildConfigField "String", "MAPBOX_SDK_ACCESS_TOKEN", properties["mapbox.sdk.token"]
             } else {
                 project.logger.error("oauth.client.secret variable is not set in your local.properties")
             }
@@ -163,20 +171,35 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 
-    api ('org.smartregister:opensrp-client-core:3.1.0.5-GS-PREVIEW-SNAPSHOT'){
+/*
+    implementation(project(':opensrp-app')) {
+*/
+    api('org.smartregister:opensrp-client-core:3.1.0.11-GS-PREVIEW-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
+        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
     }
 
-    implementation (project(':opensrp-tasking')) {
-        //implementation ('org.smartregister:opensrp-client-tasking:0.0.3.2-SNAPSHOT') {
+    //` Use the opensrp-client-tasking branch -> goldsmith-merge-map-stuff
+    //implementation (project(':opensrp-tasking')) {
+    implementation('org.smartregister:opensrp-client-tasking:0.0.3.11-GS-PREVIEW-SNAPSHOT') {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'io.ona.rdt-capture'
+        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
     }
 
-    implementation('org.smartregister:opensrp-client-chw-core:1.6.0.2-GS-PREVIEW-SNAPSHOT') {
+    implementation('org.smartregister:opensrp-client-reporting:0.1.0-PREVIEW-SNAPSHOT') {
+        transitive = true
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.github.lecho', module: 'hellocharts-library'
+    }
+
+    implementation('org.smartregister:opensrp-client-chw-core:1.6.0.4-GS-PREVIEW-SNAPSHOT') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'androidx.legacy', module: 'legacy-support-v4'
@@ -187,9 +210,10 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-simprints'
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
+        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
     }
 
-    implementation ('org.smartregister:opensrp-plan-evaluator:0.1.6.4-GS-SNAPSHOT'){
+    implementation('org.smartregister:opensrp-plan-evaluator:0.1.6.4-GS-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
     }

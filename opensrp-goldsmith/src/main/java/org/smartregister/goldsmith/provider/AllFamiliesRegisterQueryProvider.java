@@ -5,13 +5,9 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.smartregister.chw.core.utils.CoreReferralUtils;
 import org.smartregister.configuration.ModuleRegisterQueryProviderContract;
-import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.pojo.InnerJoinObject;
 import org.smartregister.pojo.QueryTable;
-
-import timber.log.Timber;
 
 public class AllFamiliesRegisterQueryProvider extends ModuleRegisterQueryProviderContract {
     @NonNull

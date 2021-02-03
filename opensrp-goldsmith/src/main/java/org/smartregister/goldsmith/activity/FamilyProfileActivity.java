@@ -26,12 +26,10 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.family.model.BaseFamilyProfileModel;
-
 import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.FamilyProfileMemberFragment;
 import org.smartregister.goldsmith.presenter.FamilyProfilePresenter;
-import org.smartregister.view.fragment.BaseRegisterFragment;
 
 import java.util.HashMap;
 
@@ -44,7 +42,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
         CommonPersonObjectClient client = (CommonPersonObjectClient) getIntent().getExtras().getSerializable(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT);
         familyBaseEntityId = client.getCaseId();
-        familyHead =  Utils.getValue(client.getColumnmaps(),Constants.INTENT_KEY.FAMILY_HEAD, false);
+        familyHead = Utils.getValue(client.getColumnmaps(), Constants.INTENT_KEY.FAMILY_HEAD, false);
         primaryCaregiver = Utils.getValue(client.getColumnmaps(), Constants.INTENT_KEY.PRIMARY_CAREGIVER, false);
         familyName = Utils.getValue(client.getColumnmaps(), AllConstants.Client.FIRST_NAME, false);
         presenter = new FamilyProfilePresenter(this, new BaseFamilyProfileModel(familyName), familyBaseEntityId, familyHead, primaryCaregiver, familyName);
@@ -162,12 +160,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
     @Override
     protected void refreshList(Fragment fragment) {
-        if (fragment instanceof BaseRegisterFragment) {
-            if (fragment instanceof FamilyProfileMemberFragment) {
-                FamilyProfileMemberFragment familyProfileMemberFragment = ((FamilyProfileMemberFragment) fragment);
-                if (familyProfileMemberFragment.presenter() != null) {
-                    familyProfileMemberFragment.refreshListView();
-                }
+        if (fragment instanceof FamilyProfileMemberFragment) {
+            FamilyProfileMemberFragment familyProfileMemberFragment = ((FamilyProfileMemberFragment) fragment);
+            if (familyProfileMemberFragment.presenter() != null) {
+                familyProfileMemberFragment.refreshListView();
             }
         }
     }

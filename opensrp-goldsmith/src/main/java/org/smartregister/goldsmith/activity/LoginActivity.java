@@ -9,12 +9,10 @@ import android.view.MenuItem;
 import androidx.annotation.Nullable;
 
 import org.smartregister.family.util.Constants;
-import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.pinlogin.PinLogger;
 import org.smartregister.goldsmith.pinlogin.PinLoginUtil;
 import org.smartregister.goldsmith.presenter.LoginPresenter;
-import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.task.SaveTeamLocationsTask;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
@@ -24,8 +22,8 @@ import io.ona.kujaku.utils.Permissions;
 
 
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
-    public static final String TAG = BaseLoginActivity.class.getCanonicalName();
-    private static final String WFH_CSV_PARSED = "WEIGHT_FOR_HEIGHT_CSV_PARSED";
+    /*public static final String TAG = BaseLoginActivity.class.getCanonicalName();
+    private static final String WFH_CSV_PARSED = "WEIGHT_FOR_HEIGHT_CSV_PARSED";*/
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 983;
 
     private PinLogger pinLogger = PinLoginUtil.getPinLogger();
@@ -65,7 +63,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }*/
     }
 
-    private boolean hasPinLogin(){
+    private boolean hasPinLogin() {
         return false;
     }
 
@@ -107,11 +105,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
         if (hasPinLogin()) {
             startPinHome(remote);
-        }else{
+        } else {
             startHome(remote);
         }
-
-        //finish();
     }
 
     private void startHome(boolean remote) {
@@ -122,14 +118,15 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             Intent intent = new Intent(this, LaunchpadActivity.class);
             intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
             startActivity(intent);
+            finish();
         }
     }
 
     private void startPinHome(boolean remote) {
-        /*if (remote)
+        if (remote)
             pinLogger.resetPinLogin();
-
-        if (pinLogger.isFirstAuthentication()) {
+        // TODO -> Complete this implementation
+        /*if (pinLogger.isFirstAuthentication()) {
             EditText passwordEditText = findViewById(org.smartregister.R.id.login_password_edit_text);
             pinLogger.savePassword(passwordEditText.getText().toString());
         }
@@ -148,8 +145,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     }
 
     private void processWeightForHeightZscoreCSV() {
-        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
-        /*if (ChwApplication.getApplicationFlavor().hasChildSickForm() && !allSharedPreferences.getPreference(WFH_CSV_PARSED).equals("true")) {
+        // To implement later
+        /*AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        if (ChwApplication.getApplicationFlavor().hasChildSickForm() && !allSharedPreferences.getPreference(WFH_CSV_PARSED).equals("true")) {
             WeightForHeightIntentService.startParseWFHZScores(this);
             allSharedPreferences.savePreference(WFH_CSV_PARSED, "true");
         }*/
