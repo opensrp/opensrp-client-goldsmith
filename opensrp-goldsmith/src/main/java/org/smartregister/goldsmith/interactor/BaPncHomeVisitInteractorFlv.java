@@ -106,7 +106,7 @@ public class BaPncHomeVisitInteractorFlv extends DefaultPncHomeVisitInteractorFl
             public void onPayloadReceived(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    danger_signs_present_mama = org.smartregister.goldsmith.util.JsonFormUtils.getCheckBoxValue(jsonObject, "danger_signs_present_mama");
+                    danger_signs_present_mama = JsonFormUtils.getCheckBoxValue(jsonObject, "danger_signs_present_mama");
                 } catch (JSONException e) {
                     Timber.e(e);
                 }
