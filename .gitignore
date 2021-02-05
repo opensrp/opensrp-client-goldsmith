@@ -18,3 +18,5 @@ tmp/
 .cxxz
 **/jacoco.exec
 **/DebugUtil.java
+**/google-services.json
+google-services.json
