@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#005084</color>
+    <color name="colorPrimaryDark">@color/goldsmithColorPrimary</color>
+    <color name="colorAccent">#FFE400</color>
+    <color name="chwPrimary">#005084</color>
+
+    <color name="goldsmithToolbarColor">#005084</color>
+    <color name="goldsmithColorPrimary">#003353</color>
+    <color name="launchpad_bg">#f5f8fa</color>
+
+    <color name="goldsmith_blue">#004984</color>
+
+    <color name="progressbar_grey">#E5E5E5</color>
+    <color name="progressbar_red">#DE413F</color>
+    <color name="progressbar_green">#70BE59</color>
+    <color name="progressbar_amber">#F8B263</color>
+
+</resources>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_columns"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/patient_column"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/register_list_top_bottom_margin"
+        android:layout_marginEnd="@dimen/register_list_item_margin"
+        android:layout_marginLeft="@dimen/register_list_item_margin"
+        android:layout_marginRight="@dimen/register_list_item_margin"
+        android:layout_marginStart="@dimen/register_list_item_margin"
+        android:layout_marginTop="@dimen/register_list_top_bottom_margin"
+        android:layout_toLeftOf="@+id/visit_status_wrapper"
+        android:layout_toStartOf="@+id/visit_status_wrapper"
+        android:orientation="vertical">
+
+        <org.smartregister.view.customcontrols.CustomFontTextView
+            android:id="@+id/patient_name_and_age"
+            style="@style/CustomFontTextViewStyle.ClientList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingLeft="0dp"
+            android:paddingStart="0dp"
+            android:singleLine="true"
+            android:text="Patient Name, 25"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/register_list_title_size" />
+
+        <org.smartregister.view.customcontrols.CustomFontTextView
+            android:id="@+id/anc_day"
+            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="0dp"
+            android:paddingStart="0dp"
+            android:paddingTop="@dimen/register_list_top_bottom_padding"
+            android:text="Day P1"
+            android:textColor="@color/light_grey_text"
+            android:textSize="@dimen/register_list_desc_size"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/visit_status_wrapper"
+        android:layout_width="@dimen/register_list_item_width"
+        android:layout_height="@dimen/register_list_item_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/grey_left_border"
+        android:paddingBottom="@dimen/register_list_top_bottom_padding"
+        android:paddingEnd="@dimen/register_list_item_padding"
+        android:paddingLeft="@dimen/register_list_item_padding"
+        android:paddingRight="@dimen/register_list_item_padding"
+        android:paddingStart="@dimen/register_list_item_padding"
+        android:paddingTop="@dimen/register_list_top_bottom_padding">
+
+        <TextView
+            android:id="@+id/tv_visit_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text=""/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:layout_alignTop="@id/patient_column"
+        android:layout_toLeftOf="@id/visit_status_wrapper">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_directions_walk"/>
+
+        <TextView
+            android:id="@+id/client_distance_from_provider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            tools:text="0 km"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

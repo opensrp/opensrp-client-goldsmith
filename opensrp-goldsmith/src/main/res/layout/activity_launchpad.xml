@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/launchpad_bg"
+    tools:context=".activity.LaunchpadActivity">
+
+
+    <include layout="@layout/toolbar_launchpad" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <org.smartregister.goldsmith.view.LaunchpadView
+                android:id="@+id/launchpadAct_myTasks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:itemIconSize="40dp"
+                app:itemIcon="@drawable/my_tasks"
+                app:itemTitle="My Tasks" />
+
+            <org.smartregister.goldsmith.view.LaunchpadView
+                android:id="@+id/launchpadAct_myClients"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:itemIconSize="40dp"
+                app:itemIcon="@drawable/my_clients"
+                app:itemTitle="My Clients" />
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <org.smartregister.goldsmith.view.LaunchpadView
+                android:id="@+id/launchpadAct_training"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:itemIconSize="40dp"
+                app:itemIcon="@drawable/training"
+                app:itemTitle="My Training" />
+
+            <org.smartregister.goldsmith.view.LaunchpadView
+                android:id="@+id/launchpadAct_myPerformance"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:itemIconSize="40dp"
+                app:itemIcon="@drawable/my_performance"
+                app:itemTitle="My Performance" />
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+
+            android:weightSum="2">
+
+            <org.smartregister.goldsmith.view.LaunchpadView
+                android:id="@+id/launchpadAct_sync"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:itemIcon="@drawable/sync"
+                app:itemIconSize="40dp"
+                app:itemTitle="Sync" />
+
+            <org.smartregister.goldsmith.view.LaunchpadView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:visibility="gone"
+                app:itemTitle="My Performance" />
+
+        </TableRow>
+
+    </TableLayout>
+</LinearLayout>

@@ -1,0 +1,27 @@
+indicators:
+  - key: "total_tasks_completed_last_30_days"
+    description: "total_tasks_completed_last_30_days"
+    indicatorQuery: "select task.status, count(*) as count from task
+                     where STRFTIME('%Y-%m-%d %H:%M:%S', datetime(task.authored_on/1000,'unixepoch')) >= date('now', '-1 month')
+                     group by task.status"
+    isMultiResult: true
+
+  - key: "total_preg_last_30_days"
+    description: "Pregnancies registered last 30 days"
+    indicatorQuery: "select count(ec_anc_register.base_entity_id) from ec_anc_register
+                     inner join ec_anc_log on ec_anc_register.base_entity_id  = ec_anc_log.base_entity_id
+                     WHERE  STRFTIME('%Y-%m-%d %H:%M:%S', ec_anc_log.date_created) >= date('now', '-1 month')"
+
+  - key: "total_newborn_visits_last_30_days"
+    description: "Newborn visits last 30 days"
+    indicatorQuery: "select count(DISTINCT ec.base_entity_id)
+                      from ec_child ec
+                      inner join (
+                        select e.baseEntityId
+                        from event e
+                        where e.eventType = 'Child Home Visit' AND STRFTIME('%Y-%m-%d %H:%M:%S', e.eventDate) >= date('now', '-1 month')
+                        group by e.baseEntityId
+                      ) e on ec.base_entity_id = e.baseEntityId
+                      inner join ec_family_member ef on ec.base_entity_id = ef.base_entity_id and ef.date_removed is null
+                      where (( ifnull(ec.entry_point,'') <> 'PNC' ) or (ifnull(ec.entry_point,'') = 'PNC' and date(ec.dob, '+28 days')  <= date()))
+                      and date(ec.dob) between date('now', '-5 month') and date('now')"
