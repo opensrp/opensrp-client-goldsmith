@@ -75,8 +75,10 @@ public class GoldsmithReportUtils {
     }
 
     public static String getProgressIndicatorTitle(int count, int percentage) {
-        String signedValue = percentage < 0 ? String.valueOf(percentage - 100) : "+" + percentage;
-        return MessageFormat.format("{0} ({1}%)", count, signedValue);
+        int progressDifference = percentage - 100;
+        String signedValue = percentage < 100 ? String.valueOf(progressDifference) : "+" + progressDifference;
+        String format = count > 0 ? "{0} ({1}%)" : "{0}";
+        return MessageFormat.format(format, count, signedValue);
     }
 
     public static int getBarColor(int percentage) {
