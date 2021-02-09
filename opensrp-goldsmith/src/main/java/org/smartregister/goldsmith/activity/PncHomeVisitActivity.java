@@ -2,6 +2,7 @@ package org.smartregister.goldsmith.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -63,6 +64,8 @@ public class PncHomeVisitActivity extends BasePncHomeVisitActivity {
     protected void attachBaseContext(Context base) {
         // get language from prefs
         String lang = LangUtils.getLanguage(base.getApplicationContext());
-        super.attachBaseContext(LangUtils.setAppLocale(base, lang));
+        Configuration newConfiguration = LangUtils.setAppLocale(base, lang);
+        super.attachBaseContext(base);
+        applyOverrideConfiguration(newConfiguration);
     }
 }
