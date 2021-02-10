@@ -2,7 +2,6 @@ package org.smartregister.goldsmith.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -18,7 +17,6 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.interactor.AncHomeVisitInteractor;
 import org.smartregister.goldsmith.schedulers.ChwScheduleTaskExecutor;
-import org.smartregister.util.LangUtils;
 
 import java.util.Date;
 
@@ -62,15 +60,6 @@ public class AncHomeVisitActivity extends BaseAncHomeVisitActivity {
         intent.putExtra(Constants.WizardFormActivity.EnableOnCloseDialog, false);
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
         startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        // get language from prefs
-        String lang = LangUtils.getLanguage(base.getApplicationContext());
-        Configuration newConfiguration = LangUtils.setAppLocale(base, lang);
-        super.attachBaseContext(base);
-        applyOverrideConfiguration(newConfiguration);
     }
 
     @Override
