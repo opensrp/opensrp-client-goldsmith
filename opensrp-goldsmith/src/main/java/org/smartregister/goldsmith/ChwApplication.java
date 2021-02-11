@@ -7,8 +7,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.vijay.jsonwizard.NativeFormLibrary;
@@ -86,7 +84,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 /**
@@ -120,10 +117,11 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 Timber.plant(new Timber.DebugTree());
             }
         } else {
+            //TODO: This CrashlyticsTree needs to be updated
             Timber.plant(new CrashlyticsTree(ChwApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM()));
         }
 
-        Fabric.with(this, new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
+        //Fabric.with(this, new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
 
         initializeLibraries();
 
@@ -174,6 +172,8 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
 
         ValidateAssignmentReceiver.init(this);
         ValidateAssignmentReceiver.getInstance().addListener(this);
+
+        //throw new RuntimeException("Some exception occurred");
     }
 
     @NotNull

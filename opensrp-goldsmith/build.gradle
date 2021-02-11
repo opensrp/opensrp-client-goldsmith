@@ -194,6 +194,7 @@ dependencies {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
+        exclude group: 'com.crashlytics.sdk.android', module: 'crashlytics'
     }
 
     //` Use the opensrp-client-tasking branch -> goldsmith-merge-map-stuff
@@ -226,6 +227,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
+        exclude group: 'com.crashlytics.sdk.android', module: 'crashlytics'
     }
 
     implementation('org.smartregister:opensrp-client-chw-anc:2.0.2.1-GS-SNAPSHOT') {
