@@ -2,10 +2,12 @@ package org.smartregister.goldsmith.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.presenter.BaseAncHomeVisitPresenter;
@@ -21,14 +23,28 @@ import org.smartregister.goldsmith.schedulers.ChwScheduleTaskExecutor;
 
 import java.util.Date;
 
+import timber.log.Timber;
+
 public class PncHomeVisitActivity extends BasePncHomeVisitActivity {
 
-    public static void startMe(Context activity, MemberObject memberObject, Boolean isEditMode) {
+    protected String fhirTaskId;
+
+    public static void startMe(Context activity, MemberObject memberObject, String fhirTaskId, Boolean isEditMode) {
         Intent intent = new Intent(activity, PncHomeVisitActivity.class);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.MEMBER_PROFILE_OBJECT, memberObject);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
+        intent.putExtra(org.smartregister.goldsmith.util.Constants.ANC_MEMBER_OBJECTS.FHIR_TASK_ID, fhirTaskId);
         //activity.startActivityForResult(intent, org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT);
         activity.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getIntent() != null && getIntent().hasExtra(org.smartregister.goldsmith.util.Constants.ANC_MEMBER_OBJECTS.FHIR_TASK_ID)) {
+            fhirTaskId = getIntent().getStringExtra(org.smartregister.goldsmith.util.Constants.ANC_MEMBER_OBJECTS.FHIR_TASK_ID);
+        }
     }
 
     @Override
@@ -56,5 +72,31 @@ public class PncHomeVisitActivity extends BasePncHomeVisitActivity {
         intent.putExtra(Constants.WizardFormActivity.EnableOnCloseDialog, false);
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
         startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
+    }
+
+    public String getFhirTaskId() {
+        return fhirTaskId;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && data != null && data.getStringExtra("json") != null) {
+            String jsonString = data.getStringExtra("json");
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+                if (jsonObject.has(CoreConstants.JsonAssets.DETAILS)) {
+                    JSONObject details = jsonObject.getJSONObject(CoreConstants.JsonAssets.DETAILS);
+                    details.put(org.smartregister.goldsmith.util.Constants.EventDetails.TASK_ID, getFhirTaskId());
+
+                    data.putExtra("json", jsonString.toString());
+                }
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
