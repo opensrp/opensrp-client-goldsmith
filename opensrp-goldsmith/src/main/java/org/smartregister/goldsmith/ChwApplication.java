@@ -57,6 +57,8 @@ import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
 import org.smartregister.goldsmith.configuration.pnc.PncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterRowOptions;
+import org.smartregister.goldsmith.contract.EventTaskIdProvider;
+import org.smartregister.goldsmith.contract.EventTaskIdProviderImpl;
 import org.smartregister.goldsmith.job.GoldsmithJobCreator;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
@@ -92,6 +94,7 @@ import timber.log.Timber;
 public class ChwApplication extends CoreChwApplication implements ValidateAssignmentReceiver.UserAssignmentListener {
 
     private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
+    private EventTaskIdProvider eventTaskIdProvider;
 
     @Override
     public void onCreate() {
@@ -460,5 +463,13 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
     @Override
     public ClientProcessorForJava getClientProcessor() {
         return getClientProcessorForJava();
+    }
+
+    public EventTaskIdProvider getEventTaskIdProvider() {
+        if (eventTaskIdProvider == null) {
+            eventTaskIdProvider = new EventTaskIdProviderImpl();
+        }
+
+        return eventTaskIdProvider;
     }
 }
