@@ -57,7 +57,7 @@ public class FormProcessorJsonFormUtils extends JsonFormUtils {
             updateUniqueId(formName, form, entityId);
         }
 
-        if (CoreLibrary.getInstance().getModuleConfiguration(CoreLibrary.getInstance().getCurrentModuleName()).getModuleMetadata().getRegistrationFormName().equals(formName)) {
+        if (CoreLibrary.getInstance().getModuleConfiguration(CoreLibrary.getInstance().getCurrentModuleName()).getModuleMetadata().getModuleRegister().getRegistrationFormName().equals(formName)) {
             if (StringUtils.isBlank(entityId)) {
                 UniqueIdRepository uniqueIdRepo = CoreLibrary.getInstance().context().getUniqueIdRepository();
                 entityId = uniqueIdRepo.getNextUniqueId() != null ? uniqueIdRepo.getNextUniqueId().getOpenmrsId() : "";

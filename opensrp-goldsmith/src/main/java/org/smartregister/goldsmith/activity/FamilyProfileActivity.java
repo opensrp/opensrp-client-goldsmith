@@ -177,4 +177,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     protected Class<? extends CoreFamilyProfileMenuActivity> getFamilyProfileMenuClass() {
         return null;
     }
+
+    @Override
+    public void setEventDate(String s) {
+        // Empty implementation
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        // Empty implementation
+    }
 }

@@ -1,5 +1,6 @@
 package org.smartregister.goldsmith.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -67,7 +68,9 @@ public class FamilyWizardFormActivity extends JsonWizardFormActivity {
     protected void attachBaseContext(android.content.Context base) {
         // get language from prefs
         String lang = LangUtils.getLanguage(base.getApplicationContext());
-        super.attachBaseContext(LangUtils.setAppLocale(base, lang));
+        Configuration configuration = LangUtils.setAppLocale(base, lang);
+        super.attachBaseContext(base);
+        applyOverrideConfiguration(configuration);
     }
 }
 
