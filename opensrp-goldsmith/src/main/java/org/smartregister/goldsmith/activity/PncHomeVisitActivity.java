@@ -85,11 +85,11 @@ public class PncHomeVisitActivity extends BasePncHomeVisitActivity {
 
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
-                if (jsonObject.has(CoreConstants.JsonAssets.DETAILS)) {
-                    JSONObject details = jsonObject.getJSONObject(CoreConstants.JsonAssets.DETAILS);
-                    details.put(org.smartregister.goldsmith.util.Constants.EventDetails.TASK_ID, getFhirTaskId());
 
-                    data.putExtra("json", jsonString.toString());
+                JSONObject details = jsonObject.optJSONObject(CoreConstants.JsonAssets.DETAILS);
+                if (details != null) {
+                    details.put(org.smartregister.goldsmith.util.Constants.EventDetails.TASK_ID, getFhirTaskId());
+                    data.putExtra("json", jsonObject.toString());
                 }
             } catch (JSONException e) {
                 Timber.e(e);
