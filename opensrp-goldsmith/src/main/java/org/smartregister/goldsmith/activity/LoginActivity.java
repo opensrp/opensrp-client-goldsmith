@@ -100,7 +100,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     public void goToHome(boolean remote) {
         if (remote) {
             Utils.startAsyncTask(new SaveTeamLocationsTask(), null);
-            processWeightForHeightZscoreCSV();
+            // processWeightForHeightZscoreCSV();
         }
 
         if (hasPinLogin()) {

@@ -43,6 +43,8 @@ public class GoldsmithJobCreator implements JobCreator {
                 return new DocumentConfigurationServiceJob(DocumentConfigurationIntentService.class);
             case RecurringIndicatorGeneratingJob.TAG:
                 return new RecurringIndicatorGeneratingJob();
+            case GoldsmithSyncSettingsServiceJob.TAG:
+                return new GoldsmithSyncSettingsServiceJob();
             default:
                 Timber.w(tag + " is not declared in Goldsmith Job Creator");
                 return null;

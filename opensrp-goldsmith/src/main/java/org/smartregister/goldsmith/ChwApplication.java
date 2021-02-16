@@ -461,4 +461,8 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
     public ClientProcessorForJava getClientProcessor() {
         return getClientProcessorForJava();
     }
+
+    public void processServerConfigs() {
+
+    }
 }

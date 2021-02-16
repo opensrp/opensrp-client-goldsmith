@@ -81,8 +81,6 @@ public class ChwSyncConfiguration extends SyncConfiguration {
         return true;
     }
 
-
-
     @Override
     public String getOauthClientId() {
         return BuildConfig.OAUTH_CLIENT_ID;

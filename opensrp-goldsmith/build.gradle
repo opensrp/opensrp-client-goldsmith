@@ -55,7 +55,7 @@ android {
         buildConfigField "String", "SYNC_TYPE", '"teamId"'
         buildConfigField "int", "MAX_SYNC_RETRIES", '3'
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
-        buildConfigField "boolean", "IS_SYNC_SETTINGS", "false"
+        buildConfigField "boolean", "IS_SYNC_SETTINGS", "true"
         buildConfigField "String", "MAPBOX_SDK_ACCESS_TOKEN", '"sample_token"'
 
 
@@ -190,7 +190,7 @@ dependencies {
 /*
     implementation(project(':opensrp-app')) {
 */
-    api('org.smartregister:opensrp-client-core:3.1.0.11-GS-PREVIEW-SNAPSHOT') {
+    api('org.smartregister:opensrp-client-core:4.2.4.1-GS-PREVIEW-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
@@ -215,7 +215,7 @@ dependencies {
         exclude group: 'com.github.lecho', module: 'hellocharts-library'
     }
 
-    implementation('org.smartregister:opensrp-client-chw-core:1.6.0.4-GS-PREVIEW-SNAPSHOT') {
+    implementation('org.smartregister:opensrp-client-chw-core:2.0.17.1-GS-PREVIEW-SNAPSHOT') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'androidx.legacy', module: 'legacy-support-v4'

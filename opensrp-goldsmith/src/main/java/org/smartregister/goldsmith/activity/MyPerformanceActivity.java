@@ -1,5 +1,9 @@
 package org.smartregister.goldsmith.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -9,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -18,6 +23,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 import org.smartregister.chw.core.job.ChwIndicatorGeneratingJob;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.ThirtyDayDashboardFragment;
 import org.smartregister.goldsmith.fragment.ThreeMonthDashboardFragment;
@@ -27,16 +33,20 @@ import org.smartregister.reporting.event.IndicatorTallyEvent;
 
 public class MyPerformanceActivity extends AppCompatActivity {
 
+    private RefreshTargetsReceiver refreshTargetsReceiver = new RefreshTargetsReceiver();
     private ViewPager mViewPager;
 
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+        IntentFilter filter = new IntentFilter(CoreConstants.ACTION.REPORTING_TARGETS_SYNCED);
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(refreshTargetsReceiver, filter);
     }
 
     public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(refreshTargetsReceiver);
     }
 
     /**
@@ -114,6 +124,16 @@ public class MyPerformanceActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+    }
+
+    private class RefreshTargetsReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle extras = intent.getExtras();
+            if (extras != null && extras.getBoolean(CoreConstants.CONFIGURATION.UPDATE_REPORTING_INDICATORS)) {
+                // TODO
+            }
+        }
     }
 
     /**
