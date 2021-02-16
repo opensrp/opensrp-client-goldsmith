@@ -94,7 +94,7 @@ import timber.log.Timber;
 public class ChwApplication extends CoreChwApplication implements ValidateAssignmentReceiver.UserAssignmentListener {
 
     private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
-    private EventTaskIdProvider eventTaskIdProvider;
+    protected EventTaskIdProvider eventTaskIdProvider;
 
     @Override
     public void onCreate() {
