@@ -15,9 +15,11 @@ import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.client.utils.constants.JsonFormConstants;
+import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.configuration.ModuleMetadata;
 import org.smartregister.domain.form.FormLocation;
 import org.smartregister.family.util.Constants;
+import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.AssetHandler;
@@ -27,6 +29,7 @@ import org.smartregister.util.JsonFormUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -212,5 +215,17 @@ public class FormProcessorJsonFormUtils extends JsonFormUtils {
                 jsonObject.put(FormProcessorJsonFormUtils.VALUE, entityId);
             }
         }
+    }
+
+    public static void addTaskIdToEvent(Event event) {
+        Map<String, String> details = event.getDetails();
+
+        if (details == null) {
+            details = new HashMap<>();
+        }
+
+        details.put(org.smartregister.goldsmith.util.Constants.EventDetails.TASK_ID, ((ChwApplication) ChwApplication.getInstance()).getEventTaskIdProvider().getLastStartedTask());
+
+        event.setDetails(details);
     }
 }

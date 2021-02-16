@@ -11,18 +11,18 @@ import org.json.JSONObject;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.family.FamilyLibrary;
+import org.smartregister.goldsmith.contract.EventTaskIdProvider;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.repository.Repository;
 import org.smartregister.sync.P2PClassifier;
 import org.smartregister.sync.intent.SyncIntentService;
-import org.smartregister.view.activity.DrishtiApplication;
 
 import static org.mockito.Mockito.mock;
 
 /**
  * Created by samuelgithengi on 12/30/19.
  */
-public class TestApplication extends DrishtiApplication {
+public class TestApplication extends ChwApplication {
 
     private P2PClassifier<JSONObject> p2PClassifier;
 
@@ -87,5 +87,9 @@ public class TestApplication extends DrishtiApplication {
             return null;
         }
 
+    }
+
+    public void setEventTaskIdProvider(EventTaskIdProvider eventTaskIdProvider) {
+        this.eventTaskIdProvider = eventTaskIdProvider;
     }
 }
