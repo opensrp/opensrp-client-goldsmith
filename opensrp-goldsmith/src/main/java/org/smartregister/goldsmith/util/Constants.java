@@ -47,6 +47,6 @@ public class Constants extends CoreConstants {
     }
 
     public interface EventDetails {
-        String TASK_ID = "taskId";
+        String TASK_ID = "taskIdentifier";
     }
 }
