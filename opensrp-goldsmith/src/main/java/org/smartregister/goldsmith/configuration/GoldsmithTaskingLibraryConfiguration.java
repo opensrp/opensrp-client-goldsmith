@@ -323,19 +323,19 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
                 int iconResource;
                 switch (taskDetails.getPriority()) {
-                    case 0:
+                    case STAT:
                         iconResource = R.drawable.pnc_04;
                         break;
 
-                    case 1:
+                    case ASAP:
                         iconResource = R.drawable.pnc_03;
                         break;
 
-                    case 2:
+                    case URGENT:
                         iconResource = R.drawable.pnc_02_offset;
                         break;
 
-                    case 3:
+                    case ROUTINE:
                         iconResource = R.drawable.pnc_01_offset;
                         break;
                     default:
@@ -354,19 +354,19 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
                 int iconResource;
                 switch (taskDetails.getPriority()) {
-                    case 0:
+                    case STAT:
                         iconResource = R.drawable.anc_04;
                         break;
 
-                    case 1:
+                    case ASAP:
                         iconResource = R.drawable.anc_03;
                         break;
 
-                    case 2:
+                    case URGENT:
                         iconResource = R.drawable.anc_02_offset;
                         break;
 
-                    case 3:
+                    case ROUTINE:
                         iconResource = R.drawable.anc_01_offset;
                         break;
 
