@@ -230,7 +230,7 @@ dependencies {
         exclude group: 'com.crashlytics.sdk.android', module: 'crashlytics'
     }
 
-    implementation('org.smartregister:opensrp-client-chw-anc:2.0.2.3-GS-PREVIEW-SNAPSHOT') {
+    implementation('org.smartregister:opensrp-client-chw-anc:2.0.2.4-GS-PREVIEW-SNAPSHOT') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'androidx.legacy', module: 'legacy-support-v4'
