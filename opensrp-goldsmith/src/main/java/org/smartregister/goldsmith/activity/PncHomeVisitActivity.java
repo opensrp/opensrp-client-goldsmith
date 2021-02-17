@@ -9,6 +9,7 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.AllConstants;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.presenter.BaseAncHomeVisitPresenter;
 import org.smartregister.chw.core.task.RunnableTask;
@@ -80,8 +81,8 @@ public class PncHomeVisitActivity extends BasePncHomeVisitActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && data != null && data.getStringExtra("json") != null) {
-            String jsonString = data.getStringExtra("json");
+        if (resultCode == RESULT_OK && data != null && data.getStringExtra(AllConstants.IntentExtra.JsonForm.JSON) != null) {
+            String jsonString = data.getStringExtra(AllConstants.IntentExtra.JsonForm.JSON);
 
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
@@ -89,7 +90,7 @@ public class PncHomeVisitActivity extends BasePncHomeVisitActivity {
                 JSONObject details = jsonObject.optJSONObject(CoreConstants.JsonAssets.DETAILS);
                 if (details != null) {
                     details.put(org.smartregister.goldsmith.util.Constants.EventDetails.TASK_ID, getFhirTaskId());
-                    data.putExtra("json", jsonObject.toString());
+                    data.putExtra(AllConstants.IntentExtra.JsonForm.JSON, jsonObject.toString());
                 }
             } catch (JSONException e) {
                 Timber.e(e);
