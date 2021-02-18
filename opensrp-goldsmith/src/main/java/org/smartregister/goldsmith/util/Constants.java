@@ -29,6 +29,9 @@ public class Constants extends CoreConstants {
         public static String DOB = "dob";
     }
 
+    public static class SyncConstants {
+        public static String UPDATE_REPORTING_INDICATORS = "update_reporting_indicators";
+    }
 
     public static final class DateFormatsConstants {
         public static final String HOME_VISIT_DISPLAY = "dd MMM yyyy";
