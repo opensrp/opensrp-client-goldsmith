@@ -27,6 +27,7 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.ThirtyDayDashboardFragment;
 import org.smartregister.goldsmith.fragment.ThreeMonthDashboardFragment;
+import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.reporting.domain.TallyStatus;
 import org.smartregister.reporting.event.IndicatorTallyEvent;
 
@@ -35,6 +36,8 @@ public class MyPerformanceActivity extends AppCompatActivity {
 
     private RefreshTargetsReceiver refreshTargetsReceiver = new RefreshTargetsReceiver();
     private ViewPager mViewPager;
+    private boolean targetsSynced;
+    private TallyStatus tallyStatus;
 
     public void onResume() {
         super.onResume();
@@ -57,11 +60,9 @@ public class MyPerformanceActivity extends AppCompatActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onIndicatorTallyingComplete(IndicatorTallyEvent event) {
-        if (event.getStatus() == TallyStatus.COMPLETE) {
-            if (mViewPager != null) {
-                mViewPager.getAdapter().notifyDataSetChanged();
-            }
-            Toast.makeText(getApplicationContext(), getString(R.string.indicators_updating_complete), Toast.LENGTH_LONG).show();
+        tallyStatus = event.getStatus();
+        if (tallyStatus == TallyStatus.COMPLETE && targetsSynced) {
+            updateFragment();
         }
     }
 
@@ -130,10 +131,20 @@ public class MyPerformanceActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle extras = intent.getExtras();
-            if (extras != null && extras.getBoolean(CoreConstants.CONFIGURATION.UPDATE_REPORTING_INDICATORS)) {
-                // TODO
+            if (extras != null && extras.getBoolean(Constants.SyncConstants.UPDATE_REPORTING_INDICATORS)) {
+                targetsSynced = true;
+                if (tallyStatus == TallyStatus.COMPLETE) {
+                    updateFragment();
+                }
             }
         }
+    }
+
+    private void updateFragment() {
+        if (mViewPager != null) {
+            mViewPager.getAdapter().notifyDataSetChanged();
+        }
+        Toast.makeText(getApplicationContext(), getString(R.string.indicators_updating_complete), Toast.LENGTH_LONG).show();
     }
 
     /**
