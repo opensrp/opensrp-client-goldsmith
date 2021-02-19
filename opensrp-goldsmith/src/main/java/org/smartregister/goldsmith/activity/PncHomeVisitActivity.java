@@ -64,8 +64,6 @@ public class PncHomeVisitActivity extends BasePncHomeVisitActivity {
     protected void attachBaseContext(Context base) {
         // get language from prefs
         String lang = LangUtils.getLanguage(base.getApplicationContext());
-        Configuration configuration = LangUtils.setAppLocale(base, lang);
-        super.attachBaseContext(base);
-        applyOverrideConfiguration(configuration);
+        super.attachBaseContext(LangUtils.setAppLocale(base, lang));
     }
 }

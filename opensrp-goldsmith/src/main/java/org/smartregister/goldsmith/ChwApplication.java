@@ -37,7 +37,6 @@ import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.configuration.ModuleConfiguration;
 import org.smartregister.configuration.ModuleMetadata;
-import org.smartregister.configuration.ModuleRegister;
 import org.smartregister.dto.UserAssignmentDTO;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
@@ -261,13 +260,12 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 new ConfigViewsLib(),
                 AllFamiliesRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
-                new ModuleRegister(
-                    "family_register",
-                    CoreConstants.TABLE_NAME.FAMILY_MEMBER,
-                    CoreConstants.EventType.FAMILY_REGISTRATION,
-                    CoreConstants.EventType.UPDATE_FAMILY_REGISTRATION,
-                    Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES),
+                "family_register",
+                CoreConstants.TABLE_NAME.FAMILY_MEMBER,
+                CoreConstants.EventType.FAMILY_REGISTRATION,
+                CoreConstants.EventType.UPDATE_FAMILY_REGISTRATION,
                 locationTagsConfiguration,
+                Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 FormActivity.class,
                 BaseFamilyProfileActivity.class,
                 false,
@@ -290,12 +288,12 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 new ConfigViewsLib(),
                 AncRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
-                new ModuleRegister("anc_member_registration",
-                        CoreConstants.TABLE_NAME.ANC_MEMBER,
-                        CoreConstants.EventType.ANC_REGISTRATION,
-                        CoreConstants.EventType.UPDATE_ANC_REGISTRATION,
-                        Constants.RegisterViewConstants.ModuleOptions.ANC),
+                "anc_member_registration",
+                CoreConstants.TABLE_NAME.ANC_MEMBER,
+                CoreConstants.EventType.ANC_REGISTRATION,
+                CoreConstants.EventType.UPDATE_ANC_REGISTRATION,
                 locationTagsConfiguration,
+                Constants.RegisterViewConstants.ModuleOptions.ANC,
                 FormActivity.class,
                 BaseAncMemberProfileActivity.class,
                 false,
@@ -319,11 +317,12 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 new ConfigViewsLib(),
                 PncRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
-                new ModuleRegister("pregnancy_outcome",
-                        CoreConstants.TABLE_NAME.PNC_MEMBER,
-                        Constants.EventType.PREGNANCY_OUTCOME, null,
-                        Constants.RegisterViewConstants.ModuleOptions.PNC),
+                "pregnancy_outcome",
+                CoreConstants.TABLE_NAME.PNC_MEMBER,
+                Constants.EventType.PREGNANCY_OUTCOME,
+                null,
                 locationTagsConfiguration,
+                Constants.RegisterViewConstants.ModuleOptions.PNC,
                 FormActivity.class,
                 BasePncMemberProfileActivity.class,
                 false,
@@ -461,9 +460,5 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
     @Override
     public ClientProcessorForJava getClientProcessor() {
         return getClientProcessorForJava();
-    }
-
-    public void processServerConfigs() {
-
     }
 }
