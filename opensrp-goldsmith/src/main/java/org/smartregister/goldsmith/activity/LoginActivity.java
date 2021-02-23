@@ -144,15 +144,15 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }*/
     }
 
-    private void processWeightForHeightZscoreCSV() {
+    /*private void processWeightForHeightZscoreCSV() {
         // To implement later
-        /*AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
         if (ChwApplication.getApplicationFlavor().hasChildSickForm() && !allSharedPreferences.getPreference(WFH_CSV_PARSED).equals("true")) {
             WeightForHeightIntentService.startParseWFHZScores(this);
             allSharedPreferences.savePreference(WFH_CSV_PARSED, "true");
-        }*/
+        }
     }
-
+*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

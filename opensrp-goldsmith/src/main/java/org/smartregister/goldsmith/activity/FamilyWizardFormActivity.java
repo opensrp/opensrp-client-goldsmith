@@ -1,6 +1,5 @@
 package org.smartregister.goldsmith.activity;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;

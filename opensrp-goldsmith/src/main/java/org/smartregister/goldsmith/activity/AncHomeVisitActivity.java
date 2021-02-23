@@ -2,7 +2,6 @@ package org.smartregister.goldsmith.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
