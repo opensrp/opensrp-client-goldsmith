@@ -3,7 +3,12 @@ package org.smartregister.goldsmith.reporting;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.util.ReportingConstants;
 import org.smartregister.reporting.contract.ReportContract;
 import org.smartregister.reporting.domain.IndicatorTally;
 import org.smartregister.reporting.domain.ProgressIndicatorDisplayOptions;
@@ -16,8 +21,6 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-import static org.smartregister.goldsmith.util.ReportingConstants.ProgressTargetsConstants.NEW_BORN_VISITS_30_DAY_TARGET;
-import static org.smartregister.goldsmith.util.ReportingConstants.ProgressTargetsConstants.PREGNANCY_REGISTRATION_30_DAY_TARGET;
 import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeysConstants.COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS;
 import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeysConstants.COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS;
 
@@ -26,12 +29,15 @@ public class GoldsmithReportUtils {
     private static int positiveColor;
     private static int negativeColor;
     private static int inProgressColor;
+    private static int pregRegistration30DayTarget = 1;
+    private static int newBornVisits30DayTarget = 1;
 
     public static void showIndicatorVisualisations(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
         defaultBackgroundColor = mainLayout.getResources().getColor(R.color.progressbar_grey);
         positiveColor = mainLayout.getResources().getColor(R.color.progressbar_green);
         negativeColor = mainLayout.getResources().getColor(R.color.progressbar_red);
         inProgressColor = mainLayout.getResources().getColor(R.color.progressbar_amber);
+        initTargets();
 
         show30DayTotalPregnanciesIndicator(mainLayout, indicatorTallies);
         show30DayTotalNewBornVisits(mainLayout, indicatorTallies);
@@ -41,7 +47,7 @@ public class GoldsmithReportUtils {
     public static void show30DayTotalPregnanciesIndicator(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
         String indicatorLabel = mainLayout.getContext().getString(R.string.pregnancies_registered_last_30_label);
         int count = (int) ReportingUtil.getCount(ReportContract.IndicatorView.CountType.LATEST_COUNT, COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS, indicatorTallies);
-        int percentage = getPercentage(count, PREGNANCY_REGISTRATION_30_DAY_TARGET);
+        int percentage = getPercentage(count, pregRegistration30DayTarget);
         int progressColor = getBarColor(percentage);
         ProgressIndicatorDisplayOptions displayOptions = getProgressIndicatorDisplayOptions(indicatorLabel, count, percentage, progressColor);
 
@@ -51,7 +57,7 @@ public class GoldsmithReportUtils {
     public static void show30DayTotalNewBornVisits(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
         String indicatorLabel = mainLayout.getContext().getString(R.string.new_born_visits_last_30_label);
         int count = (int) ReportingUtil.getCount(ReportContract.IndicatorView.CountType.LATEST_COUNT, COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS, indicatorTallies);
-        int percentage = getPercentage(count, NEW_BORN_VISITS_30_DAY_TARGET);
+        int percentage = getPercentage(count, newBornVisits30DayTarget);
         int progressColor = getBarColor(percentage);
         ProgressIndicatorDisplayOptions displayOptions = getProgressIndicatorDisplayOptions(indicatorLabel, count, percentage, progressColor);
 
@@ -86,6 +92,35 @@ public class GoldsmithReportUtils {
             return percentage >= 100 ? positiveColor : inProgressColor;
         }
         return negativeColor;
+    }
+
+    // TODO -> Call this only once when server settings are updated
+    public static void initTargets() {
+        try {
+            JSONArray targetsArray = (JSONArray) ChwApplication.getInstance().getServerConfigs().get(ReportingConstants.ProgressTargetsConstants.INDICATOR_TARGETS_KEY);
+            JSONObject thirtyDayTargetsObject;
+            JSONArray thirtyDayTargetsArray;
+            JSONObject targetObject;
+            String key;
+            int value;
+            for (int i = 0; i < targetsArray.length(); i++) {
+                thirtyDayTargetsObject = ((JSONObject) targetsArray.get(i));
+                thirtyDayTargetsArray = thirtyDayTargetsObject.getJSONArray(ReportingConstants.ProgressTargetsConstants.THIRTY_DAY_INDICATOR_TARGETS_KEY);
+
+                for (int j = 0; j < thirtyDayTargetsArray.length(); j++) {
+                    targetObject = (JSONObject) thirtyDayTargetsArray.get(j);
+                    key = targetObject.getString(ReportingConstants.ProgressTargetsConstants.INDICATOR_KEY);
+                    value = Integer.parseInt(targetObject.getString(ReportingConstants.ProgressTargetsConstants.TARGET_KEY));
+                    if (ReportingConstants.ProgressTargetsConstants.PREGNANCY_REGISTRATION_30_DAY_TARGET.equals(key)) {
+                        pregRegistration30DayTarget = value;
+                    } else if (ReportingConstants.ProgressTargetsConstants.NEW_BORN_VISITS_30_DAY_TARGET.equals(key)) {
+                        newBornVisits30DayTarget = value;
+                    }
+                }
+            }
+        } catch (JSONException je) {
+            Timber.e(je);
+        }
     }
 
     /**
