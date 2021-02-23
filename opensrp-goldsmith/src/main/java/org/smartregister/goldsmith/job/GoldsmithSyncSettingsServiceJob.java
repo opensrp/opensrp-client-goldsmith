@@ -5,7 +5,7 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 
 import org.smartregister.AllConstants;
-import org.smartregister.goldsmith.service.GoldsmithSettingsSyncIntentService;
+import org.smartregister.goldsmith.sync.GoldsmithSettingsSyncIntentService;
 import org.smartregister.job.SyncSettingsServiceJob;
 
 public class GoldsmithSyncSettingsServiceJob extends SyncSettingsServiceJob {

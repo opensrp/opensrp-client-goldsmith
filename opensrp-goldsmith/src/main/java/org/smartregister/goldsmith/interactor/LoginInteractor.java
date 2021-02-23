@@ -1,5 +1,7 @@
 package org.smartregister.goldsmith.interactor;
 
+import org.smartregister.domain.LoginResponse;
+import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.contract.LoginJobScheduler;
 import org.smartregister.login.interactor.BaseLoginInteractor;
 import org.smartregister.view.contract.BaseLoginContract;
@@ -43,5 +45,11 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
         } catch (Exception ex) {
             Timber.e(ex);
         }
+    }
+
+    @Override
+    protected void processServerSettings(LoginResponse loginResponse) {
+        super.processServerSettings(loginResponse);
+        ChwApplication.getInstance().processServerConfigs();
     }
 }

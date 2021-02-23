@@ -29,6 +29,8 @@ public class GoldsmithJobCreator implements JobCreator {
         switch (tag) {
             case SyncServiceJob.TAG:
                 return new SyncServiceJob(SyncIntentService.class);
+            case GoldsmithSyncSettingsServiceJob.TAG:
+                return new GoldsmithSyncSettingsServiceJob();
             case LocationTaskServiceJob.TAG:
                 return new LocationTaskServiceJob();
             case TaskingSyncSettingsServiceJob.TAG:
@@ -43,8 +45,6 @@ public class GoldsmithJobCreator implements JobCreator {
                 return new DocumentConfigurationServiceJob(DocumentConfigurationIntentService.class);
             case RecurringIndicatorGeneratingJob.TAG:
                 return new RecurringIndicatorGeneratingJob();
-            case GoldsmithSyncSettingsServiceJob.TAG:
-                return new GoldsmithSyncSettingsServiceJob();
             default:
                 Timber.w(tag + " is not declared in Goldsmith Job Creator");
                 return null;
