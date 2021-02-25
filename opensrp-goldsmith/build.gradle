@@ -272,11 +272,10 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
     }
 
-/*
-    implementation('org.smartregister:opensrp-plan-evaluator:0.1.6.4-GS-SNAPSHOT') {
+    implementation('org.smartregister:opensrp-plan-evaluator:1.2.11-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
-    }*/
+    }
 
     //Do not upgrade to 1.1.0 due to compatibility issues
     implementation 'androidx.appcompat:appcompat:1.0.2'
