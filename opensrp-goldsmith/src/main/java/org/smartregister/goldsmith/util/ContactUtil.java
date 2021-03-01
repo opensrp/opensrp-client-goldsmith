@@ -7,7 +7,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.helper.ContactRule;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -61,7 +61,7 @@ public class ContactUtil {
             LocalDate expectedDeliveryDate = lastMenstrualPeriod.plusDays(280);
 
             // gets the list of contacts
-            List<Integer> weeks = ChwApplication.getInstance().getRulesEngineHelper()
+            List<Integer> weeks = GoldsmithApplication.getInstance().getRulesEngineHelper()
                     .getContactVisitSchedule(contactRule, Constants.RULE_FILE.CONTACT_RULES);
 
             boolean visitAfterEdd = false;

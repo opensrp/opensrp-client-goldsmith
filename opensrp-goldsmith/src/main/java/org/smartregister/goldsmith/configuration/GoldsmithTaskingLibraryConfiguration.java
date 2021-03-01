@@ -31,7 +31,7 @@ import org.smartregister.domain.Location;
 import org.smartregister.domain.PlanDefinition;
 import org.smartregister.domain.Task;
 import org.smartregister.goldsmith.BuildConfig;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.AncHomeVisitActivity;
 import org.smartregister.goldsmith.activity.PncHomeVisitActivity;
@@ -413,7 +413,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
     public void onTaskRegisterItemClicked(@NonNull Activity activity, @NonNull TaskDetails taskDetails) {
         String taskCode = taskDetails.getTaskCode().toLowerCase();
 
-        ((ChwApplication) ChwApplication.getInstance()).getEventTaskIdProvider()
+        ((GoldsmithApplication) GoldsmithApplication.getInstance()).getEventTaskIdProvider()
                 .setLastStartedTask(taskDetails.getTaskId());
 
         if (taskCode.startsWith("pnc day")) {

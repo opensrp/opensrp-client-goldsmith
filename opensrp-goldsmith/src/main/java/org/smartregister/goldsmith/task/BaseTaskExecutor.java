@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 import org.smartregister.chw.core.contract.ScheduleService;
 import org.smartregister.chw.core.contract.ScheduleTask;
 import org.smartregister.chw.core.domain.BaseScheduleTask;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,13 +19,13 @@ public abstract class BaseTaskExecutor implements ScheduleService {
         LocalDate localDate = new LocalDate();
         localDate.plusDays(-31);
 
-        ChwApplication.getInstance().getScheduleRepository().deleteSchedulesByName(getScheduleName(), localDate.toDate());
+        GoldsmithApplication.getInstance().getScheduleRepository().deleteSchedulesByName(getScheduleName(), localDate.toDate());
     }
 
     @Override
     public void resetSchedule(String baseEntityID, String scheduleName) {
         // delete from the repo all the old schedules by this name
-        ChwApplication.getInstance().getScheduleRepository().deleteScheduleByName(scheduleName, baseEntityID);
+        GoldsmithApplication.getInstance().getScheduleRepository().deleteScheduleByName(scheduleName, baseEntityID);
     }
 
     protected BaseScheduleTask prepareNewTaskObject(String baseEntityID) {

@@ -19,7 +19,7 @@ import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.DBConstants;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.sync.helper.ECSyncHelper;
 
@@ -33,7 +33,7 @@ import timber.log.Timber;
 
 public class FamilyChangeContractInteractor implements FamilyChangeContract.Interactor {
 
-    protected ChwApplication chwApplication;
+    protected GoldsmithApplication goldsmithApplication;
     private AppExecutors appExecutors;
 
     public FamilyChangeContractInteractor() {
@@ -101,10 +101,10 @@ public class FamilyChangeContractInteractor implements FamilyChangeContract.Inte
     public void updateFamilyRelations(Context context, FamilyMember familyMember, String lastLocationId) throws Exception {
 
         // update the ec model
-        ECSyncHelper syncHelper = chwApplication.getEcSyncHelper();
+        ECSyncHelper syncHelper = goldsmithApplication.getEcSyncHelper();
 
         // update family record
-        Pair<List<Client>, List<Event>> clientEventPair = CoreJsonFormUtils.processFamilyUpdateRelations(chwApplication, context, familyMember, lastLocationId);
+        Pair<List<Client>, List<Event>> clientEventPair = CoreJsonFormUtils.processFamilyUpdateRelations(goldsmithApplication, context, familyMember, lastLocationId);
 
         if (clientEventPair != null && clientEventPair.first != null) {
             for (Client c : clientEventPair.first) {

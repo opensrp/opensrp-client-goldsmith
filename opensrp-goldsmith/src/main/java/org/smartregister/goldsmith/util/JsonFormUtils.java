@@ -20,7 +20,7 @@ import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.util.FormUtils;
@@ -88,9 +88,9 @@ public class JsonFormUtils extends CoreJsonFormUtils {
             }
             if (lookUpEntityId.equals("family") && StringUtils.isNotBlank(lookUpBaseEntityId)) {
                 Client ss = new Client(lookUpBaseEntityId);
-                Context context = ChwApplication.getInstance().getContext().applicationContext();
+                Context context = GoldsmithApplication.getInstance().getContext().applicationContext();
                 addRelationship(context, ss, baseClient);
-                SQLiteDatabase db = ChwApplication.getInstance().getRepository().getReadableDatabase();
+                SQLiteDatabase db = GoldsmithApplication.getInstance().getRepository().getReadableDatabase();
                 EventClientRepository eventClientRepository = new EventClientRepository();
                 JSONObject clientjson = eventClientRepository.getClient(db, lookUpBaseEntityId);
                 baseClient.setAddresses(getAddressFromClientJson(clientjson));
@@ -123,7 +123,7 @@ public class JsonFormUtils extends CoreJsonFormUtils {
 
             if (StringUtils.isNotBlank(surnam_familyName_SameString) && Boolean.valueOf(surnam_familyName_SameString)) {
                 String familyId = jsonForm.getJSONObject("metadata").getJSONObject("look_up").getString("value");
-                CommonPersonObject familyObject = ChwApplication.getInstance().getContext().commonrepository("ec_family").findByCaseID(familyId);
+                CommonPersonObject familyObject = GoldsmithApplication.getInstance().getContext().commonrepository("ec_family").findByCaseID(familyId);
                 // If has surname...
                 String lastname = familyObject.getColumnmaps().get(DBConstants.KEY.LAST_NAME);
                 JSONObject surname_object = getFieldJSONObject(fields, "surname");
@@ -201,7 +201,7 @@ public class JsonFormUtils extends CoreJsonFormUtils {
     }
 
     public static JSONObject getJson(Context context, String formName, String baseEntityID) throws Exception {
-        String locationId = ChwApplication.getInstance().getContext().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
+        String locationId = GoldsmithApplication.getInstance().getContext().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
         JSONObject jsonObject = FormUtils.getInstance(context).getFormJson(formName);
         org.smartregister.chw.anc.util.JsonFormUtils.getRegistrationForm(jsonObject, baseEntityID, locationId);
         return jsonObject;

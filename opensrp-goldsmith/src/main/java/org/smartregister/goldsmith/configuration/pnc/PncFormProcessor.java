@@ -20,7 +20,7 @@ import org.smartregister.clientandeventmodel.EventClient;
 import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.goldsmith.BuildConfig;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.util.PncRegistrationUtils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
@@ -43,7 +43,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
     @Override
     public HashMap<Client, List<Event>> extractEventClient(@NonNull String jsonString, @Nullable Intent data, @Nullable FormTag formTag) throws JSONException {
 
-        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        AllSharedPreferences allSharedPreferences = GoldsmithApplication.getInstance().getContext().allSharedPreferences();
         EventClient pncRegistrationEventClient = JsonFormUtils.processRegistrationForm(allSharedPreferences, jsonString, Constants.TABLES.PREGNANCY_OUTCOME);
 
         ArrayList<Event> eventList = new ArrayList<>();
@@ -121,7 +121,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
     private List<EventClient> generateEventClientForEachChild(Map<String, List<JSONObject>> jsonObjectMap,
                                                               String motherBaseId, String familyBaseEntityId,
                                                               String dob, String familyName) {
-        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        AllSharedPreferences allSharedPreferences = GoldsmithApplication.getInstance().getContext().allSharedPreferences();
         List<EventClient> childrenEventClientList = new ArrayList<>();
         JSONArray childFields;
         for (Map.Entry<String, List<JSONObject>> entry : jsonObjectMap.entrySet()) {
@@ -136,7 +136,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
                         Timber.e(e);
                     }
                 }
-                String uniqueChildID = ChwApplication.getInstance().getUniqueIdRepository().getNextUniqueId().getOpenmrsId();
+                String uniqueChildID = GoldsmithApplication.getInstance().getUniqueIdRepository().getNextUniqueId().getOpenmrsId();
 
                 if (StringUtils.isNotBlank(uniqueChildID)) {
                     String childBaseEntityId = JsonFormUtils.generateRandomUUIDString();

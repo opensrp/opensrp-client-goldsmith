@@ -19,7 +19,7 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.EventClient;
 import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.repository.AllSharedPreferences;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class AncFormProcessor implements ModuleFormProcessor {
             lmp.put(JsonFormUtils.VALUE, dateTimeFormat.print(lmpDate));
         }
 
-        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        AllSharedPreferences allSharedPreferences = GoldsmithApplication.getInstance().getContext().allSharedPreferences();
         EventClient registrationEventClient = JsonFormUtils.processRegistrationForm(allSharedPreferences, jsonString, org.smartregister.chw.anc.util.Constants.TABLES.ANC_MEMBERS);
 
         HashMap<Client, List<Event>> clientEventHashMap = new HashMap<>();

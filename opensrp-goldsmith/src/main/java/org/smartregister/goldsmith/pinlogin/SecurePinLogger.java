@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.util.Utils;
 
 import java.util.Date;
@@ -20,7 +20,7 @@ import java.util.Date;
  */
 public class SecurePinLogger implements PinLogger {
 
-    private Context ctx = ChwApplication.getInstance().getApplicationContext();
+    private Context ctx = GoldsmithApplication.getInstance().getApplicationContext();
     private SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
 
     interface SecureConstants {

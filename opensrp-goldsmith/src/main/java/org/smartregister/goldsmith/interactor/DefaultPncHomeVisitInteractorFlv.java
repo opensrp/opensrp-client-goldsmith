@@ -33,7 +33,7 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.RecurringServiceUtil;
 import org.smartregister.chw.core.utils.VaccineScheduleUtil;
 import org.smartregister.domain.Alert;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.actionhelper.DangerSignsAction;
 import org.smartregister.goldsmith.actionhelper.ExclusiveBreastFeedingAction;
@@ -93,7 +93,7 @@ public abstract class DefaultPncHomeVisitInteractorFlv implements PncHomeVisitIn
 
         children.addAll(getChildren(memberObject.getBaseEntityId()));
         try {
-            Constants.JSON_FORM.setLocaleAndAssetManager(ChwApplication.getCurrentLocale(), ChwApplication.getInstance().getApplicationContext().getAssets());
+            Constants.JSON_FORM.setLocaleAndAssetManager(GoldsmithApplication.getCurrentLocale(), GoldsmithApplication.getInstance().getApplicationContext().getAssets());
         } catch (Exception e) {
             Timber.e(e);
         }

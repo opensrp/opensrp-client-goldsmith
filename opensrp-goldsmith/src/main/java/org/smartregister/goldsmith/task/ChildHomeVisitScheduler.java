@@ -7,7 +7,7 @@ import org.smartregister.chw.core.rule.HomeAlertRule;
 import org.smartregister.chw.core.utils.ChildHomeVisit;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.dao.PersonDao;
 import org.smartregister.goldsmith.util.Constants;
 
@@ -18,7 +18,7 @@ public class ChildHomeVisitScheduler extends BaseTaskExecutor {
     @Override
     public void resetSchedule(String baseEntityID, String scheduleName) {
         super.resetSchedule(baseEntityID, scheduleName);
-        ChwApplication.getInstance().getScheduleRepository().deleteScheduleByGroup(getScheduleGroup(), baseEntityID);
+        GoldsmithApplication.getInstance().getScheduleRepository().deleteScheduleByGroup(getScheduleGroup(), baseEntityID);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ChildHomeVisitScheduler extends BaseTaskExecutor {
         String yearOfBirth = PersonDao.getDob(baseEntityID);
 
         HomeAlertRule alertRule = new HomeAlertRule(
-                ChwApplication.getInstance().getApplicationContext(), yearOfBirth, childHomeVisit.getLastHomeVisitDate(), childHomeVisit.getVisitNotDoneDate(), childHomeVisit.getDateCreated());
+                GoldsmithApplication.getInstance().getApplicationContext(), yearOfBirth, childHomeVisit.getLastHomeVisitDate(), childHomeVisit.getVisitNotDoneDate(), childHomeVisit.getDateCreated());
         CoreChwApplication.getInstance().getRulesEngineHelper().getButtonAlertStatus(alertRule, CoreConstants.RULE_FILE.HOME_VISIT);
 
 

@@ -92,7 +92,7 @@ import timber.log.Timber;
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 21-09-2020.
  */
-public class ChwApplication extends CoreChwApplication implements ValidateAssignmentReceiver.UserAssignmentListener {
+public class GoldsmithApplication extends CoreChwApplication implements ValidateAssignmentReceiver.UserAssignmentListener {
 
     private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
     protected EventTaskIdProvider eventTaskIdProvider;
@@ -109,8 +109,8 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
         context.updateCommonFtsObject(commonFtsObject);
 
         //Necessary to determine the right form to pick from assets
-        CoreConstants.JSON_FORM.setLocaleAndAssetManager(ChwApplication.getCurrentLocale(),
-                ChwApplication.getInstance().getApplicationContext().getAssets());
+        CoreConstants.JSON_FORM.setLocaleAndAssetManager(GoldsmithApplication.getCurrentLocale(),
+                GoldsmithApplication.getInstance().getApplicationContext().getAssets());
 
         //Setup Navigation menu. Done only once when app is created
         /*NavigationMenu.setupNavigationMenu(this, new NavigationMenuFlv(), new NavigationModelFlv(),
@@ -122,7 +122,7 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
             }
         } else {
             //TODO: This CrashlyticsTree needs to be updated
-            Timber.plant(new CrashlyticsTree(ChwApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM()));
+            Timber.plant(new CrashlyticsTree(GoldsmithApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM()));
         }
 
         //Fabric.with(this, new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
