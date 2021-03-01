@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.smartregister.CoreLibrary;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.job.LocationTaskServiceJob;
 import org.smartregister.goldsmith.view.LaunchpadView;
@@ -32,9 +33,13 @@ public class LaunchpadActivity extends AppCompatActivity {
             startIntent(intent, startingIntent);
         });
 
-        LaunchpadView myChwsClients = findViewById(R.id.launchpadAct_myClients);
-        myChwsClients.setOnClickListener(v -> CoreLibrary.getInstance()
+        LaunchpadView myChwClients = findViewById(R.id.launchpadAct_myClients);
+        myChwClients.setOnClickListener(v -> CoreLibrary.getInstance()
                 .startRegisterActivity(LaunchpadActivity.this));
+
+        if (((GoldsmithApplication) GoldsmithApplication.getInstance()).isSupervisor()) {
+            myChwClients.setItemTitle(getString(R.string.my_chws));
+        }
 
 
         LaunchpadView myPerformanceView = findViewById(R.id.launchpadAct_myPerformance);

@@ -473,4 +473,8 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
 
         return eventTaskIdProvider;
     }
+
+    public boolean isSupervisor() {
+        return "Supervisor".equals(CoreLibrary.getInstance().context().allSharedPreferences().getUserPractitionerRole());
+    }
 }
