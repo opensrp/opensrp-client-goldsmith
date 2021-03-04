@@ -41,4 +41,12 @@ public class Constants extends CoreConstants {
     public interface GoldsmithEventTypes {
         String REGISTER_FAMILY_STRUCTURE_EVENT = "Register_Family_Structure_Event";
     }
+
+    public interface ANC_MEMBER_OBJECTS extends org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS {
+        String FHIR_TASK_ID = "fhirTaskId";
+    }
+
+    public interface EventDetails {
+        String TASK_ID = "taskIdentifier";
+    }
 }

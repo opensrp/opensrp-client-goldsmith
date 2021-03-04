@@ -138,6 +138,11 @@ public class GoldsmithRepository extends Repository {
                 case 5:
                     upgradeToVersion5(db);
                     break;
+
+                case 6:
+                    upgradeToVersion6(DrishtiApplication.getInstance().getApplicationContext(), db);
+                    break;
+
                 default:
                     break;
             }
@@ -251,6 +256,17 @@ public class GoldsmithRepository extends Repository {
             RepositoryUtils.addDetailsColumnToFamilySearchTable(db);
         } catch (Exception e) {
             Timber.e(e, "upgradeToVersion5");
+        }
+    }
+
+    private static void upgradeToVersion6(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_IS_VOIDED_COL);
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_IS_VOIDED_COL_INDEX);
+
+            IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(context, db);
+        } catch (Exception e) {
+            Timber.e(e);
         }
     }
 }

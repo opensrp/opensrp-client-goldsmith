@@ -2,11 +2,14 @@ package org.smartregister.goldsmith.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.AllConstants;
 import org.smartregister.chw.anc.activity.BaseAncHomeVisitActivity;
 import org.smartregister.chw.anc.presenter.BaseAncHomeVisitPresenter;
 import org.smartregister.chw.core.R;
@@ -17,7 +20,6 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.goldsmith.interactor.AncHomeVisitInteractor;
 import org.smartregister.goldsmith.schedulers.ChwScheduleTaskExecutor;
-import org.smartregister.util.LangUtils;
 
 import java.util.Date;
 
@@ -28,12 +30,25 @@ import timber.log.Timber;
  */
 public class AncHomeVisitActivity extends BaseAncHomeVisitActivity {
 
-    public static void startMe(Context activity, String baseEntityID, Boolean isEditMode) {
+
+    protected String fhirTaskId;
+
+    public static void startMe(Context activity, String baseEntityID, String fhirTaskId, Boolean isEditMode) {
         Intent intent = new Intent(activity, AncHomeVisitActivity.class);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.BASE_ENTITY_ID, baseEntityID);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
+        intent.putExtra(org.smartregister.goldsmith.util.Constants.ANC_MEMBER_OBJECTS.FHIR_TASK_ID, fhirTaskId);
         //activity.startActivityForResult(intent, org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT);
         activity.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getIntent() != null && getIntent().hasExtra(org.smartregister.goldsmith.util.Constants.ANC_MEMBER_OBJECTS.FHIR_TASK_ID)) {
+            fhirTaskId = getIntent().getStringExtra(org.smartregister.goldsmith.util.Constants.ANC_MEMBER_OBJECTS.FHIR_TASK_ID);
+        }
     }
 
     @Override
@@ -64,18 +79,37 @@ public class AncHomeVisitActivity extends BaseAncHomeVisitActivity {
     }
 
     @Override
-    protected void attachBaseContext(Context base) {
-        // get language from prefs
-        String lang = LangUtils.getLanguage(base.getApplicationContext());
-        super.attachBaseContext(LangUtils.setAppLocale(base, lang));
-    }
-
-    @Override
     public void onDestroy() {
         try {
             super.onDestroy();
         } catch (Exception e) {
             Timber.e(e);
         }
+    }
+
+    public String getFhirTaskId() {
+        return fhirTaskId;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && data != null && data.getStringExtra(AllConstants.IntentExtra.JsonForm.JSON) != null) {
+            String jsonString = data.getStringExtra(AllConstants.IntentExtra.JsonForm.JSON);
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+
+                JSONObject details = jsonObject.optJSONObject(CoreConstants.JsonAssets.DETAILS);
+                if (details != null) {
+                    details.put(org.smartregister.goldsmith.util.Constants.EventDetails.TASK_ID, getFhirTaskId());
+                    data.putExtra(AllConstants.IntentExtra.JsonForm.JSON, jsonObject.toString());
+                }
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
