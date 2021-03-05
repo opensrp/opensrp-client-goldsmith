@@ -212,7 +212,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
     private void initializeLibraries() {
         // init libraries
 
-        CoreLibrary.init(context, new ChwSyncConfiguration(), BuildConfig.BUILD_TIMESTAMP);
+        CoreLibrary.init(context, new GoldsmithSyncConfiguration(), BuildConfig.BUILD_TIMESTAMP);
         CoreLibrary.getInstance().setEcClientFieldsFile(CoreConstants.EC_CLIENT_FIELDS);
         ImmunizationLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ConfigurableViewsLibrary.init(context);
