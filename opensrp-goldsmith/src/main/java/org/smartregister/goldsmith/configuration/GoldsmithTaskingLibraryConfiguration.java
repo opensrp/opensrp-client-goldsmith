@@ -31,6 +31,7 @@ import org.smartregister.domain.Location;
 import org.smartregister.domain.PlanDefinition;
 import org.smartregister.domain.Task;
 import org.smartregister.goldsmith.BuildConfig;
+import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.AncHomeVisitActivity;
 import org.smartregister.goldsmith.activity.PncHomeVisitActivity;
@@ -322,19 +323,19 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
                 int iconResource;
                 switch (taskDetails.getPriority()) {
-                    case 0:
+                    case STAT:
                         iconResource = R.drawable.pnc_04;
                         break;
 
-                    case 1:
+                    case ASAP:
                         iconResource = R.drawable.pnc_03;
                         break;
 
-                    case 2:
+                    case URGENT:
                         iconResource = R.drawable.pnc_02_offset;
                         break;
 
-                    case 3:
+                    case ROUTINE:
                         iconResource = R.drawable.pnc_01_offset;
                         break;
                     default:
@@ -353,19 +354,19 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
                 int iconResource;
                 switch (taskDetails.getPriority()) {
-                    case 0:
+                    case STAT:
                         iconResource = R.drawable.anc_04;
                         break;
 
-                    case 1:
+                    case ASAP:
                         iconResource = R.drawable.anc_03;
                         break;
 
-                    case 2:
+                    case URGENT:
                         iconResource = R.drawable.anc_02_offset;
                         break;
 
-                    case 3:
+                    case ROUTINE:
                         iconResource = R.drawable.anc_01_offset;
                         break;
 
@@ -411,6 +412,10 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
     @Override
     public void onTaskRegisterItemClicked(@NonNull Activity activity, @NonNull TaskDetails taskDetails) {
         String taskCode = taskDetails.getTaskCode().toLowerCase();
+
+        ((ChwApplication) ChwApplication.getInstance()).getEventTaskIdProvider()
+                .setLastStartedTask(taskDetails.getTaskId());
+
         if (taskCode.startsWith("pnc day")) {
             CommonPersonObjectClient client = taskDetails.getClient();
             client.setColumnmaps(client.getDetails());
@@ -435,7 +440,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
             }
 
             if (guardianClient != null && guardianClient.getColumnmaps() != null) {
-                PncHomeVisitActivity.startMe((Context) activity, new MemberObject(guardianClient), false);
+                PncHomeVisitActivity.startMe((Context) activity, new MemberObject(guardianClient), taskDetails.getTaskId(), false);
             } else {
                 Toast.makeText(activity, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
                         .show();
@@ -454,7 +459,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
             intent.putExtra("editMode", false);
             //activity.startActivity(intent);
 
-            AncHomeVisitActivity.startMe((Context) activity, baseEntityId, false);
+            AncHomeVisitActivity.startMe((Context) activity, baseEntityId, taskDetails.getTaskId(), false);
         }
     }
 
@@ -599,6 +604,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
         }
 
         taskCode = taskCode.toLowerCase();
+        String taskId = feature.getStringProperty(TaskingConstants.Properties.TASK_IDENTIFIER);
 
         if (taskCode.startsWith("pnc day")) {
             String motherId = feature.getStringProperty(TaskingConstants.Properties.MOTHER_ID);
@@ -614,7 +620,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                 }
 
                 if (guardianClient != null && guardianClient.getColumnmaps() != null) {
-                    PncHomeVisitActivity.startMe(context, new MemberObject(guardianClient), false);
+                    PncHomeVisitActivity.startMe(context, new MemberObject(guardianClient), taskId, false);
                 } else {
                     Toast.makeText(context, "The guardian client for this child could not be found", Toast.LENGTH_LONG)
                             .show();
@@ -630,7 +636,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                 return;
             }
 
-            AncHomeVisitActivity.startMe(context, baseEntityId, false);
+            AncHomeVisitActivity.startMe(context, baseEntityId,  taskId, false);
         }
     }
 

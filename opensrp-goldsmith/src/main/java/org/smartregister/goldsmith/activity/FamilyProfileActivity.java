@@ -182,4 +182,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     public void onPointerCaptureChanged(boolean hasCapture) {
         // Empty implementation
     }
+
+    @Override
+    public void setEventDate(String s) {
+        // Empty implementation
+    }
 }

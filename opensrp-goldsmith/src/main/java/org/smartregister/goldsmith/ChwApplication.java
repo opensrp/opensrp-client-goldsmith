@@ -7,8 +7,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.evernote.android.job.JobManager;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.vijay.jsonwizard.NativeFormLibrary;
@@ -37,6 +35,7 @@ import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.configuration.ModuleConfiguration;
 import org.smartregister.configuration.ModuleMetadata;
+import org.smartregister.configuration.ModuleRegister;
 import org.smartregister.dto.UserAssignmentDTO;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
@@ -59,6 +58,8 @@ import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
 import org.smartregister.goldsmith.configuration.pnc.PncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterRowOptions;
+import org.smartregister.goldsmith.contract.EventTaskIdProvider;
+import org.smartregister.goldsmith.contract.EventTaskIdProviderImpl;
 import org.smartregister.goldsmith.job.GoldsmithJobCreator;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
@@ -86,7 +87,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 /**
@@ -95,6 +95,7 @@ import timber.log.Timber;
 public class ChwApplication extends CoreChwApplication implements ValidateAssignmentReceiver.UserAssignmentListener {
 
     private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
+    protected EventTaskIdProvider eventTaskIdProvider;
 
     @Override
     public void onCreate() {
@@ -120,10 +121,11 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 Timber.plant(new Timber.DebugTree());
             }
         } else {
+            //TODO: This CrashlyticsTree needs to be updated
             Timber.plant(new CrashlyticsTree(ChwApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM()));
         }
 
-        Fabric.with(this, new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
+        //Fabric.with(this, new Crashlytics.Builder().core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
 
         initializeLibraries();
 
@@ -174,6 +176,8 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
 
         ValidateAssignmentReceiver.init(this);
         ValidateAssignmentReceiver.getInstance().addListener(this);
+
+        //throw new RuntimeException("Some exception occurred");
     }
 
     @NotNull
@@ -260,12 +264,13 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 new ConfigViewsLib(),
                 AllFamiliesRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
-                "family_register",
-                CoreConstants.TABLE_NAME.FAMILY_MEMBER,
-                CoreConstants.EventType.FAMILY_REGISTRATION,
-                CoreConstants.EventType.UPDATE_FAMILY_REGISTRATION,
+                new ModuleRegister(
+                        "family_register",
+                        CoreConstants.TABLE_NAME.FAMILY_MEMBER,
+                        CoreConstants.EventType.FAMILY_REGISTRATION,
+                        CoreConstants.EventType.UPDATE_FAMILY_REGISTRATION,
+                        Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES),
                 locationTagsConfiguration,
-                Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
                 FormActivity.class,
                 BaseFamilyProfileActivity.class,
                 false,
@@ -288,12 +293,12 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 new ConfigViewsLib(),
                 AncRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
-                "anc_member_registration",
-                CoreConstants.TABLE_NAME.ANC_MEMBER,
-                CoreConstants.EventType.ANC_REGISTRATION,
-                CoreConstants.EventType.UPDATE_ANC_REGISTRATION,
+                new ModuleRegister("anc_member_registration",
+                        CoreConstants.TABLE_NAME.ANC_MEMBER,
+                        CoreConstants.EventType.ANC_REGISTRATION,
+                        CoreConstants.EventType.UPDATE_ANC_REGISTRATION,
+                        Constants.RegisterViewConstants.ModuleOptions.ANC),
                 locationTagsConfiguration,
-                Constants.RegisterViewConstants.ModuleOptions.ANC,
                 FormActivity.class,
                 BaseAncMemberProfileActivity.class,
                 false,
@@ -317,12 +322,11 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
                 new ConfigViewsLib(),
                 PncRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
-                "pregnancy_outcome",
-                CoreConstants.TABLE_NAME.PNC_MEMBER,
-                Constants.EventType.PREGNANCY_OUTCOME,
-                null,
+                new ModuleRegister("pregnancy_outcome",
+                        CoreConstants.TABLE_NAME.PNC_MEMBER,
+                        Constants.EventType.PREGNANCY_OUTCOME, null,
+                        Constants.RegisterViewConstants.ModuleOptions.PNC),
                 locationTagsConfiguration,
-                Constants.RegisterViewConstants.ModuleOptions.PNC,
                 FormActivity.class,
                 BasePncMemberProfileActivity.class,
                 false,
@@ -460,5 +464,13 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
     @Override
     public ClientProcessorForJava getClientProcessor() {
         return getClientProcessorForJava();
+    }
+
+    public EventTaskIdProvider getEventTaskIdProvider() {
+        if (eventTaskIdProvider == null) {
+            eventTaskIdProvider = new EventTaskIdProviderImpl();
+        }
+
+        return eventTaskIdProvider;
     }
 }
