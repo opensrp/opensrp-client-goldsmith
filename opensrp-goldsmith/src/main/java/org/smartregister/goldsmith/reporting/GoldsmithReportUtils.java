@@ -98,28 +98,31 @@ public class GoldsmithReportUtils {
     public static void initTargets() {
         try {
             JSONArray targetsArray = (JSONArray) ChwApplication.getInstance().getServerConfigs().get(ReportingConstants.ProgressTargetsConstants.INDICATOR_TARGETS_KEY);
-            JSONObject thirtyDayTargetsObject;
-            JSONArray thirtyDayTargetsArray;
-            JSONObject targetObject;
-            String key;
-            int value;
-            for (int i = 0; i < targetsArray.length(); i++) {
-                thirtyDayTargetsObject = ((JSONObject) targetsArray.get(i));
-                thirtyDayTargetsArray = thirtyDayTargetsObject.getJSONArray(ReportingConstants.ProgressTargetsConstants.THIRTY_DAY_INDICATOR_TARGETS_KEY);
+            if (targetsArray != null && targetsArray.length() > 0) {
+                JSONObject thirtyDayTargetsObject;
+                JSONArray thirtyDayTargetsArray;
+                JSONObject targetObject;
+                String key;
+                int value;
+                for (int i = 0; i < targetsArray.length(); i++) {
+                    thirtyDayTargetsObject = ((JSONObject) targetsArray.get(i));
+                    thirtyDayTargetsArray = thirtyDayTargetsObject.getJSONArray(ReportingConstants.ProgressTargetsConstants.THIRTY_DAY_INDICATOR_TARGETS_KEY);
 
-                for (int j = 0; j < thirtyDayTargetsArray.length(); j++) {
-                    targetObject = (JSONObject) thirtyDayTargetsArray.get(j);
-                    key = targetObject.getString(ReportingConstants.ProgressTargetsConstants.INDICATOR_KEY);
-                    value = Integer.parseInt(targetObject.getString(ReportingConstants.ProgressTargetsConstants.TARGET_KEY));
-                    if (ReportingConstants.ProgressTargetsConstants.PREGNANCY_REGISTRATION_30_DAY_TARGET.equals(key)) {
-                        pregRegistration30DayTarget = value;
-                    } else if (ReportingConstants.ProgressTargetsConstants.NEW_BORN_VISITS_30_DAY_TARGET.equals(key)) {
-                        newBornVisits30DayTarget = value;
+                    for (int j = 0; j < thirtyDayTargetsArray.length(); j++) {
+                        targetObject = (JSONObject) thirtyDayTargetsArray.get(j);
+                        key = targetObject.getString(ReportingConstants.ProgressTargetsConstants.INDICATOR_KEY);
+                        value = Integer.parseInt(targetObject.getString(ReportingConstants.ProgressTargetsConstants.TARGET_KEY));
+                        if (ReportingConstants.ProgressTargetsConstants.PREGNANCY_REGISTRATION_30_DAY_TARGET.equals(key)) {
+                            pregRegistration30DayTarget = value;
+                        } else if (ReportingConstants.ProgressTargetsConstants.NEW_BORN_VISITS_30_DAY_TARGET.equals(key)) {
+                            newBornVisits30DayTarget = value;
+                        }
                     }
                 }
             }
-        } catch (JSONException je) {
-            Timber.e(je);
+
+        } catch (Exception ex) {
+            Timber.e(ex, "Problem initialising indicator targets");
         }
     }
 
