@@ -46,10 +46,4 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
             Timber.e(ex);
         }
     }
-
-    @Override
-    protected void processServerSettings(LoginResponse loginResponse) {
-        super.processServerSettings(loginResponse);
-        ChwApplication.getInstance().processServerConfigs();
-    }
 }
