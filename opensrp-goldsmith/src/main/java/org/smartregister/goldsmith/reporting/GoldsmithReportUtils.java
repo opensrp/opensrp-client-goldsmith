@@ -4,7 +4,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
