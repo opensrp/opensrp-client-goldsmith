@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import androidx.annotation.Nullable;
 
 import org.smartregister.family.util.Constants;
+import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.pinlogin.PinLogger;
 import org.smartregister.goldsmith.pinlogin.PinLoginUtil;
@@ -98,11 +99,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
     @Override
     public void goToHome(boolean remote) {
+        ChwApplication.getInstance().processServerConfigs();
         if (remote) {
             Utils.startAsyncTask(new SaveTeamLocationsTask(), null);
             // processWeightForHeightZscoreCSV();
         }
-
         if (hasPinLogin()) {
             startPinHome(remote);
         } else {
