@@ -190,7 +190,7 @@ dependencies {
 /*
     implementation(project(':opensrp-app')) {
 */
-    api('org.smartregister:opensrp-client-core:4.2.11-gs.1-SNAPSHOT') {
+    api('org.smartregister:opensrp-client-core:4.2.13-gs.1-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
