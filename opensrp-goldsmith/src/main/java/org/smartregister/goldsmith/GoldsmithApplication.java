@@ -477,4 +477,12 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
     public boolean isSupervisor() {
         return "Supervisor".equals(CoreLibrary.getInstance().context().allSharedPreferences().getUserPractitionerRole());
     }
+
+    public String getPlanId() {
+        if (isSupervisor()) {
+            return BuildConfig.SUPERVISOR_PLAN_ID;
+        } else {
+            return BuildConfig.PNC_PLAN_ID;
+        }
+    }
 }

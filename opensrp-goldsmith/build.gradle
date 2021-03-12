@@ -113,6 +113,7 @@ android {
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String", 'DEFAULT_LOCATION', '"Health Facility"'
             buildConfigField "String", 'PNC_PLAN_ID', '"bcf1646b-1e55-4a53-98a8-0d344ee46a8a"'
+            buildConfigField "String", 'SUPERVISOR_PLAN_ID', '"2d12e224-401d-4d23-80fd-7b0f37e56fc1"'
         }
 
         debug {
@@ -140,6 +141,7 @@ android {
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String", 'DEFAULT_LOCATION', '"Health Facility"'
             buildConfigField "String", 'PNC_PLAN_ID', '"bcf1646b-1e55-4a53-98a8-0d344ee46a8a"'
+            buildConfigField "String", 'SUPERVISOR_PLAN_ID', '"2d12e224-401d-4d23-80fd-7b0f37e56fc1"'
         }
     }
 
