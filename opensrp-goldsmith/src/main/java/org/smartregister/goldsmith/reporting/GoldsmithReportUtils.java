@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.util.ReportingConstants;
 import org.smartregister.reporting.contract.ReportContract;
@@ -96,7 +96,7 @@ public class GoldsmithReportUtils {
     // TODO -> Call this only once when server settings are updated
     public static void initTargets() {
         try {
-            JSONArray targetsArray = (JSONArray) ChwApplication.getInstance().getServerConfigs().get(ReportingConstants.ProgressTargetsConstants.INDICATOR_TARGETS_KEY);
+            JSONArray targetsArray = (JSONArray) GoldsmithApplication.getInstance().getServerConfigs().get(ReportingConstants.ProgressTargetsConstants.INDICATOR_TARGETS_KEY);
             if (targetsArray != null && targetsArray.length() > 0) {
                 JSONObject thirtyDayTargetsObject;
                 JSONArray thirtyDayTargetsArray;
