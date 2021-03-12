@@ -190,7 +190,7 @@ dependencies {
 /*
     implementation(project(':opensrp-app')) {
 */
-    api('org.smartregister:opensrp-client-core:4.2.13-gs.1-SNAPSHOT') {
+    api('org.smartregister:opensrp-client-core:4.2.13-gs.2-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
@@ -229,35 +229,6 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
         exclude group: 'com.crashlytics.sdk.android', module: 'crashlytics'
     }
-/*
-    implementation('org.smartregister:opensrp-client-chw-anc:2.0.2.4-GS-PREVIEW-SNAPSHOT') {
-        transitive = true
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'androidx.legacy', module: 'legacy-support-v4'
-        exclude group: 'androidx.appcompat', module: 'appcompat'
-        exclude group: 'androidx.constraintlayout', module: 'constraintlayout'
-        exclude group: 'com.google.guava', module: 'guava'
-        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
-        exclude group: 'org.smartregister', module: 'opensrp-client-simprints'
-        exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
-        exclude group: 'org.smartregister', module: 'opensrp-client-core'
-        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
-    }
-
-    implementation('org.smartregister:opensrp-client-chw-pnc:2.0.0.1-GS-SNAPSHOT') {
-        transitive = true
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'androidx.legacy', module: 'legacy-support-v4'
-        exclude group: 'androidx.appcompat', module: 'appcompat'
-        exclude group: 'androidx.constraintlayout', module: 'constraintlayout'
-        exclude group: 'com.google.guava', module: 'guava'
-        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
-        exclude group: 'org.smartregister', module: 'opensrp-client-simprints'
-        exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
-        exclude group: 'org.smartregister', module: 'opensrp-client-core'
-        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
-    }
-    }*/
 
     implementation('org.smartregister:opensrp-plan-evaluator:1.2.11-SNAPSHOT') {
         transitive = true
