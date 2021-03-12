@@ -58,6 +58,7 @@ import org.smartregister.tasking.util.TaskingMapHelper;
 import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
 import org.smartregister.util.AppExecutors;
 import org.smartregister.util.Utils;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -253,7 +254,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public String getCurrentPlanId() {
-        return BuildConfig.PNC_PLAN_ID;
+        return ((GoldsmithApplication) DrishtiApplication.getInstance()).getPlanId();
     }
 
     @Override

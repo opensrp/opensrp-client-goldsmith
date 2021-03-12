@@ -168,8 +168,8 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
         initializeRegisters();
 
         // TODO: Remove this and move it to some other place
-        if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(BuildConfig.PNC_PLAN_ID)) {
-            PreferencesUtil.getInstance().setCurrentPlanId(BuildConfig.PNC_PLAN_ID);
+        if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(getPlanId())) {
+            PreferencesUtil.getInstance().setCurrentPlanId(getPlanId());
         }
 
         Mapbox.getInstance(this, BuildConfig.MAPBOX_SDK_ACCESS_TOKEN);

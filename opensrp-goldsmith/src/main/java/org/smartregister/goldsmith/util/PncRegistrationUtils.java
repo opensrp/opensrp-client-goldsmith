@@ -11,8 +11,9 @@ import org.smartregister.chw.anc.util.VisitUtils;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.EventClient;
-import org.smartregister.goldsmith.BuildConfig;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,7 +50,7 @@ public class PncRegistrationUtils {
             pncChildClient.addRelationship(org.smartregister.chw.anc.util.Constants.RELATIONSHIP.MOTHER, motherBaseId);
 
             Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonForm.toString(), EC_CHILD);
-            baseEvent.addDetails(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
+            baseEvent.addDetails(PLAN_IDENTIFIER, ((GoldsmithApplication) DrishtiApplication.getInstance()).getPlanId());
             JsonFormUtils.tagSyncMetadata(allSharedPreferences, baseEvent);
 
             AncLibrary.getInstance().getUniqueIdRepository().close(pncChildClient.getIdentifier(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.OPENSPR_ID));
