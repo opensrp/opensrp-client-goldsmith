@@ -193,7 +193,7 @@ public class ChwApplication extends CoreChwApplication implements ValidateAssign
         tables[tables.length - 1] = TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP;
 
         CommonFtsObject updatedFtsObject = new CommonFtsObject(tables);
-        for (String table: commonFtsObject.getTables()) {
+        for (String table : commonFtsObject.getTables()) {
             updatedFtsObject.updateSearchFields(table, commonFtsObject.getSearchFields(table));
             updatedFtsObject.updateSortFields(table, commonFtsObject.getSortFields(table));
         }

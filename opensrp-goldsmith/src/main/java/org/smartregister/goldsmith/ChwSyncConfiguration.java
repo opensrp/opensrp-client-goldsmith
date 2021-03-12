@@ -52,6 +52,11 @@ public class ChwSyncConfiguration extends SyncConfiguration {
     }
 
     @Override
+    public SyncFilter getSettingsSyncFilterParam() {
+        return SyncFilter.LOCATION;
+    }
+
+    @Override
     public SyncFilter getEncryptionParam() {
         return SyncFilter.LOCATION;
     }
@@ -80,8 +85,6 @@ public class ChwSyncConfiguration extends SyncConfiguration {
     public boolean runPlanEvaluationOnClientProcessing() {
         return true;
     }
-
-
 
     @Override
     public String getOauthClientId() {
