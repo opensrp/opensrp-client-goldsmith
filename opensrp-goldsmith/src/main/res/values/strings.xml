@@ -180,4 +180,11 @@
 
     <!-- END OF ANC STRINGS -->
 
+
+    <!-- Bottom nav -->
+    <string name="my_tasks">My Tasks</string>
+    <string name="performance">Performance</string>
+    <string name="training">Training</string>
+    <!-- End of bottom nav strings -->
+
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,6 +29,8 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.fragment.ThirtyDayDashboardFragment;
 import org.smartregister.goldsmith.fragment.ThreeMonthDashboardFragment;
+import org.smartregister.helper.BottomNavigationHelper;
+import org.smartregister.listener.BottomNavigationListener;
 import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.reporting.domain.TallyStatus;
 import org.smartregister.reporting.event.IndicatorTallyEvent;
@@ -36,6 +40,9 @@ public class MyPerformanceActivity extends AppCompatActivity {
 
     private RefreshTargetsReceiver refreshTargetsReceiver = new RefreshTargetsReceiver();
     private ViewPager mViewPager;
+    private BottomNavigationHelper bottomNavigationHelper;
+    private BottomNavigationView bottomNavigationView;
+    private String userInitials;
     private boolean targetsSynced;
     private TallyStatus tallyStatus;
 
@@ -102,6 +109,7 @@ public class MyPerformanceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_performance_dashboard);
         setUpView();
         ChwIndicatorGeneratingJob.scheduleJobImmediately(ChwIndicatorGeneratingJob.TAG);
+        registerBottomNavigation();
     }
 
     private void setUpView() {
@@ -145,6 +153,22 @@ public class MyPerformanceActivity extends AppCompatActivity {
             mViewPager.getAdapter().notifyDataSetChanged();
         }
         Toast.makeText(getApplicationContext(), getString(R.string.indicators_updating_complete), Toast.LENGTH_LONG).show();
+    }
+
+
+    protected void registerBottomNavigation() {
+        bottomNavigationHelper = new BottomNavigationHelper();
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        if (bottomNavigationView != null) {
+            bottomNavigationView.getMenu().add(Menu.NONE, R.string.action_me, Menu.NONE, R.string.me)
+                    .setIcon(bottomNavigationHelper
+                            .writeOnDrawable(R.drawable.bottom_bar_initials_background, userInitials, getResources()));
+            bottomNavigationHelper.disableShiftMode(bottomNavigationView);
+
+            BottomNavigationListener bottomNavigationListener = new BottomNavigationListener(this);
+            bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationListener);
+        }
+
     }
 
     /**

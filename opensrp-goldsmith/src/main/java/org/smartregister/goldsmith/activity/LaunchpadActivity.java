@@ -41,7 +41,6 @@ public class LaunchpadActivity extends AppCompatActivity {
             myChwClients.setItemTitle(getString(R.string.my_chws));
         }
 
-
         LaunchpadView myPerformanceView = findViewById(R.id.launchpadAct_myPerformance);
         myPerformanceView.setOnClickListener(v -> {
             Intent intent = new Intent(context, MyPerformanceActivity.class);
