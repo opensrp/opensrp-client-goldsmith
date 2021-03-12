@@ -12,7 +12,11 @@ public class ReportingConstants {
 
     // Todo -> Implement Sync settings and get this prior to indicator calculations
     public static class ProgressTargetsConstants {
-        public static float PREGNANCY_REGISTRATION_30_DAY_TARGET = 4;
-        public static float NEW_BORN_VISITS_30_DAY_TARGET = 4;
+        public static String INDICATOR_KEY = "indicator";
+        public static String TARGET_KEY = "target";
+        public static String INDICATOR_TARGETS_KEY = "indicator_targets";
+        public static String THIRTY_DAY_INDICATOR_TARGETS_KEY = "Thirty Day Indicator Targets";
+        public static String PREGNANCY_REGISTRATION_30_DAY_TARGET = "total_preg_last_30_days";
+        public static String NEW_BORN_VISITS_30_DAY_TARGET = "total_newborn_visits_last_30_days";
     }
 }

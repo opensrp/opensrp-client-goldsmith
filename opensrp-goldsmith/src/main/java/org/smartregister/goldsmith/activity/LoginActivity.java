@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import androidx.annotation.Nullable;
 
 import org.smartregister.family.util.Constants;
+import org.smartregister.goldsmith.ChwApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.pinlogin.PinLogger;
 import org.smartregister.goldsmith.pinlogin.PinLoginUtil;
@@ -98,11 +99,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
     @Override
     public void goToHome(boolean remote) {
+        ChwApplication.getInstance().processServerConfigs();
         if (remote) {
             Utils.startAsyncTask(new SaveTeamLocationsTask(), null);
-            processWeightForHeightZscoreCSV();
+            // processWeightForHeightZscoreCSV();
         }
-
         if (hasPinLogin()) {
             startPinHome(remote);
         } else {
@@ -144,15 +145,15 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }*/
     }
 
-    private void processWeightForHeightZscoreCSV() {
+    /*private void processWeightForHeightZscoreCSV() {
         // To implement later
-        /*AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
         if (ChwApplication.getApplicationFlavor().hasChildSickForm() && !allSharedPreferences.getPreference(WFH_CSV_PARSED).equals("true")) {
             WeightForHeightIntentService.startParseWFHZScores(this);
             allSharedPreferences.savePreference(WFH_CSV_PARSED, "true");
-        }*/
+        }
     }
-
+*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
