@@ -393,7 +393,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
             String lastName = StringUtils.capitalize(taskDetails.getClient().getDetails().get("lastName"));
 
             String entityName = "";
-            if (isSupervisor()) {
+            if (!isSupervisor()) {
                 // TODO: Fix dob for birth approximations
                 String dob = taskDetails.getClient().getDetails().get("birthdate");
                 /*if (TextUtils.isEmpty(dob)) {
@@ -696,7 +696,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public boolean isSupervisor() {
-        return true;
+        return ((GoldsmithApplication) GoldsmithApplication.getInstance()).isSupervisor();
     }
 
     public class TaskingLibBaseDrawerContractImpl implements BaseDrawerContract.View {
