@@ -216,7 +216,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
     public String generateTaskRegisterSelectQuery(String mainCondition) {
         if (((GoldsmithApplication) GoldsmithApplication.getInstance()).isSupervisor()) {
             String chwUsername = CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
-            return String.format("SELECT * FROM %s INNER JOIN %s ON %s.for = %s.baseEntityId WHERE %s = '%s' AND %s", Constants.DatabaseKeys.TASK_TABLE, "client", Constants.DatabaseKeys.TASK_TABLE, "client", "for", chwUsername, mainCondition);
+            return String.format("SELECT task.*, task2.code AS missed_task_code, task2.owner AS chw_username, client.* FROM task INNER JOIN task AS task2 ON task2._id = task.for INNER JOIN client ON task2.for = client.baseEntityId WHERE task.owner = '%s' AND %s", chwUsername, mainCondition);
         } else {
             return String.format("SELECT * FROM %s INNER JOIN %s ON %s.for = %s.baseEntityId WHERE %s", Constants.DatabaseKeys.TASK_TABLE, "client", Constants.DatabaseKeys.TASK_TABLE, "client", mainCondition);
         }
