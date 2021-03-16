@@ -694,6 +694,11 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
         return true;
     }
 
+    @Override
+    public boolean isSupervisor() {
+        return true;
+    }
+
     public class TaskingLibBaseDrawerContractImpl implements BaseDrawerContract.View {
 
         @Override
