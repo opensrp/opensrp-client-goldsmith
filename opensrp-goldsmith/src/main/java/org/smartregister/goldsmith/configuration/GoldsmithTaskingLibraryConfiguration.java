@@ -386,18 +386,26 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                 }
             }
 
-            // TODO: Fix dob for birth approximations
-            String dob = taskDetails.getClient().getDetails().get("birthdate");
-            /*if (TextUtils.isEmpty(dob)) {
-                dob = taskDetails.getClient().getDetails().get("dob");
-            }*/
 
-            int entityAgeInYrs = Utils.getAgeFromDate(dob);
             /*String entityName = taskDetails.getClient().getDetails().get("first_name")+ " "
                     + taskDetails.getClient().getDetails().get("last_name") + ", " + entityAgeInYrs;*/
             String firstName = StringUtils.capitalize(taskDetails.getClient().getDetails().get("firstName"));
             String lastName = StringUtils.capitalize(taskDetails.getClient().getDetails().get("lastName"));
-            String entityName = String.format("%s %s, %d", firstName, lastName, entityAgeInYrs);
+
+            String entityName = "";
+            if (isSupervisor()) {
+                // TODO: Fix dob for birth approximations
+                String dob = taskDetails.getClient().getDetails().get("birthdate");
+                /*if (TextUtils.isEmpty(dob)) {
+                    dob = taskDetails.getClient().getDetails().get("dob");
+                }*/
+
+                int entityAgeInYrs = Utils.getAgeFromDate(dob);
+                entityName = String.format("%s %s, %d", firstName, lastName, entityAgeInYrs);
+            } else {
+                entityName = String.format("%s %s", firstName, lastName);
+            }
+
             taskViewHolder.setTaskEntityName(entityName);
             taskViewHolder.setTaskTitle(taskTitle);
 
