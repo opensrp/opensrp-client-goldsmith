@@ -325,7 +325,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
             String taskTitle = "";
 
             taskTitle = taskDetails.getTaskCode();
-            if (taskTitle != null && taskTitle.toLowerCase().startsWith("pnc day")) {
+            if (taskTitle != null && (taskTitle.toLowerCase().startsWith("pnc day")) || taskTitle.toLowerCase().startsWith("pnc task")) {
 
                 int iconResource;
                 switch (taskDetails.getPriority()) {
@@ -356,7 +356,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
             }
 
 
-            if (taskTitle != null && taskTitle.toLowerCase().startsWith("anc contact")) {
+            if (taskTitle != null && (taskTitle.toLowerCase().startsWith("anc contact")) || taskTitle.toLowerCase().startsWith("anc task") ) {
 
                 int iconResource;
                 switch (taskDetails.getPriority()) {
