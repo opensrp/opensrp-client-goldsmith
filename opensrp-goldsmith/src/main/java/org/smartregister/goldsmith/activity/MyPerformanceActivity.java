@@ -5,39 +5,46 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.jetbrains.annotations.NotNull;
 import org.smartregister.chw.core.job.ChwIndicatorGeneratingJob;
 import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
-import org.smartregister.goldsmith.fragment.ThirtyDayDashboardFragment;
-import org.smartregister.goldsmith.fragment.ThreeMonthDashboardFragment;
+import org.smartregister.goldsmith.adapter.ChwSectionsPagerAdapter;
+import org.smartregister.goldsmith.adapter.SupervisorSectionsPagerAdapter;
+import org.smartregister.goldsmith.contract.PerformanceView;
+import org.smartregister.goldsmith.listener.SupervisorBottomNavigationLister;
 import org.smartregister.goldsmith.util.Constants;
+import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.reporting.domain.TallyStatus;
 import org.smartregister.reporting.event.IndicatorTallyEvent;
 
 
-public class MyPerformanceActivity extends AppCompatActivity {
+public class MyPerformanceActivity extends AppCompatActivity implements PerformanceView {
 
     private RefreshTargetsReceiver refreshTargetsReceiver = new RefreshTargetsReceiver();
     private ViewPager mViewPager;
     private boolean targetsSynced;
     private TallyStatus tallyStatus;
+    private boolean isSupervisor;
 
     public void onResume() {
         super.onResume();
@@ -66,45 +73,23 @@ public class MyPerformanceActivity extends AppCompatActivity {
         }
     }
 
-    // TODO -> Update this to  ViewPager2 & FragmentStateAdapter
-    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public @NotNull Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return ThirtyDayDashboardFragment.newInstance();
-                case 1:
-                    return ThreeMonthDashboardFragment.newInstance();
-                default:
-                    return ThirtyDayDashboardFragment.newInstance();
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Override
-        public int getItemPosition(@NotNull Object object) {
-            return super.getItemPosition(object);
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_performance_dashboard);
-        setUpView();
+        isSupervisor = ((GoldsmithApplication) GoldsmithApplication.getInstance()).isSupervisor();
+        setUpViews();
+        setTabTitles();
         ChwIndicatorGeneratingJob.scheduleJobImmediately(ChwIndicatorGeneratingJob.TAG);
+
+        if (isSupervisor) {
+            updateSupervisorTopBarView();
+            registerBottomNavigation();
+        }
     }
 
-    private void setUpView() {
+    @Override
+    public void setUpViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -115,16 +100,22 @@ public class MyPerformanceActivity extends AppCompatActivity {
         if (back != null)
             back.setOnClickListener(v -> finish());
 
-        // Create the adapter that will return a fragment
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        ViewStub dashBoardTop = findViewById(R.id.dashboard_top);
+        int dashboardTopLayout = isSupervisor ? R.layout.task_completion_layout : R.layout.task_completion_layout; // TODO -> Set time frame layout
+        dashBoardTop.setLayoutResource(dashboardTopLayout);
+        dashBoardTop.inflate();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentStatePagerAdapter sectionsPagerAdapter = isSupervisor ? new SupervisorSectionsPagerAdapter(fragmentManager) : new ChwSectionsPagerAdapter(fragmentManager);
 
         mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setAdapter(sectionsPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
     }
 
     private class RefreshTargetsReceiver extends BroadcastReceiver {
@@ -140,11 +131,39 @@ public class MyPerformanceActivity extends AppCompatActivity {
         }
     }
 
-    private void updateFragment() {
+    @Override
+    public void updateFragment() {
         if (mViewPager != null) {
             mViewPager.getAdapter().notifyDataSetChanged();
         }
         Toast.makeText(getApplicationContext(), getString(R.string.indicators_updating_complete), Toast.LENGTH_LONG).show();
+    }
+
+    private void updateSupervisorTopBarView() {
+        int superVisorColor = getResources().getColor(R.color.supervisor_blue);
+        AppBarLayout appBarLayout = findViewById(R.id.appbar);
+        appBarLayout.setBackgroundColor(superVisorColor);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(superVisorColor);
+    }
+
+    @Override
+    public void setTabTitles() {
+        String firstTabTitle = isSupervisor ? getString(R.string.supervisor_performance_tab_title) : getString(R.string.thirty_day_performance_tab_title);
+        String secondTabTitle = isSupervisor ? getString(R.string.team_performance_tab_title) : getString(R.string.three_month_performance_tab_title);
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.getTabAt(0).setText(firstTabTitle);
+        tabLayout.getTabAt(1).setText(secondTabTitle);
+    }
+
+    private void registerBottomNavigation() {
+        BottomNavigationHelper bottomNavigationHelper = new BottomNavigationHelper();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        bottomNavigationHelper.disableShiftMode(bottomNavigationView);
+        SupervisorBottomNavigationLister bottomNavigationListener = new SupervisorBottomNavigationLister(this);
+        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationListener);
+        bottomNavigationView.getMenu().findItem(R.id.action_performance).setChecked(true);
     }
 
     /**
