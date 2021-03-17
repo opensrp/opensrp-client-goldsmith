@@ -114,8 +114,10 @@
 
     <!-- My perfomance -->
     <string name="my_performance_title">My Performance</string>
-    <string name="thirty_day_tab_title">30 DAY</string>
-    <string name="three_month_tab_title">3 MONTH</string>
+    <string name="thirty_day_performance_tab_title">30 DAY</string>
+    <string name="three_month_performance_tab_title">3 MONTH</string>
+    <string name="supervisor_performance_tab_title">Myself</string>
+    <string name="team_performance_tab_title">My Team</string>
     <string name="indicators_updating">Updating&#8230;</string>
     <string name="indicators_updating_complete">Update complete</string>
     <string name="performance_completed_percentage">{0}%</string>

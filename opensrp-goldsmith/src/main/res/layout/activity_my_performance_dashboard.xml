@@ -99,19 +99,24 @@
             app:tabTextAppearance="@style/CustomFontTextViewStyle.tabIndicator.sub.white">
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/thirty_day_tab"
+                android:id="@+id/first_tab"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/thirty_day_tab_title" />
+                android:layout_height="wrap_content" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/three_month_tab"
+                android:id="@+id/second_tab"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/three_month_tab_title" />
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
+
+    <ViewStub
+        android:id="@+id/dashboard_top"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -120,7 +125,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingBottom="?attr/actionBarSize"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -130,9 +135,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="?android:attr/windowBackground"
+            android:visibility="gone"
             app:itemBackground="@color/bottom_nav_bar_background"
             app:itemTextColor="@drawable/bottom_navigation_selector"
             app:menu="@menu/bottom_nav_menu" />
 
     </RelativeLayout>
+
+
 </LinearLayout>
