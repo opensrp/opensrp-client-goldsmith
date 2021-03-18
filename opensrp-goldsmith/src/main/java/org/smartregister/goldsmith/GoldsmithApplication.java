@@ -168,9 +168,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
         initializeRegisters();
 
         // TODO: Remove this and move it to some other place
-        if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(getPlanId())) {
-            PreferencesUtil.getInstance().setCurrentPlanId(getPlanId());
-        }
+        updateCurrentPlanId();
 
         Mapbox.getInstance(this, BuildConfig.MAPBOX_SDK_ACCESS_TOKEN);
 
@@ -178,6 +176,14 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
         ValidateAssignmentReceiver.getInstance().addListener(this);
 
         //throw new RuntimeException("Some exception occurred");
+    }
+
+    public void updateCurrentPlanId() {
+        if (!TextUtils.isEmpty(CoreLibrary.getInstance().context().allSharedPreferences().getUserPractitionerRole())
+                && TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId())
+                && !TextUtils.isEmpty(getPlanId())) {
+            PreferencesUtil.getInstance().setCurrentPlanId(getPlanId());
+        }
     }
 
     @NotNull
