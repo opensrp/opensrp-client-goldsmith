@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import androidx.annotation.Nullable;
 
 import org.smartregister.family.util.Constants;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.pinlogin.PinLogger;
 import org.smartregister.goldsmith.pinlogin.PinLoginUtil;
@@ -106,6 +107,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         if (hasPinLogin()) {
             startPinHome(remote);
         } else {
+            ((GoldsmithApplication) GoldsmithApplication.getInstance()).updateCurrentPlanId();
             startHome(remote);
         }
     }
