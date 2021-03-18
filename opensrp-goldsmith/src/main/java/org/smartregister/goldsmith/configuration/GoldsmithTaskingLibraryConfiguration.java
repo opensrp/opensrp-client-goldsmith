@@ -353,6 +353,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                     taskViewHolder.setTaskIcon(iconResource);
                 }
 
+                taskTitle = "High Risk PNC missed";
             }
 
 
@@ -384,6 +385,8 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                 if (iconResource != -1) {
                     taskViewHolder.setTaskIcon(iconResource);
                 }
+
+                taskTitle = "High risk ANC missed";
             }
 
 
@@ -406,8 +409,14 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                 entityName = String.format("%s %s", firstName, lastName);
             }
 
-            taskViewHolder.setTaskEntityName(entityName);
-            taskViewHolder.setTaskTitle(taskTitle);
+            if (isSupervisor()) {
+                taskViewHolder.setTaskEntityName(taskTitle);
+                taskViewHolder.setTaskTitle(entityName);
+
+            } else {
+                taskViewHolder.setTaskEntityName(entityName);
+                taskViewHolder.setTaskTitle(taskTitle);
+            }
 
             Calendar authoredOn = Calendar.getInstance();
             authoredOn.setTimeInMillis(taskDetails.getAuthoredOn());
@@ -415,8 +424,11 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
             // TODO: Show the calculated distance in metres or KM
             // TODO: Switch between the call icon & the walk icon
-
-            taskViewHolder.setAction(R.drawable.ic_directions_walk, "3 km", onClickListener);
+            if (isSupervisor()) {
+                taskViewHolder.setAction(R.drawable.ic_action_call, "Contact", onClickListener);
+            } else {
+                taskViewHolder.setAction(R.drawable.ic_directions_walk, "3 km", onClickListener);
+            }
             taskViewHolder.setTaskDetails(taskDetails);
         } else {
             Timber.i("The RecyclerView.ViewHolder is not an instance of PrioritizedTaskRegisterViewHolder");
