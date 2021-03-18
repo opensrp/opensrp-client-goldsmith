@@ -274,7 +274,7 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
     }
 
-    implementation('org.smartregister:opensrp-plan-evaluator:1.2.11-SNAPSHOT') {
+    implementation('org.smartregister:opensrp-plan-evaluator:1.5.1-gs.4-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
     }
