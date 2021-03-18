@@ -15,7 +15,9 @@ public class Constants extends CoreConstants {
 
         interface Provider {
             String CLIENT_COLUMN = "client_column";
+            String CHW_COLUMN = "chw_column";
             String ACTION_BUTTON_COLUMN = "action_button_column";
+            String PERFORMANCE_COLUMN = "performance_column";
         }
     }
 

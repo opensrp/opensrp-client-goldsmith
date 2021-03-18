@@ -1,5 +1,7 @@
 package org.smartregister.goldsmith.configuration.chw;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.TextView;
@@ -7,12 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.smartregister.AllConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configuration.BaseRegisterRowOptions;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.activity.MyPerformanceActivity;
+import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.holders.BaseRegisterViewHolder;
 import org.smartregister.view.contract.SmartRegisterClient;
 
+import static org.smartregister.goldsmith.util.ConfigurableRegisterUtils.fillValue;
 
 public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements View.OnClickListener {
 
@@ -49,19 +55,30 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
                                   @NonNull BaseRegisterViewHolder registerViewHolder) {
         if (registerViewHolder instanceof CHWRegisterRowOptions.ViewHolder) {
             ViewHolder viewHolder = (ViewHolder) registerViewHolder;
-            // TODO -> Fill display values & set tags  + listeners
+            fillValue(viewHolder.chwName, commonPersonObjectClient.getDetails().get("first_name") + " " + commonPersonObjectClient.getDetails().get("last_name"));
+
+            viewHolder.chwColumn.setTag(org.smartregister.R.id.VIEW_TYPE, Constants.RegisterViewConstants.Provider.CHW_COLUMN);
+            viewHolder.chwColumn.setTag(org.smartregister.R.id.VIEW_CLIENT, commonPersonObjectClient);
+            viewHolder.chwColumn.setOnClickListener(this);
+
+            viewHolder.performanceWrapper.setTag(org.smartregister.R.id.VIEW_TYPE, Constants.RegisterViewConstants.Provider.PERFORMANCE_COLUMN);
+            viewHolder.performanceWrapper.setTag(org.smartregister.R.id.VIEW_CLIENT, commonPersonObjectClient);
+            viewHolder.performanceWrapper.setOnClickListener(this);
         }
     }
 
     @Override
     public void onClick(View view) {
         if (view != null) {
-            goToChwPerformance();
+            CommonPersonObjectClient chwClient = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
+            goToChwPerformance(chwClient, view.getContext());
         }
     }
 
-    private void goToChwPerformance() {
-        // TODO -> Launch CHW Performance activity
+    private void goToChwPerformance(CommonPersonObjectClient chwClient, Context context) {
+        Intent intent = new Intent(context, MyPerformanceActivity.class);
+        intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, chwClient);
+        context.startActivity(intent);
     }
 
     public static class ViewHolder extends BaseRegisterViewHolder {
