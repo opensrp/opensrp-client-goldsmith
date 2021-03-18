@@ -44,11 +44,11 @@ public class GoldsmithJobCreator implements JobCreator {
                 return new DocumentConfigurationServiceJob(DocumentConfigurationIntentService.class);
             case RecurringIndicatorGeneratingJob.TAG:
                 return new RecurringIndicatorGeneratingJob();
-            case PlanPeriodicEvaluationJob.TAG:
-                return new PlanPeriodicEvaluationJob();
-            case PlanPeriodicEvaluationJob.SCHEDULE_ADHOC_TAG:
-                return new PlanPeriodicEvaluationJob();
             default:
+                if (PlanPeriodicEvaluationJob.isPlanPeriodEvaluationJob(tag)) {
+                    return new PlanPeriodicEvaluationJob();
+                }
+
                 Timber.w(tag + " is not declared in Goldsmith Job Creator");
                 return null;
         }
