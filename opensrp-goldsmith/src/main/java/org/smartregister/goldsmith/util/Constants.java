@@ -7,9 +7,10 @@ public class Constants extends CoreConstants {
     public interface RegisterViewConstants {
 
         interface ModuleOptions {
-            String ANC =  "ANC";
+            String ANC = "ANC";
             String PNC = "PNC";
             String ALL_FAMILIES = "All Families";
+            String CHW = "My CHWs";
         }
 
         interface Provider {
@@ -27,6 +28,10 @@ public class Constants extends CoreConstants {
     public static class IntentKeysConstants {
         public static String GENDER = "gender";
         public static String DOB = "dob";
+    }
+
+    public static class GoldsmithTableName extends CoreConstants.TABLE_NAME {
+        public static final String CHW_MEMBER = "ec_chw";
     }
 
     public static class SyncConstants {

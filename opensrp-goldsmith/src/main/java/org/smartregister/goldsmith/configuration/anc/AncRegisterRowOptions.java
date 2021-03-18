@@ -36,7 +36,6 @@ public class AncRegisterRowOptions extends BaseRegisterRowOptions implements Vie
     @Nullable
     @Override
     public BaseRegisterViewHolder createCustomViewHolder(@NonNull View itemView) {
-        // TODO -> Return CustomViewHolder
         return new AncRegisterRowOptions.ViewHolder(itemView);
     }
 

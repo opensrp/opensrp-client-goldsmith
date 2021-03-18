@@ -54,6 +54,9 @@ import org.smartregister.goldsmith.configuration.anc.AncFormProcessor;
 import org.smartregister.goldsmith.configuration.anc.AncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.anc.AncRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.anc.AncRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.chw.CHWRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.chw.CHWRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.chw.CHWToolbarOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
 import org.smartregister.goldsmith.configuration.pnc.PncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
@@ -63,6 +66,7 @@ import org.smartregister.goldsmith.contract.EventTaskIdProviderImpl;
 import org.smartregister.goldsmith.job.GoldsmithJobCreator;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
+import org.smartregister.goldsmith.provider.CHWRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.PncRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
 import org.smartregister.goldsmith.util.Constants;
@@ -203,9 +207,13 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
     }
 
     private void initializeRegisters() {
-        initializeAllFamiliesRegister();
-        initializeAncRegisters();
-        initializePncRegisters();
+        if (isSupervisor()) {
+            initializeCHWRegister();
+        } else {
+            initializeAllFamiliesRegister();
+            initializeAncRegisters();
+            initializePncRegisters();
+        }
     }
 
 
@@ -342,6 +350,33 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 false,
                 Constants.RegisterViewConstants.ModuleOptions.PNC,
                 pncModuleConfiguration);
+    }
+
+    public void initializeCHWRegister() {
+        ModuleConfiguration chwModuleConfiguration = new ModuleConfiguration.Builder(
+                Constants.RegisterViewConstants.ModuleOptions.CHW,
+                CHWRegisterQueryProvider.class,
+                new ConfigViewsLib(),
+                CHWRegisterActivityStarter.class
+        ).setModuleMetadata(new ModuleMetadata(
+                new ModuleRegister("",
+                        Constants.GoldsmithTableName.CHW_MEMBER,
+                        null, null, // We're not processing any of these events?
+                        Constants.RegisterViewConstants.ModuleOptions.CHW),
+                locationTagsConfiguration,
+                FormActivity.class,
+                null,
+                false,
+                ""
+        )).setModuleFormProcessorClass(PncFormProcessor.class)
+                .setRegisterRowOptions(CHWRegisterRowOptions.class)
+                .setBottomNavigationEnabled(true)
+                .setToolbarOptions(CHWToolbarOptions.class)
+                .build();
+        CoreLibrary.getInstance().addModuleConfiguration(
+                true, // This is the only module in Supervisor mode
+                Constants.RegisterViewConstants.ModuleOptions.CHW,
+                chwModuleConfiguration);
     }
 
     public void setOpenSRPUrl() {
