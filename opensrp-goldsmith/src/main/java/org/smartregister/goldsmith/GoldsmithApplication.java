@@ -368,8 +368,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 null,
                 false,
                 ""
-        )).setModuleFormProcessorClass(PncFormProcessor.class)
-                .setRegisterRowOptions(CHWRegisterRowOptions.class)
+        )).setRegisterRowOptions(CHWRegisterRowOptions.class)
                 .setBottomNavigationEnabled(true)
                 .setToolbarOptions(CHWToolbarOptions.class)
                 .build();
