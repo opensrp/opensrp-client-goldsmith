@@ -353,7 +353,9 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                     taskViewHolder.setTaskIcon(iconResource);
                 }
 
-                taskTitle = "High Risk PNC missed";
+                if (isSupervisor()) {
+                    taskTitle = "High Risk PNC missed";
+                }
             }
 
 
@@ -386,7 +388,9 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                     taskViewHolder.setTaskIcon(iconResource);
                 }
 
-                taskTitle = "High risk ANC missed";
+                if (isSupervisor()) {
+                    taskTitle = "High Risk ANC missed";
+                }
             }
 
 
