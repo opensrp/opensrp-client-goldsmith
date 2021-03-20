@@ -184,6 +184,11 @@
     <!-- END OF ANC STRINGS -->
 
 
+    <!-- CWH PROFILE STRINGS-->
+    <string name="menu_add_task">Add task \'Come in for stock pickup\'</string>
+    <string name="menu_view_client_list">View client list</string>
+    <!-- END OF CHW PROFILE STRINGS-->
+
     <!-- Bottom nav -->
     <string name="my_tasks">My Tasks</string>
     <string name="performance">Performance</string>

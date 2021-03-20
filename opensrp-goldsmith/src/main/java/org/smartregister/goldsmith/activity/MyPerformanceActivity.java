@@ -140,7 +140,7 @@ public class MyPerformanceActivity extends AppCompatActivity implements Performa
     }
 
     private void updateSupervisorTopBarView() {
-        int superVisorColor = getResources().getColor(R.color.supervisor_blue);
+        int superVisorColor = getResources().getColor(R.color.supervisor_scheme_blue);
         AppBarLayout appBarLayout = findViewById(R.id.appbar);
         appBarLayout.setBackgroundColor(superVisorColor);
         Toolbar toolbar = findViewById(R.id.toolbar);
