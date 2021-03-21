@@ -2,9 +2,11 @@ package org.smartregister.goldsmith.interactor;
 
 
 import org.smartregister.goldsmith.BuildConfig;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.contract.LoginJobScheduler;
 import org.smartregister.goldsmith.job.GoldsmithSyncSettingsServiceJob;
 import org.smartregister.goldsmith.job.LocationTaskServiceJob;
+import org.smartregister.job.SyncPractitionersByIdAndRoleJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.tasking.util.Utils;
 
@@ -44,6 +46,11 @@ public class LoginJobSchedulerProvider implements LoginJobScheduler {
         GoldsmithSyncSettingsServiceJob.scheduleJob(GoldsmithSyncSettingsServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig
                 .DATA_SYNC_DURATION_MINUTES));
 
+        if (((GoldsmithApplication) GoldsmithApplication.getInstance()).isSupervisor()) {
+            SyncPractitionersByIdAndRoleJob.scheduleJob(SyncPractitionersByIdAndRoleJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig
+                    .DATA_SYNC_DURATION_MINUTES));
+        }
+
         /*SyncServiceJob.scheduleJob(SyncServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig
                 .DATA_SYNC_DURATION_MINUTES));
 
@@ -78,6 +85,9 @@ public class LoginJobSchedulerProvider implements LoginJobScheduler {
         Utils.setCurrentOperationalAreaAndLocality();
 
         LocationTaskServiceJob.scheduleJobImmediately(LocationTaskServiceJob.TAG);
+        if (((GoldsmithApplication) GoldsmithApplication.getInstance()).isSupervisor()) {
+            SyncPractitionersByIdAndRoleJob.scheduleJobImmediately(SyncPractitionersByIdAndRoleJob.TAG);
+        }
         // Run initial job immediately on log in since the job will run a bit later (~ 15 mins +)
         /*ScheduleJob.scheduleJobImmediately(ScheduleJob.TAG);
         SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
