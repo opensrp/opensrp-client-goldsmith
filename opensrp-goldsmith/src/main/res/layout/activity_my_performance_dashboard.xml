@@ -138,7 +138,7 @@
             android:visibility="gone"
             app:itemBackground="@color/bottom_nav_bar_background"
             app:itemTextColor="@drawable/bottom_navigation_selector"
-            app:menu="@menu/bottom_nav_menu" />
+            app:menu="@menu/bottom_navigation_menu" />
 
     </RelativeLayout>
 

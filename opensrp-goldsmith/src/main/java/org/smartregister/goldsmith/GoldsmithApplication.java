@@ -45,10 +45,10 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.goldsmith.activity.FamilyProfileActivity;
 import org.smartregister.goldsmith.activity.FamilyWizardFormActivity;
 import org.smartregister.goldsmith.activity.LoginActivity;
-import org.smartregister.goldsmith.configuration.AncPncToolbarOptions;
+import org.smartregister.goldsmith.configuration.AncPncNavigationOptions;
 import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
-import org.smartregister.goldsmith.configuration.ToolbarOptions;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesFormProcessor;
+import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesNavigationOptions;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterRowOptions;
 import org.smartregister.goldsmith.configuration.anc.AncFormProcessor;
@@ -57,7 +57,7 @@ import org.smartregister.goldsmith.configuration.anc.AncRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.anc.AncRegisterRowOptions;
 import org.smartregister.goldsmith.configuration.chw_practitioner.CHWRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.chw_practitioner.CHWRegisterRowOptions;
-import org.smartregister.goldsmith.configuration.chw_practitioner.CHWToolbarOptions;
+import org.smartregister.goldsmith.configuration.chw_practitioner.ChwRegisterNavigationOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
 import org.smartregister.goldsmith.configuration.pnc.PncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
@@ -294,7 +294,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 .setRegisterRowOptions(AllFamiliesRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
-                .setToolbarOptions(ToolbarOptions.class)
+                .setNavigationOptions(AllFamiliesNavigationOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(true,
                 Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
@@ -322,7 +322,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 .setRegisterRowOptions(AncRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
-                .setToolbarOptions(AncPncToolbarOptions.class)
+                .setNavigationOptions(AncPncNavigationOptions.class)
                 .setMemberProfileOptionsClass(AncMemberProfileOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(false,
@@ -350,7 +350,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 .setRegisterRowOptions(PncRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
-                .setToolbarOptions(AncPncToolbarOptions.class)
+                .setNavigationOptions(AncPncNavigationOptions.class)
                 .setMemberProfileOptionsClass(PncMemberProfileOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(
@@ -377,7 +377,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 ""
         )).setRegisterRowOptions(CHWRegisterRowOptions.class)
                 .setBottomNavigationEnabled(true)
-                .setToolbarOptions(CHWToolbarOptions.class)
+                .setNavigationOptions(ChwRegisterNavigationOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(
                 true, // This is the only module in Supervisor mode

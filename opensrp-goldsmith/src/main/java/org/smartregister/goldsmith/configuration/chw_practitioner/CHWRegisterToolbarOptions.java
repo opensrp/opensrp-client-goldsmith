@@ -7,7 +7,7 @@ import org.smartregister.view.dialog.DialogOptionModel;
 import java.util.Arrays;
 import java.util.List;
 
-public class CHWToolbarOptions extends ToolbarOptions {
+public class CHWRegisterToolbarOptions extends ToolbarOptions {
 
     @Override
     public int getLogoResourceId() {
