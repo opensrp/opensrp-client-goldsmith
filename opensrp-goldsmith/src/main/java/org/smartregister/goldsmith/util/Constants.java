@@ -32,8 +32,8 @@ public class Constants extends CoreConstants {
         public static String DOB = "dob";
     }
 
-    public static class GoldsmithTableName extends CoreConstants.TABLE_NAME {
-        public static final String CHW_MEMBER = "ec_chw";
+    public static class TableName extends CoreConstants.TABLE_NAME {
+        public static final String CHW_PRACTITIONER = "practitioner";
     }
 
     public static class SyncConstants {
@@ -58,5 +58,13 @@ public class Constants extends CoreConstants {
 
     public interface EventDetails {
         String TASK_ID = "taskIdentifier";
+    }
+
+    public interface DBConstants extends DB_CONSTANTS {
+        String IS_ACTIVE = "is_active";
+        String NAME = "name";
+        String USER_ID = "user_id";
+        String USERNAME = "username";
+        String IDENTIFIER = "identifier";
     }
 }
