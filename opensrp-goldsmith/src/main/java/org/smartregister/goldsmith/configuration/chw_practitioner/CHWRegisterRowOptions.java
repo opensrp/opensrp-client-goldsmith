@@ -1,4 +1,4 @@
-package org.smartregister.goldsmith.configuration.chw;
+package org.smartregister.goldsmith.configuration.chw_practitioner;
 
 import android.content.Context;
 import android.content.Intent;

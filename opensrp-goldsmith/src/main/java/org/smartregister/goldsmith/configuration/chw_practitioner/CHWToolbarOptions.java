@@ -1,4 +1,4 @@
-package org.smartregister.goldsmith.configuration.chw;
+package org.smartregister.goldsmith.configuration.chw_practitioner;
 
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.configuration.ToolbarOptions;

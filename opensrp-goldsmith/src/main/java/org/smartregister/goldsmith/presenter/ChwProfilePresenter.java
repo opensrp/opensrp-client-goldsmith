@@ -1,7 +1,7 @@
 package org.smartregister.goldsmith.presenter;
 
+import org.smartregister.domain.Practitioner;
 import org.smartregister.goldsmith.contract.ChwProfileContract;
-import org.smartregister.goldsmith.domain.ChwPerson;
 import org.smartregister.goldsmith.interactor.ChwProfileInteractor;
 
 import java.lang.ref.WeakReference;
@@ -32,9 +32,9 @@ public class ChwProfilePresenter implements ChwProfileContract.Presenter, ChwPro
     }
 
     @Override
-    public void refreshProfileTopSection(ChwPerson chw) {
+    public void refreshProfileTopSection(Practitioner chw) {
         if (chw != null) {
-            getView().setProfileName(chw.getFullName());
+            getView().setProfileName(chw.getName());
         }
     }
 

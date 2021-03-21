@@ -1,27 +1,27 @@
 package org.smartregister.goldsmith.dao;
 
 import org.smartregister.dao.AbstractDao;
-import org.smartregister.goldsmith.domain.ChwPerson;
+import org.smartregister.domain.Practitioner;
 
 import java.util.List;
 
 public class ChwDao extends AbstractDao {
 
 
-    public static ChwPerson getChw(String identifier) {
-        String sql = "SELECT * FROM chw_practitioner WHERE identifier = '" + identifier + "'";
+    public static Practitioner getChw(String identifier) {
+        String sql = "SELECT * FROM practitioner WHERE identifier = '" + identifier + "'";
 
-        DataMap<ChwPerson> dataMap = cursor -> {
-            ChwPerson chw = new ChwPerson();
+        DataMap<Practitioner> dataMap = cursor -> {
+            Practitioner chw = new Practitioner();
             chw.setIdentifier(identifier);
-            chw.setActive(Integer.parseInt(getCursorValue(cursor, "active")) > 0);
-            chw.setFullName(getCursorValue(cursor, "name"));
+            chw.setActive(Integer.parseInt(getCursorValue(cursor, "is_active")) > 0);
+            chw.setName(getCursorValue(cursor, "name"));
             chw.setUserId(getCursorValue(cursor, "user_id"));
-            chw.setUserName(getCursorValue(cursor, "username"));
+            chw.setUsername(getCursorValue(cursor, "username"));
             return chw;
         };
 
-        List<ChwPerson> res = readData(sql, dataMap);
+        List<Practitioner> res = readData(sql, dataMap);
         if (res == null || res.size() != 1)
             return null;
 

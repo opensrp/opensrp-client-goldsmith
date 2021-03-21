@@ -1,7 +1,6 @@
 package org.smartregister.goldsmith.contract;
 
-import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.goldsmith.domain.ChwPerson;
+import org.smartregister.domain.Practitioner;
 import org.smartregister.view.contract.BaseProfileContract;
 
 public interface ChwProfileContract {
@@ -35,7 +34,7 @@ public interface ChwProfileContract {
     }
 
     interface InteractorCallBack {
-        void refreshProfileTopSection(ChwPerson chw);
+        void refreshProfileTopSection(Practitioner chw);
     }
 
 }
