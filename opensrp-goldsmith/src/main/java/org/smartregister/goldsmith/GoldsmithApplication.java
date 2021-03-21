@@ -40,6 +40,7 @@ import org.smartregister.dto.UserAssignmentDTO;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.domain.FamilyMetadata;
+import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.goldsmith.activity.FamilyProfileActivity;
 import org.smartregister.goldsmith.activity.FamilyWizardFormActivity;
@@ -54,9 +55,9 @@ import org.smartregister.goldsmith.configuration.anc.AncFormProcessor;
 import org.smartregister.goldsmith.configuration.anc.AncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.anc.AncRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.anc.AncRegisterRowOptions;
-import org.smartregister.goldsmith.configuration.chw.CHWRegisterActivityStarter;
-import org.smartregister.goldsmith.configuration.chw.CHWRegisterRowOptions;
-import org.smartregister.goldsmith.configuration.chw.CHWToolbarOptions;
+import org.smartregister.goldsmith.configuration.chw_practitioner.CHWRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.chw_practitioner.CHWRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.chw_practitioner.CHWToolbarOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
 import org.smartregister.goldsmith.configuration.pnc.PncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
@@ -92,6 +93,8 @@ import java.util.List;
 import java.util.Locale;
 
 import timber.log.Timber;
+
+import static org.smartregister.chw.core.utils.CoreConstants.DB_CONSTANTS.ID;
 
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 21-09-2020.
@@ -188,13 +191,14 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
     protected CommonFtsObject getCommonFtsObject() {
         CommonFtsObject commonFtsObject = createCommonFtsObject();
         String[] previousTables = commonFtsObject.getTables();
-        String[] tables = new String[previousTables.length + 1];
+        String[] tables = new String[previousTables.length + 2];
 
-        for (int i = 0; i < tables.length - 1; i++) {
+        for (int i = 0; i < tables.length - 2; i++) {
             tables[i] = previousTables[i];
         }
 
-        tables[tables.length - 1] = TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP;
+        tables[tables.length - 2] = TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP;
+        tables[tables.length - 1] = Constants.TableName.CHW_PRACTITIONER;
 
         CommonFtsObject updatedFtsObject = new CommonFtsObject(tables);
         for (String table : commonFtsObject.getTables()) {
@@ -203,6 +207,9 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
         }
 
         updatedFtsObject.updateSearchFields(TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP, new String[]{"family_base_entity_id"});
+        updatedFtsObject.updateSearchFields(Constants.TableName.CHW_PRACTITIONER,
+                new String[]{ID, Constants.DBConstants.NAME, Constants.DBConstants.USER_ID, Constants.DBConstants.USERNAME});
+        updatedFtsObject.updateSortFields(Constants.TableName.CHW_PRACTITIONER, new String[]{DBConstants.KEY.LAST_INTERACTED_WITH});
         return updatedFtsObject;
     }
 
@@ -360,7 +367,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 CHWRegisterActivityStarter.class
         ).setModuleMetadata(new ModuleMetadata(
                 new ModuleRegister("",
-                        Constants.GoldsmithTableName.CHW_MEMBER,
+                        Constants.TableName.CHW_PRACTITIONER,
                         null, null, // We're not processing any of these events?
                         Constants.RegisterViewConstants.ModuleOptions.CHW),
                 locationTagsConfiguration,
