@@ -14,6 +14,7 @@ import org.smartregister.chw.core.repository.ScheduleRepository;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.domain.db.Column;
 import org.smartregister.goldsmith.BuildConfig;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.util.RepositoryUtils;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
@@ -35,6 +36,7 @@ import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.ManifestRepository;
 import org.smartregister.repository.PlanDefinitionRepository;
 import org.smartregister.repository.PlanDefinitionSearchRepository;
+import org.smartregister.repository.PractitionerRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.SettingsRepository;
 import org.smartregister.repository.StructureRepository;
@@ -113,6 +115,10 @@ public class GoldsmithRepository extends Repository {
         IndicatorQueryRepository.createTable(database);
         DailyIndicatorCountRepository.createTable(database);
         MonthlyTalliesRepository.createTable(database);
+
+        // Add practitioner table
+        if (((GoldsmithApplication) (GoldsmithApplication.getInstance())).isSupervisor())
+            PractitionerRepository.createTable(database);
 
         onUpgrade(database, 1, BuildConfig.DATABASE_VERSION);
     }
