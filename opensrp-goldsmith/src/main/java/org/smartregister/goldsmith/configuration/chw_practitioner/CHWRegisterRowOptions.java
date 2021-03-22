@@ -55,7 +55,7 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
                                   @NonNull BaseRegisterViewHolder registerViewHolder) {
         if (registerViewHolder instanceof CHWRegisterRowOptions.ViewHolder) {
             ViewHolder viewHolder = (ViewHolder) registerViewHolder;
-            fillValue(viewHolder.chwName, commonPersonObjectClient.getDetails().get("first_name") + " " + commonPersonObjectClient.getDetails().get("last_name"));
+            fillValue(viewHolder.chwName, commonPersonObjectClient.getDetails().get("name"));
 
             viewHolder.chwColumn.setTag(org.smartregister.R.id.VIEW_TYPE, Constants.RegisterViewConstants.Provider.CHW_COLUMN);
             viewHolder.chwColumn.setTag(org.smartregister.R.id.VIEW_CLIENT, commonPersonObjectClient);

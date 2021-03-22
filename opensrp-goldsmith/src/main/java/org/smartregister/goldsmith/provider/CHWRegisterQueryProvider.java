@@ -52,6 +52,7 @@ public class CHWRegisterQueryProvider extends ModuleRegisterQueryProviderContrac
         columnList.add(tableName + "." + Constants.DBConstants.NAME);
         columnList.add(tableName + "." + Constants.DBConstants.USER_ID);
         columnList.add(tableName + "." + Constants.DBConstants.USERNAME);
+        columnList.add(tableName + "." + Constants.DBConstants.RELATIONAL_ID);
 
         return columnList.toArray(new String[0]);
     }
