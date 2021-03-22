@@ -9,11 +9,11 @@ import java.lang.ref.WeakReference;
 public class ChwProfilePresenter implements ChwProfileContract.Presenter, ChwProfileContract.InteractorCallBack {
     private WeakReference<ChwProfileContract.View> view;
     private ChwProfileContract.Interactor interactor;
-    private String baseEntityId;
+    private String identifier;
 
-    public ChwProfilePresenter(ChwProfileContract.View view, String baseEntityId) {
+    public ChwProfilePresenter(ChwProfileContract.View view, String identifier) {
         this.view = new WeakReference<>(view);
-        this.baseEntityId = baseEntityId;
+        this.identifier = identifier;
         this.interactor = new ChwProfileInteractor();
     }
 
@@ -28,7 +28,7 @@ public class ChwProfilePresenter implements ChwProfileContract.Presenter, ChwPro
 
     @Override
     public void fetchProfileData() {
-        interactor.refreshProfileView(baseEntityId, this);
+        interactor.refreshProfileView(identifier, this);
     }
 
     @Override

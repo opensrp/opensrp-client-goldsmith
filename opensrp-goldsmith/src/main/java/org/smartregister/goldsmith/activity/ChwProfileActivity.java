@@ -4,15 +4,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import org.smartregister.AllConstants;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
-import org.smartregister.family.util.Constants;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.adapter.ChwProfilePagerAdapter;
 import org.smartregister.goldsmith.contract.ChwProfileContract;
+import org.smartregister.goldsmith.fragment.ChwProfileFragment;
 import org.smartregister.goldsmith.presenter.ChwProfilePresenter;
 import org.smartregister.view.activity.BaseProfileActivity;
 
@@ -23,8 +27,7 @@ public class ChwProfileActivity extends BaseProfileActivity implements ChwProfil
     private TextView tvAddress;
     private TextView tvHouseholds;
     private TextView tvLastSyncDay;
-    private ViewPagerAdapter adapter;
-    private String baseEntityId;
+    private String identifier;
 
     @Override
     protected void onCreation() {
@@ -71,14 +74,8 @@ public class ChwProfileActivity extends BaseProfileActivity implements ChwProfil
 
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        viewPager.setAdapter(adapter);
-
-        if (getIntent().getBooleanExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false)) {
-            viewPager.setCurrentItem(1);
-        }
-
+        ChwProfilePagerAdapter profilePagerAdapter = new ChwProfilePagerAdapter(getSupportFragmentManager(), this.getIntent().getExtras());
+        viewPager.setAdapter(profilePagerAdapter);
         return viewPager;
     }
 
@@ -119,8 +116,9 @@ public class ChwProfileActivity extends BaseProfileActivity implements ChwProfil
 
     @Override
     protected void initializePresenter() {
-        baseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.BASE_ENTITY_ID);
-        presenter = new ChwProfilePresenter(this, baseEntityId);
+        CommonPersonObjectClient client = (CommonPersonObjectClient) getIntent().getSerializableExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT);
+        identifier = client.getDetails().get("identifier");
+        presenter = new ChwProfilePresenter(this, identifier);
     }
 
     @Override

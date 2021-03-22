@@ -14,14 +14,14 @@ public class ChwProfileInteractor implements ChwProfileContract.Interactor {
     }
 
     public ChwProfileInteractor() {
-        new AppExecutors();
+        this.appExecutors = new AppExecutors();
     }
 
 
     @Override
-    public void refreshProfileView(String baseEntityId, ChwProfileContract.InteractorCallBack callback) {
+    public void refreshProfileView(String identifier, ChwProfileContract.InteractorCallBack callback) {
         Runnable runnable = () -> {
-            Practitioner chwClient = ChwDao.getChw(baseEntityId);
+            Practitioner chwClient = ChwDao.getChw(identifier);
             appExecutors.mainThread().execute(() -> callback.refreshProfileTopSection(chwClient));
         };
         appExecutors.diskIO().execute(runnable);
