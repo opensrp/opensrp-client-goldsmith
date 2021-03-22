@@ -12,7 +12,7 @@ import java.util.Map;
 public class MyPerformanceFragmentPresenter implements GoldsmithReportingContract.Presenter, GoldsmithReportingContract.InteractorCallback {
 
     private WeakReference<GoldsmithReportingContract.View> viewWeakReference;
-    private GoldsmithReportingContract.Interactor interactor;
+    protected GoldsmithReportingContract.Interactor interactor;
 
     public MyPerformanceFragmentPresenter(GoldsmithReportingContract.View view) {
         this.viewWeakReference = new WeakReference<>(view);

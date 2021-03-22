@@ -14,7 +14,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configuration.BaseRegisterRowOptions;
 import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
-import org.smartregister.goldsmith.activity.MyPerformanceActivity;
+import org.smartregister.goldsmith.activity.ChwProfileActivity;
 import org.smartregister.goldsmith.dao.ChwDao;
 import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.holders.BaseRegisterViewHolder;
@@ -101,12 +101,12 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
     public void onClick(View view) {
         if (view != null) {
             CommonPersonObjectClient chwClient = (CommonPersonObjectClient) view.getTag(org.smartregister.R.id.VIEW_CLIENT);
-            goToChwPerformance(chwClient, view.getContext());
+            goToChwProfile(chwClient, view.getContext());
         }
     }
 
-    private void goToChwPerformance(CommonPersonObjectClient chwClient, Context context) {
-        Intent intent = new Intent(context, MyPerformanceActivity.class);
+    private void goToChwProfile(CommonPersonObjectClient chwClient, Context context) {
+        Intent intent = new Intent(context, ChwProfileActivity.class);
         intent.putExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT, chwClient);
         context.startActivity(intent);
     }
