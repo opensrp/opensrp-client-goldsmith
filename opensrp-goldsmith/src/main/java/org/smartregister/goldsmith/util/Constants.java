@@ -66,5 +66,6 @@ public class Constants extends CoreConstants {
         String USER_ID = "user_id";
         String USERNAME = "username";
         String IDENTIFIER = "identifier";
+        String RELATIONAL_ID = "relationalid";
     }
 }

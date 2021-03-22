@@ -12,11 +12,16 @@ import androidx.annotation.Nullable;
 import org.smartregister.AllConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configuration.BaseRegisterRowOptions;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.MyPerformanceActivity;
+import org.smartregister.goldsmith.dao.ChwDao;
 import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.holders.BaseRegisterViewHolder;
 import org.smartregister.view.contract.SmartRegisterClient;
+
+import java.text.MessageFormat;
+import java.util.Map;
 
 import static org.smartregister.goldsmith.util.ConfigurableRegisterUtils.fillValue;
 
@@ -56,6 +61,7 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
         if (registerViewHolder instanceof CHWRegisterRowOptions.ViewHolder) {
             ViewHolder viewHolder = (ViewHolder) registerViewHolder;
             fillValue(viewHolder.chwName, commonPersonObjectClient.getDetails().get("name"));
+            updateTaskCompletionColumn(commonPersonObjectClient, viewHolder);
 
             viewHolder.chwColumn.setTag(org.smartregister.R.id.VIEW_TYPE, Constants.RegisterViewConstants.Provider.CHW_COLUMN);
             viewHolder.chwColumn.setTag(org.smartregister.R.id.VIEW_CLIENT, commonPersonObjectClient);
@@ -64,6 +70,30 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
             viewHolder.performanceWrapper.setTag(org.smartregister.R.id.VIEW_TYPE, Constants.RegisterViewConstants.Provider.PERFORMANCE_COLUMN);
             viewHolder.performanceWrapper.setTag(org.smartregister.R.id.VIEW_CLIENT, commonPersonObjectClient);
             viewHolder.performanceWrapper.setOnClickListener(this);
+        }
+    }
+
+    private void updateTaskCompletionColumn(CommonPersonObjectClient client, ViewHolder viewHolder) {
+        GoldsmithApplication application = (GoldsmithApplication) GoldsmithApplication.getInstance();
+        application.getAppExecutors();
+        Runnable runnable = () -> {
+            Map<String, String> taskCompletionDetails = ChwDao.getChwTaskCompletion(client.getDetails().get("identifier"));
+            application.getAppExecutors().mainThread().execute(() -> {
+                updateCompletionViews(taskCompletionDetails, viewHolder);
+            });
+        };
+        application.getAppExecutors().diskIO().execute(runnable);
+    }
+
+
+    private void updateCompletionViews(Map<String, String> taskCompletionDetails, ViewHolder viewHolder) {
+        if (taskCompletionDetails != null) {
+            int totalTaskCount = Integer.parseInt(taskCompletionDetails.get(ChwDao.TASKS));
+            int tasksCompletedCount = Integer.parseInt(taskCompletionDetails.get(ChwDao.COMPLETED));
+
+            int percentage = totalTaskCount > 0 ? (int) ((tasksCompletedCount / totalTaskCount) * 100) : 0;
+            viewHolder.performancePercentage.setText(MessageFormat.format(viewHolder.performancePercentage.getContext().getString(R.string.performance_completed_percentage), percentage));
+            viewHolder.tasksCompleted.setText(MessageFormat.format(viewHolder.tasksCompleted.getContext().getString(R.string.chw_row_performance_completed_fraction), tasksCompletedCount, totalTaskCount));
         }
     }
 

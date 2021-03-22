@@ -40,6 +40,7 @@ import org.smartregister.dto.UserAssignmentDTO;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.domain.FamilyMetadata;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.goldsmith.activity.FamilyProfileActivity;
@@ -103,6 +104,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
 
     private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
     protected EventTaskIdProvider eventTaskIdProvider;
+    private AppExecutors appExecutors;
 
     @Override
     public void onCreate() {
@@ -455,6 +457,12 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
         // Do nothing for now
     }
 
+    public AppExecutors getAppExecutors() {
+        if (appExecutors == null) {
+            appExecutors = new AppExecutors();
+        }
+        return appExecutors;
+    }
 
     static class ConfigViewsLib implements ModuleConfiguration.ConfigurableViewsLibrary {
 
