@@ -58,7 +58,6 @@ public class GoldsmithRepository extends Repository {
     protected SQLiteDatabase readableDatabase;
     protected SQLiteDatabase writableDatabase;
 
-
     public GoldsmithRepository(Context context, org.smartregister.Context openSRPContext) {
         super(context,
                 AllConstants.DATABASE_NAME,
@@ -231,7 +230,7 @@ public class GoldsmithRepository extends Repository {
 
             // Setup reporting
             ReportingLibrary reportingLibraryInstance = ReportingLibrary.getInstance();
-            String indicatorsConfigFile = "config/indicator-definitions.yml";
+            String indicatorsConfigFile = (((GoldsmithApplication) (GoldsmithApplication.getInstance())).isSupervisor()) ? "config/supervisor-indicator-definitions.yml" : "config/indicator-definitions.yml";
             reportingLibraryInstance.readConfigFile(indicatorsConfigFile, db);
         } catch (Exception e) {
             Timber.e(e, "upgradeToVersion2 ");
