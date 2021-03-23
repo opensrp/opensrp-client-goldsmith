@@ -3,6 +3,7 @@ package org.smartregister.goldsmith.interactor;
 
 import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.contract.LoginJobScheduler;
+import org.smartregister.goldsmith.job.GoldsmithSyncSettingsServiceJob;
 import org.smartregister.goldsmith.job.LocationTaskServiceJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.tasking.util.Utils;
@@ -39,6 +40,10 @@ public class LoginJobSchedulerProvider implements LoginJobScheduler {
 
         SyncServiceJob.scheduleJob(SyncServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig
                 .DATA_SYNC_DURATION_MINUTES));
+
+        GoldsmithSyncSettingsServiceJob.scheduleJob(GoldsmithSyncSettingsServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig
+                .DATA_SYNC_DURATION_MINUTES));
+
         /*SyncServiceJob.scheduleJob(SyncServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig
                 .DATA_SYNC_DURATION_MINUTES));
 

@@ -30,6 +30,8 @@ public class GoldsmithJobCreator implements JobCreator {
         switch (tag) {
             case SyncServiceJob.TAG:
                 return new SyncServiceJob(SyncIntentService.class);
+            case GoldsmithSyncSettingsServiceJob.TAG:
+                return new GoldsmithSyncSettingsServiceJob();
             case LocationTaskServiceJob.TAG:
                 return new LocationTaskServiceJob();
             case TaskingSyncSettingsServiceJob.TAG:
