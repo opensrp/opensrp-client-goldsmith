@@ -57,7 +57,7 @@ public class ChwPractitionerDao extends AbstractDao {
     public static List<Map<String, IndicatorTally>> getPregnanciesRegisteredLast30Days(String identifier) {
         String sql = "select count(ec_anc_register.base_entity_id) from ec_anc_register\n" +
                 "                     inner join ec_anc_log on ec_anc_register.base_entity_id  = ec_anc_log.base_entity_id\n" +
-                "                     WHERE  STRFTIME('%Y-%m-%d %H:%M:%S', ec_anc_log.date_created) >= date('now', '-1 month')";
+                "                     WHERE ec_anc_register.practitioner_identifier = '" + identifier + "' and STRFTIME('%Y-%m-%d %H:%M:%S', ec_anc_log.date_created) >= date('now', '-1 month')";
 
         DataMap<Map<String, IndicatorTally>> dataMap = cursor -> {
             Map<String, IndicatorTally> tallyMap = new HashMap<>();
@@ -79,7 +79,7 @@ public class ChwPractitionerDao extends AbstractDao {
                 "                        group by e.baseEntityId\n" +
                 "                      ) e on ec.base_entity_id = e.baseEntityId\n" +
                 "                      inner join ec_family_member ef on ec.base_entity_id = ef.base_entity_id and ef.date_removed is null\n" +
-                "                      where (( ifnull(ec.entry_point,'') <> 'PNC' ) or (ifnull(ec.entry_point,'') = 'PNC' and date(ec.dob, '+28 days')  <= date()))\n" +
+                "                      where ec.practitioner_identifier = '" + identifier + "' and (( ifnull(ec.entry_point,'') <> 'PNC' ) or (ifnull(ec.entry_point,'') = 'PNC' and date(ec.dob, '+28 days')  <= date()))\n" +
                 "                      and date(ec.dob) between date('now', '-5 month') and date('now')";
 
         DataMap<Map<String, IndicatorTally>> dataMap = cursor -> {
