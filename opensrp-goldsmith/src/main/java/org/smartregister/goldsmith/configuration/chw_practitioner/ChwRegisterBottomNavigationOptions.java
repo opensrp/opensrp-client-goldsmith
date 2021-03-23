@@ -1,13 +1,9 @@
 package org.smartregister.goldsmith.configuration.chw_practitioner;
 
-import android.app.Activity;
-import android.view.MenuItem;
-
-import androidx.annotation.NonNull;
-
 import org.smartregister.configuration.BottomNavigationOptions;
 import org.smartregister.configuration.BottomNavigationOptionsModel;
 import org.smartregister.goldsmith.R;
+import org.smartregister.goldsmith.model.ChwRegisterBottomNavigationOptionsModel;
 
 public class ChwRegisterBottomNavigationOptions implements BottomNavigationOptions {
 
@@ -24,13 +20,5 @@ public class ChwRegisterBottomNavigationOptions implements BottomNavigationOptio
     @Override
     public int checkedItemId() {
         return R.id.action_my_chws;
-    }
-
-    private class ChwRegisterBottomNavigationOptionsModel implements BottomNavigationOptionsModel {
-
-        @Override
-        public void onBottomOptionSelection(Activity activity, @NonNull MenuItem menuItem) {
-
-        }
     }
 }

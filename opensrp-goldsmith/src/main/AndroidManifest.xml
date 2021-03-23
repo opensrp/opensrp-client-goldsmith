@@ -62,6 +62,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".activity.ChwProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".activity.FamilyOtherMemberProfileActivity"
             android:label="@string/title_family_detail"
             android:theme="@style/FamilyTheme.NoActionBar" />

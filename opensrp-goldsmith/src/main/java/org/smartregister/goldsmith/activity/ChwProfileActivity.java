@@ -3,21 +3,23 @@ package org.smartregister.goldsmith.activity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import org.smartregister.AllConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.adapter.ChwProfilePagerAdapter;
 import org.smartregister.goldsmith.contract.ChwProfileContract;
-import org.smartregister.goldsmith.fragment.ChwProfileFragment;
+import org.smartregister.goldsmith.listener.SupervisorBottomNavigationLister;
 import org.smartregister.goldsmith.presenter.ChwProfilePresenter;
+import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.view.activity.BaseProfileActivity;
 
 public class ChwProfileActivity extends BaseProfileActivity implements ChwProfileContract.View {
@@ -45,6 +47,7 @@ public class ChwProfileActivity extends BaseProfileActivity implements ChwProfil
         appBarLayout = findViewById(org.smartregister.family.R.id.toolbar_appbarlayout);
         initializePresenter();
         setupViews();
+        registerBottomNavigation();
     }
 
     @Override
@@ -133,5 +136,15 @@ public class ChwProfileActivity extends BaseProfileActivity implements ChwProfil
         if (presenter() != null) {
             presenter().onDestroy(isChangingConfigurations());
         }
+    }
+
+    private void registerBottomNavigation() {
+        BottomNavigationHelper bottomNavigationHelper = new BottomNavigationHelper();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        bottomNavigationHelper.disableShiftMode(bottomNavigationView);
+        SupervisorBottomNavigationLister bottomNavigationListener = new SupervisorBottomNavigationLister(this);
+        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationListener);
+        bottomNavigationView.getMenu().findItem(R.id.action_my_chws).setChecked(true);
     }
 }
