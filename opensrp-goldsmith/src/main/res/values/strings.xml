@@ -125,6 +125,7 @@
     <string name="chw_row_performance_completed_fraction">{0}/{1} tasks</string>
     <string name="performance_trending_down">Trending down</string>
     <string name="performance_health_indicators_title">KEY HEALTH INDICATORS</string>
+    <string name="performance_tasks_title">TASKS</string>
     <string name="pregnancies_registered_last_30_label">Pregnancies registered last 30 days</string>
     <string name="new_born_visits_last_30_label">New born visits last 30 days</string>
     <!-- End of My performance -->

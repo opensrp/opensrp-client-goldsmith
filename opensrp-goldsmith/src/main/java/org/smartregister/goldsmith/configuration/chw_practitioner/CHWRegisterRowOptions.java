@@ -91,7 +91,7 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
             int totalTaskCount = Integer.parseInt(taskCompletionDetails.get(ChwDao.TASKS));
             int tasksCompletedCount = Integer.parseInt(taskCompletionDetails.get(ChwDao.COMPLETED));
 
-            int percentage = totalTaskCount > 0 ? (int) ((tasksCompletedCount / totalTaskCount) * 100) : 0;
+            int percentage = totalTaskCount > 0 ? ((tasksCompletedCount / totalTaskCount) * 100) : 0;
             viewHolder.performancePercentage.setText(MessageFormat.format(viewHolder.performancePercentage.getContext().getString(R.string.performance_completed_percentage), percentage));
             viewHolder.tasksCompleted.setText(MessageFormat.format(viewHolder.tasksCompleted.getContext().getString(R.string.chw_row_performance_completed_fraction), tasksCompletedCount, totalTaskCount));
         }
