@@ -6,7 +6,7 @@
             <corners android:radius="100dp" />
             <solid android:color="@color/time_frame_button_background" />
             <stroke
-                android:width="2dp"
+                android:width="1dp"
                 android:color="@color/time_frame_button_active_border" />
         </shape>
     </item>

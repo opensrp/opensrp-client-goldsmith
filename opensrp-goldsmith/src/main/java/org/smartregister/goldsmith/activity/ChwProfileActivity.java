@@ -4,6 +4,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -60,6 +61,9 @@ public class ChwProfileActivity extends BaseProfileActivity implements ChwProfil
         tvHouseholds = findViewById(R.id.tv_households);
         tvLastSyncDay = findViewById(R.id.tv_last_sync_day);
 
+        ViewStub dashBoardTop = findViewById(R.id.dashboard_top);
+        dashBoardTop.setLayoutResource(R.layout.time_frame_layout);
+        dashBoardTop.inflate();
     }
 
     @Override

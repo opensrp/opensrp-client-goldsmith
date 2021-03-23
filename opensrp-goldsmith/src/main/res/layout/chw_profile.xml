@@ -144,8 +144,9 @@
             android:id="@+id/tabs"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#E2E363"
+            app:tabIndicatorColor="@color/white"
             app:tabIndicatorHeight="4dp"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed"
@@ -153,6 +154,13 @@
             app:tabTextAppearance="@style/CustomFontTextViewStyle.tabIndicator.sub.white" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <ViewStub
+        android:id="@+id/dashboard_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp" />
 
     <include layout="@layout/content_base_profile" />
 

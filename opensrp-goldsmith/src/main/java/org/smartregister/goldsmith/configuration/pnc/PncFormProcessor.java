@@ -154,7 +154,6 @@ public class PncFormProcessor implements ModuleFormProcessor {
                         EventClient childEventClient = PncRegistrationUtils.processPncChild(pncForm, childFields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId, uniqueChildID, lastName, dob);
                         childrenEventClientList.add(childEventClient);
                         if (pncForm != null) {
-                            // TODO -> Check if okay now that we're saving vaccines prior to saving the child client
                             PncRegistrationUtils.saveVaccineEvents(childFields, childBaseEntityId, dob);
                         }
                     } catch (Exception e) {
