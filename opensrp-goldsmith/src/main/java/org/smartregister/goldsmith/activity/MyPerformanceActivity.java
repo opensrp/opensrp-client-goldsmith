@@ -101,7 +101,11 @@ public class MyPerformanceActivity extends AppCompatActivity implements Performa
             back.setOnClickListener(v -> finish());
 
         ViewStub dashBoardTop = findViewById(R.id.dashboard_top);
-        int dashboardTopLayout = isSupervisor ? R.layout.task_completion_layout : R.layout.task_completion_layout; // TODO -> Set time frame layout
+
+        int dashboardTopLayout = R.layout.task_completion_layout;
+        if (isSupervisor) {
+            dashboardTopLayout = R.layout.time_frame_layout;
+        }
         dashBoardTop.setLayoutResource(dashboardTopLayout);
         dashBoardTop.inflate();
 
