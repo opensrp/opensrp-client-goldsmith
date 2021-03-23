@@ -15,7 +15,7 @@ import org.smartregister.configuration.BaseRegisterRowOptions;
 import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.ChwProfileActivity;
-import org.smartregister.goldsmith.dao.ChwDao;
+import org.smartregister.goldsmith.dao.ChwPractitionerDao;
 import org.smartregister.goldsmith.util.Constants;
 import org.smartregister.holders.BaseRegisterViewHolder;
 import org.smartregister.view.contract.SmartRegisterClient;
@@ -77,7 +77,7 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
         GoldsmithApplication application = (GoldsmithApplication) GoldsmithApplication.getInstance();
         application.getAppExecutors();
         Runnable runnable = () -> {
-            Map<String, String> taskCompletionDetails = ChwDao.getChwTaskCompletion(client.getDetails().get("identifier"));
+            Map<String, String> taskCompletionDetails = ChwPractitionerDao.getPractitionerTaskCompletion(client.getDetails().get("identifier"));
             application.getAppExecutors().mainThread().execute(() -> {
                 updateCompletionViews(taskCompletionDetails, viewHolder);
             });
@@ -88,8 +88,8 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
 
     private void updateCompletionViews(Map<String, String> taskCompletionDetails, ViewHolder viewHolder) {
         if (taskCompletionDetails != null) {
-            int totalTaskCount = Integer.parseInt(taskCompletionDetails.get(ChwDao.TASKS));
-            int tasksCompletedCount = Integer.parseInt(taskCompletionDetails.get(ChwDao.COMPLETED));
+            int totalTaskCount = Integer.parseInt(taskCompletionDetails.get(ChwPractitionerDao.TASKS));
+            int tasksCompletedCount = Integer.parseInt(taskCompletionDetails.get(ChwPractitionerDao.COMPLETED));
 
             int percentage = totalTaskCount > 0 ? ((tasksCompletedCount / totalTaskCount) * 100) : 0;
             viewHolder.performancePercentage.setText(MessageFormat.format(viewHolder.performancePercentage.getContext().getString(R.string.performance_completed_percentage), percentage));

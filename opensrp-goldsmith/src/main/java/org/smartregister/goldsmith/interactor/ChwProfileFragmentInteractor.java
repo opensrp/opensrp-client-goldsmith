@@ -2,7 +2,7 @@ package org.smartregister.goldsmith.interactor;
 
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.goldsmith.contract.GoldsmithReportingContract;
-import org.smartregister.goldsmith.dao.ChwDao;
+import org.smartregister.goldsmith.dao.ChwPractitionerDao;
 import org.smartregister.reporting.domain.IndicatorTally;
 
 import java.util.List;
@@ -21,8 +21,8 @@ public class ChwProfileFragmentInteractor implements GoldsmithReportingContract.
     @Override
     public void fetchIndicatorDailyTallies(GoldsmithReportingContract.InteractorCallback callback) {
         Runnable runnable = () -> {
-            List<Map<String, IndicatorTally>> dailyTallies = ChwDao.getPregnanciesRegisteredLast30Days(identifier);
-            List<Map<String, IndicatorTally>> newBornTallies = ChwDao.getNewBornVisitsLast30Days(identifier);
+            List<Map<String, IndicatorTally>> dailyTallies = ChwPractitionerDao.getPregnanciesRegisteredLast30Days(identifier);
+            List<Map<String, IndicatorTally>> newBornTallies = ChwPractitionerDao.getNewBornVisitsLast30Days(identifier);
             if (dailyTallies != null && newBornTallies != null) {
                 dailyTallies.addAll(newBornTallies);
             }

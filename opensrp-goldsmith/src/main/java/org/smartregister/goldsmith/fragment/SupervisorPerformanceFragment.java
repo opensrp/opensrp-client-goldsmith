@@ -10,7 +10,7 @@ import android.widget.TextView;
 import org.smartregister.CoreLibrary;
 import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
-import org.smartregister.goldsmith.dao.ChwDao;
+import org.smartregister.goldsmith.dao.ChwPractitionerDao;
 
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class SupervisorPerformanceFragment extends PerformanceDashboardFragment 
     private void fetchIndicatorDailyTallies(TextView textView, String identifier) {
         GoldsmithApplication application = (GoldsmithApplication) GoldsmithApplication.getInstance();
         Runnable runnable = () -> application.getAppExecutors().mainThread().execute(() -> {
-            Map<String, String> taskCompletionDetails = ChwDao.getChwTaskCompletion(identifier);
+            Map<String, String> taskCompletionDetails = ChwPractitionerDao.getPractitionerTaskCompletion(identifier);
             updatePerformanceView(taskCompletionDetails, textView);
         });
         application.getAppExecutors().diskIO().execute(runnable);
@@ -47,8 +47,8 @@ public class SupervisorPerformanceFragment extends PerformanceDashboardFragment 
 
     private void updatePerformanceView(Map<String, String> taskCompletionDetails, TextView textView) {
         if (taskCompletionDetails != null) {
-            int totalTaskCount = Integer.parseInt(taskCompletionDetails.get(ChwDao.TASKS));
-            int tasksCompletedCount = Integer.parseInt(taskCompletionDetails.get(ChwDao.COMPLETED));
+            int totalTaskCount = Integer.parseInt(taskCompletionDetails.get(ChwPractitionerDao.TASKS));
+            int tasksCompletedCount = Integer.parseInt(taskCompletionDetails.get(ChwPractitionerDao.COMPLETED));
             int percentage = totalTaskCount > 0 ? ((tasksCompletedCount / totalTaskCount) * 100) : 0;
             textView.setText(String.valueOf(percentage));
         }

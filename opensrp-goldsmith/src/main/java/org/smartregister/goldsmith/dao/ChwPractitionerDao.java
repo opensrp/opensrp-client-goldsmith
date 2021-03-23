@@ -8,12 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChwDao extends AbstractDao {
+public class ChwPractitionerDao extends AbstractDao {
 
     public static String TASKS = "tasks";
     public static String COMPLETED = "completed";
 
-    public static Practitioner getChw(String identifier) {
+    public static Practitioner getChwPractitioner(String identifier) {
         String sql = "SELECT * FROM practitioner WHERE identifier = '" + identifier + "'";
 
         DataMap<Practitioner> dataMap = cursor -> {
@@ -33,7 +33,7 @@ public class ChwDao extends AbstractDao {
         return res.get(0);
     }
 
-    public static Map<String, String> getChwTaskCompletion(String identifier) {
+    public static Map<String, String> getPractitionerTaskCompletion(String identifier) {
         String sql = "with tasks as \n" +
                 "(select *, count(_id) as total\n" +
                 "from task\n" +
