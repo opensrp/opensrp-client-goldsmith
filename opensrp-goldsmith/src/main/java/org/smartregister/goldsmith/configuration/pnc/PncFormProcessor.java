@@ -151,7 +151,9 @@ public class PncFormProcessor implements ModuleFormProcessor {
                         JsonFormUtils.getRegistrationForm(pncForm, childBaseEntityId, PncRegistrationUtils.getLocationID());
 
                         pncForm = JsonFormUtils.populatePNCForm(pncForm, childFields, familyBaseEntityId, motherBaseId, uniqueChildID, dob, lastName);
-                        EventClient childEventClient = PncRegistrationUtils.processPncChild(pncForm, childFields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId, uniqueChildID, lastName, dob);
+                        String practitionerIdentifier = GoldsmithApplication.getInstance().getContext().allSharedPreferences().getUserPractitionerIdentifier();
+                        EventClient childEventClient = PncRegistrationUtils.processPncChild(pncForm, childFields,
+                                allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId, uniqueChildID, lastName, dob, practitionerIdentifier);
                         childrenEventClientList.add(childEventClient);
                         if (pncForm != null) {
                             PncRegistrationUtils.saveVaccineEvents(childFields, childBaseEntityId, dob);
