@@ -39,7 +39,7 @@ public class ChwPractitionerDao extends AbstractDao {
                 "from task\n" +
                 "where task.owner = '" + identifier + "')\n" +
                 "select total, count(_id) as count_complete\n" +
-                "from tasks where tasks.status = 'COMPLETE'";
+                "from tasks where tasks.status = 'COMPLETED'";
         DataMap<Map<String, String>> dataMap = cursor -> {
             Map<String, String> taskCompletion = new HashMap<>();
             String totalTasks = getCursorValue(cursor, "total");

@@ -30,6 +30,7 @@ public class Utils {
         }
         if (intent != null) {
             activity.startActivity(intent);
+            activity.finish();
         }
     }
 

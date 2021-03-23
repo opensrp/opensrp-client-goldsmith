@@ -21,12 +21,7 @@ public class ChwProfilePagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return ChwProfileFragment.newInstance(extras);
-            default:
-                return ChwProfileFragment.newInstance(extras);
-        }
+        return ChwProfileFragment.newInstance(extras);
     }
 
     @Override
