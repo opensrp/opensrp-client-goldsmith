@@ -13,10 +13,11 @@ import org.smartregister.family.contract.FamilyProfileContract;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
-import org.smartregister.goldsmith.BuildConfig;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.interactor.FamilyProfileInteractor;
 import org.smartregister.goldsmith.model.ChildRegisterModel;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import static org.smartregister.AllConstants.PLAN_IDENTIFIER;
 
@@ -65,7 +66,7 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
 
     @Override
     public void saveChildRegistration(Pair<Client, Event> pair, String jsonString, boolean isEditMode, CoreChildRegisterContract.InteractorCallBack callBack) {
-        pair.second.addDetails(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
+        pair.second.addDetails(PLAN_IDENTIFIER, ((GoldsmithApplication) DrishtiApplication.getInstance()).getPlanId());
         super.saveChildRegistration(pair, jsonString, isEditMode, this);
     }
 

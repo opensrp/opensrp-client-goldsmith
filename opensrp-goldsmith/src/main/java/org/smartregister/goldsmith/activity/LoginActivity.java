@@ -104,9 +104,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             Utils.startAsyncTask(new SaveTeamLocationsTask(), null);
             // processWeightForHeightZscoreCSV();
         }
+
         if (hasPinLogin()) {
             startPinHome(remote);
         } else {
+            ((GoldsmithApplication) GoldsmithApplication.getInstance()).updateCurrentPlanId();
             startHome(remote);
         }
     }

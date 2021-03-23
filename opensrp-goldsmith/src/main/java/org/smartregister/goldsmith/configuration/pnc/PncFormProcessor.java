@@ -19,11 +19,11 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.EventClient;
 import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
-import org.smartregister.goldsmith.BuildConfig;
 import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.util.PncRegistrationUtils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
 
         ArrayList<Event> eventList = new ArrayList<>();
         Event pregnancyOutcomeEvent = pncRegistrationEventClient.getEvent();
-        pregnancyOutcomeEvent.addDetails(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
+        pregnancyOutcomeEvent.addDetails(PLAN_IDENTIFIER, ((GoldsmithApplication) DrishtiApplication.getInstance()).getPlanId());
         eventList.add(pregnancyOutcomeEvent);
 
         List<EventClient> childrenEventClientList = getChildrenEventClients(jsonString);
@@ -68,7 +68,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
 
         // Inject the field values
         JSONObject details = new JSONObject();
-        details.put(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
+        details.put(PLAN_IDENTIFIER, ((GoldsmithApplication) DrishtiApplication.getInstance()).getPlanId());
         form.put(DETAILS, details);
 
         if (injectedFieldValues != null && injectedFieldValues.size() > 0) {
