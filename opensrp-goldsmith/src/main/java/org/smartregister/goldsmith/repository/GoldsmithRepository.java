@@ -148,6 +148,10 @@ public class GoldsmithRepository extends Repository {
                     upgradeToVersion6(DrishtiApplication.getInstance().getApplicationContext(), db);
                     break;
 
+                case 7:
+                    upgradeToVersion7(db);
+                    break;
+
                 default:
                     break;
             }
@@ -272,6 +276,16 @@ public class GoldsmithRepository extends Repository {
             IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(context, db);
         } catch (Exception e) {
             Timber.e(e);
+        }
+    }
+
+    private static void upgradeToVersion7(SQLiteDatabase db) {
+        try {
+            for (String sql : RepositoryUtils.ADD_PRACTITIONER_IDENTIFIER_COL) {
+                db.execSQL(sql);
+            }
+        } catch (Exception e) {
+            Timber.e(e, "UpgradeToVersion7");
         }
     }
 }

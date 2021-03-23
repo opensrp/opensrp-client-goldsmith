@@ -34,6 +34,11 @@ public interface RepositoryUtils {
             "having count(*) > 1 " +
             ")";
 
+    String[] ADD_PRACTITIONER_IDENTIFIER_COL = {
+            "ALTER TABLE 'ec_anc_register' ADD COLUMN identifier TEXT NULL;",
+            "ALTER TABLE 'ec_child' ADD COLUMN identifier TEXT NULL;"
+    };
+
     static void addDetailsColumnToFamilySearchTable(SQLiteDatabase db) {
         try {
 

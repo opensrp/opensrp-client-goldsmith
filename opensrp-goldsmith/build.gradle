@@ -98,7 +98,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
             buildConfigField "int", "VACCINE_SYNC_TIME", '0'
-            buildConfigField "int", "DATABASE_VERSION", '6'
+            buildConfigField "int", "DATABASE_VERSION", '7'
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
             buildConfigField "boolean", "TIME_CHECK", "true"
             buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
@@ -124,7 +124,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '25'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
             buildConfigField "int", "VACCINE_SYNC_TIME", '0'
-            buildConfigField "int", "DATABASE_VERSION", '6'
+            buildConfigField "int", "DATABASE_VERSION", '7'
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
             buildConfigField "boolean", "TIME_CHECK", "true"
             buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
@@ -187,10 +187,8 @@ dependencies {
     // Add the Firebase Crashlytics SDK.
     implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
 
-/*
     implementation(project(':opensrp-app')) {
-*/
-    api('org.smartregister:opensrp-client-core:4.2.13-gs.2-SNAPSHOT') {
+    /*api('org.smartregister:opensrp-client-core:4.2.13-gs.2-SNAPSHOT') {*/
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
@@ -215,7 +213,9 @@ dependencies {
         exclude group: 'com.github.lecho', module: 'hellocharts-library'
     }
 
-    implementation('org.smartregister:opensrp-client-chw-core:2.0.24-gs.2-SNAPSHOT') {
+
+    /*implementation('org.smartregister:opensrp-client-chw-core:2.0.24-gs.2-SNAPSHOT') {*/
+    implementation(project(':opensrp-chw-core')) {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'androidx.legacy', module: 'legacy-support-v4'
