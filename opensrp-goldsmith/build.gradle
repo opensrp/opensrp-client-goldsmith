@@ -113,6 +113,7 @@ android {
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String", 'DEFAULT_LOCATION', '"Health Facility"'
             buildConfigField "String", 'PNC_PLAN_ID', '"bcf1646b-1e55-4a53-98a8-0d344ee46a8a"'
+            buildConfigField "String", 'SUPERVISOR_PLAN_ID', '"2d12e224-401d-4d23-80fd-7b0f37e56fc1"'
         }
 
         debug {
@@ -140,6 +141,7 @@ android {
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Region", "District", "Delegation", "Health Facility"}'
             buildConfigField "String", 'DEFAULT_LOCATION', '"Health Facility"'
             buildConfigField "String", 'PNC_PLAN_ID', '"bcf1646b-1e55-4a53-98a8-0d344ee46a8a"'
+            buildConfigField "String", 'SUPERVISOR_PLAN_ID', '"2d12e224-401d-4d23-80fd-7b0f37e56fc1"'
         }
     }
 
@@ -190,7 +192,7 @@ dependencies {
 /*
     implementation(project(':opensrp-app')) {
 */
-    api('org.smartregister:opensrp-client-core:4.2.13-gs.1-SNAPSHOT') {
+    api('org.smartregister:opensrp-client-core:4.2.13.9-GS-PREVIEW-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
@@ -230,7 +232,7 @@ dependencies {
         exclude group: 'com.crashlytics.sdk.android', module: 'crashlytics'
     }
 
-    implementation('org.smartregister:opensrp-plan-evaluator:1.2.11-SNAPSHOT') {
+    implementation('org.smartregister:opensrp-plan-evaluator:1.5.1-gs.4-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
     }

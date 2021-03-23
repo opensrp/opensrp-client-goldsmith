@@ -168,9 +168,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
         initializeRegisters();
 
         // TODO: Remove this and move it to some other place
-        if (TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId()) && !TextUtils.isEmpty(BuildConfig.PNC_PLAN_ID)) {
-            PreferencesUtil.getInstance().setCurrentPlanId(BuildConfig.PNC_PLAN_ID);
-        }
+        updateCurrentPlanId();
 
         Mapbox.getInstance(this, BuildConfig.MAPBOX_SDK_ACCESS_TOKEN);
 
@@ -178,6 +176,14 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
         ValidateAssignmentReceiver.getInstance().addListener(this);
 
         //throw new RuntimeException("Some exception occurred");
+    }
+
+    public void updateCurrentPlanId() {
+        if (!TextUtils.isEmpty(CoreLibrary.getInstance().context().allSharedPreferences().getUserPractitionerRole())
+                && TextUtils.isEmpty(PreferencesUtil.getInstance().getCurrentPlanId())
+                && !TextUtils.isEmpty(getPlanId())) {
+            PreferencesUtil.getInstance().setCurrentPlanId(getPlanId());
+        }
     }
 
     @NotNull
@@ -476,5 +482,13 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
 
     public boolean isSupervisor() {
         return "Supervisor".equals(CoreLibrary.getInstance().context().allSharedPreferences().getUserPractitionerRole());
+    }
+
+    public String getPlanId() {
+        if (isSupervisor()) {
+            return BuildConfig.SUPERVISOR_PLAN_ID;
+        } else {
+            return BuildConfig.PNC_PLAN_ID;
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.evernote.android.job.JobCreator;
 
 import org.smartregister.job.DocumentConfigurationServiceJob;
 import org.smartregister.job.ExtendedSyncServiceJob;
+import org.smartregister.job.PlanPeriodicEvaluationJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.job.ValidateSyncDataServiceJob;
@@ -46,6 +47,10 @@ public class GoldsmithJobCreator implements JobCreator {
             case RecurringIndicatorGeneratingJob.TAG:
                 return new RecurringIndicatorGeneratingJob();
             default:
+                if (PlanPeriodicEvaluationJob.isPlanPeriodEvaluationJob(tag)) {
+                    return new PlanPeriodicEvaluationJob();
+                }
+
                 Timber.w(tag + " is not declared in Goldsmith Job Creator");
                 return null;
         }
