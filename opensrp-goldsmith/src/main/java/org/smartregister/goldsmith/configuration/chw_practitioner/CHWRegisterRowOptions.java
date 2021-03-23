@@ -75,12 +75,9 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
 
     private void updateTaskCompletionColumn(CommonPersonObjectClient client, ViewHolder viewHolder) {
         GoldsmithApplication application = (GoldsmithApplication) GoldsmithApplication.getInstance();
-        application.getAppExecutors();
         Runnable runnable = () -> {
             Map<String, String> taskCompletionDetails = ChwPractitionerDao.getPractitionerTaskCompletion(client.getDetails().get("identifier"));
-            application.getAppExecutors().mainThread().execute(() -> {
-                updateCompletionViews(taskCompletionDetails, viewHolder);
-            });
+            application.getAppExecutors().mainThread().execute(() -> updateCompletionViews(taskCompletionDetails, viewHolder));
         };
         application.getAppExecutors().diskIO().execute(runnable);
     }
@@ -88,10 +85,10 @@ public class CHWRegisterRowOptions extends BaseRegisterRowOptions implements Vie
 
     private void updateCompletionViews(Map<String, String> taskCompletionDetails, ViewHolder viewHolder) {
         if (taskCompletionDetails != null) {
-            int totalTaskCount = Integer.parseInt(taskCompletionDetails.get(ChwPractitionerDao.TASKS));
-            int tasksCompletedCount = Integer.parseInt(taskCompletionDetails.get(ChwPractitionerDao.COMPLETED));
+            double totalTaskCount = Double.parseDouble(taskCompletionDetails.get(ChwPractitionerDao.TASKS));
+            double tasksCompletedCount = Double.parseDouble(taskCompletionDetails.get(ChwPractitionerDao.COMPLETED));
 
-            int percentage = totalTaskCount > 0 ? ((tasksCompletedCount / totalTaskCount) * 100) : 0;
+            int percentage = totalTaskCount > 0 ? (int)((tasksCompletedCount / totalTaskCount) * 100) : 0;
             viewHolder.performancePercentage.setText(MessageFormat.format(viewHolder.performancePercentage.getContext().getString(R.string.performance_completed_percentage), percentage));
             viewHolder.tasksCompleted.setText(MessageFormat.format(viewHolder.tasksCompleted.getContext().getString(R.string.chw_row_performance_completed_fraction), tasksCompletedCount, totalTaskCount));
         }

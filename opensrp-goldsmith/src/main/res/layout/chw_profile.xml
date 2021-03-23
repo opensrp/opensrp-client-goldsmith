@@ -73,7 +73,7 @@
                         android:gravity="center_horizontal"
                         android:paddingStart="0dp"
                         android:paddingLeft="0dp"
-                        android:text="40 min"
+                        android:text="5 min"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/white"
                         android:textSize="@dimen/register_member_village_size" />
@@ -116,7 +116,7 @@
                         android:gravity="center_horizontal"
                         android:paddingStart="0dp"
                         android:paddingLeft="0dp"
-                        android:text="15 households"
+                        android:text="1 household"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/white"
                         android:textSize="@dimen/register_member_village_size" />
