@@ -189,8 +189,7 @@ dependencies {
     // Add the Firebase Crashlytics SDK.
     implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
 
-    implementation(project(':opensrp-app')) {
-    /*api('org.smartregister:opensrp-client-core:4.2.13.9-GS-PREVIEW-SNAPSHOT'){*/
+    api('org.smartregister:opensrp-client-core:4.2.13-gs.2-SNAPSHOT') {
         transitive = true
         exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
@@ -216,8 +215,7 @@ dependencies {
     }
 
 
-    /*implementation('org.smartregister:opensrp-client-chw-core:2.0.24-gs.2-SNAPSHOT') {*/
-    implementation(project(':opensrp-chw-core')) {
+    implementation('org.smartregister:opensrp-client-chw-core:2.0.24-gs.2-SNAPSHOT') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'androidx.legacy', module: 'legacy-support-v4'
