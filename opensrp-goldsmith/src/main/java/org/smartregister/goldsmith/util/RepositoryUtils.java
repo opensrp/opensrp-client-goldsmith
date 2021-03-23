@@ -35,8 +35,8 @@ public interface RepositoryUtils {
             ")";
 
     String[] ADD_PRACTITIONER_IDENTIFIER_COL = {
-            "ALTER TABLE 'ec_anc_register' ADD COLUMN identifier TEXT NULL;",
-            "ALTER TABLE 'ec_child' ADD COLUMN identifier TEXT NULL;"
+            "ALTER TABLE 'ec_anc_register' ADD COLUMN practitioner_identifier TEXT NULL;",
+            "ALTER TABLE 'ec_child' ADD COLUMN practitioner_identifier TEXT NULL;"
     };
 
     static void addDetailsColumnToFamilySearchTable(SQLiteDatabase db) {
