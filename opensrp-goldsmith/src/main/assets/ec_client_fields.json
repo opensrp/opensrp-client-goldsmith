@@ -451,6 +451,13 @@
             "field": "obs.fieldCode",
             "formSubmissionField": "vaccine_card"
           }
+        },
+        {
+          "column_name": "practitioner_identifier",
+          "type": "Event",
+          "json_mapping": {
+            "field": "details.practitionerIdentifier"
+          }
         }
       ]
     },
@@ -659,6 +666,13 @@
           "json_mapping": {
             "field": "obs.fieldCode",
             "concept": "1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "column_name": "practitioner_identifier",
+          "type": "Event",
+          "json_mapping": {
+            "field": "details.practitionerIdentifier"
           }
         }
       ]
@@ -913,6 +927,7 @@
         }
       ]
     },
+
     {
       "name": "ec_family_planning",
       "columns": [
