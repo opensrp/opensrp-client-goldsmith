@@ -108,7 +108,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         if (hasPinLogin()) {
             startPinHome(remote);
         } else {
-            ((GoldsmithApplication) GoldsmithApplication.getInstance()).updateCurrentPlanId();
+            GoldsmithApplication application = ((GoldsmithApplication) GoldsmithApplication.getInstance());
+            application.updateCurrentPlanId();
+            application.initializeCHWRegister();
             startHome(remote);
         }
     }

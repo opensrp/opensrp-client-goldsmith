@@ -10,6 +10,7 @@ import org.smartregister.job.DocumentConfigurationServiceJob;
 import org.smartregister.job.ExtendedSyncServiceJob;
 import org.smartregister.job.PlanPeriodicEvaluationJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
+import org.smartregister.job.SyncPractitionersByIdAndRoleJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.job.ValidateSyncDataServiceJob;
 import org.smartregister.reporting.job.RecurringIndicatorGeneratingJob;
@@ -46,6 +47,8 @@ public class GoldsmithJobCreator implements JobCreator {
                 return new DocumentConfigurationServiceJob(DocumentConfigurationIntentService.class);
             case RecurringIndicatorGeneratingJob.TAG:
                 return new RecurringIndicatorGeneratingJob();
+            case SyncPractitionersByIdAndRoleJob.TAG:
+                return new SyncPractitionersByIdAndRoleJob();
             default:
                 if (PlanPeriodicEvaluationJob.isPlanPeriodEvaluationJob(tag)) {
                     return new PlanPeriodicEvaluationJob();

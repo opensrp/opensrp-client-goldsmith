@@ -451,6 +451,13 @@
             "field": "obs.fieldCode",
             "formSubmissionField": "vaccine_card"
           }
+        },
+        {
+          "column_name": "practitioner_identifier",
+          "type": "Event",
+          "json_mapping": {
+            "field": "details.practitionerIdentifier"
+          }
         }
       ]
     },
@@ -659,6 +666,13 @@
           "json_mapping": {
             "field": "obs.fieldCode",
             "concept": "1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "column_name": "practitioner_identifier",
+          "type": "Event",
+          "json_mapping": {
+            "field": "details.practitionerIdentifier"
           }
         }
       ]
@@ -2354,6 +2368,46 @@
           "json_mapping": {
             "field": "obs.formSubmissionField",
             "concept": "structure_uuid"
+          }
+        }
+      ]
+    },
+    {
+      "name": "practitioner",
+      "columns": [
+        {
+          "column_name": "identifier",
+          "type": "Client",
+          "json_mapping": {
+            "field": "identifier"
+          }
+        },
+        {
+          "column_name": "user_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "userId"
+          }
+        },
+        {
+          "column_name": "username",
+          "type": "Client",
+          "json_mapping": {
+            "field": "userName"
+          }
+        },
+        {
+          "column_name": "is_active",
+          "type": "Client",
+          "json_mapping": {
+            "field": "active"
+          }
+        },
+        {
+          "column_name": "name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "name"
           }
         }
       ]

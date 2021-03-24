@@ -40,20 +40,25 @@ import org.smartregister.dto.UserAssignmentDTO;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.domain.FamilyMetadata;
+import org.smartregister.family.util.AppExecutors;
+import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.goldsmith.activity.FamilyProfileActivity;
 import org.smartregister.goldsmith.activity.FamilyWizardFormActivity;
 import org.smartregister.goldsmith.activity.LoginActivity;
-import org.smartregister.goldsmith.configuration.AncPncToolbarOptions;
+import org.smartregister.goldsmith.configuration.AncPncNavigationOptions;
 import org.smartregister.goldsmith.configuration.GoldsmithTaskingLibraryConfiguration;
-import org.smartregister.goldsmith.configuration.ToolbarOptions;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesFormProcessor;
+import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesNavigationOptions;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.allfamilies.AllFamiliesRegisterRowOptions;
 import org.smartregister.goldsmith.configuration.anc.AncFormProcessor;
 import org.smartregister.goldsmith.configuration.anc.AncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.anc.AncRegisterActivityStarter;
 import org.smartregister.goldsmith.configuration.anc.AncRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.chw_practitioner.CHWRegisterActivityStarter;
+import org.smartregister.goldsmith.configuration.chw_practitioner.CHWRegisterRowOptions;
+import org.smartregister.goldsmith.configuration.chw_practitioner.ChwRegisterNavigationOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncFormProcessor;
 import org.smartregister.goldsmith.configuration.pnc.PncMemberProfileOptions;
 import org.smartregister.goldsmith.configuration.pnc.PncRegisterActivityStarter;
@@ -63,6 +68,7 @@ import org.smartregister.goldsmith.contract.EventTaskIdProviderImpl;
 import org.smartregister.goldsmith.job.GoldsmithJobCreator;
 import org.smartregister.goldsmith.provider.AllFamiliesRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.AncRegisterQueryProvider;
+import org.smartregister.goldsmith.provider.CHWRegisterQueryProvider;
 import org.smartregister.goldsmith.provider.PncRegisterQueryProvider;
 import org.smartregister.goldsmith.repository.GoldsmithRepository;
 import org.smartregister.goldsmith.util.Constants;
@@ -89,6 +95,8 @@ import java.util.Locale;
 
 import timber.log.Timber;
 
+import static org.smartregister.chw.core.utils.CoreConstants.DB_CONSTANTS.ID;
+
 /**
  * Created by Ephraim Kigamba - nek.eam@gmail.com on 21-09-2020.
  */
@@ -96,6 +104,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
 
     private org.smartregister.configuration.LocationTagsConfiguration locationTagsConfiguration;
     protected EventTaskIdProvider eventTaskIdProvider;
+    private AppExecutors appExecutors;
 
     @Override
     public void onCreate() {
@@ -190,13 +199,14 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
     protected CommonFtsObject getCommonFtsObject() {
         CommonFtsObject commonFtsObject = createCommonFtsObject();
         String[] previousTables = commonFtsObject.getTables();
-        String[] tables = new String[previousTables.length + 1];
+        String[] tables = new String[previousTables.length + 2];
 
-        for (int i = 0; i < tables.length - 1; i++) {
+        for (int i = 0; i < tables.length - 2; i++) {
             tables[i] = previousTables[i];
         }
 
-        tables[tables.length - 1] = TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP;
+        tables[tables.length - 2] = TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP;
+        tables[tables.length - 1] = Constants.TableName.CHW_PRACTITIONER;
 
         CommonFtsObject updatedFtsObject = new CommonFtsObject(tables);
         for (String table : commonFtsObject.getTables()) {
@@ -205,13 +215,20 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
         }
 
         updatedFtsObject.updateSearchFields(TaskingConstants.Tables.STRUCTURE_FAMILY_RELATIONSHIP, new String[]{"family_base_entity_id"});
+        updatedFtsObject.updateSearchFields(Constants.TableName.CHW_PRACTITIONER,
+                new String[]{ID, Constants.DBConstants.NAME, Constants.DBConstants.USER_ID, Constants.DBConstants.USERNAME});
+        updatedFtsObject.updateSortFields(Constants.TableName.CHW_PRACTITIONER, new String[]{DBConstants.KEY.LAST_INTERACTED_WITH});
         return updatedFtsObject;
     }
 
     private void initializeRegisters() {
-        initializeAllFamiliesRegister();
-        initializeAncRegisters();
-        initializePncRegisters();
+        if (isSupervisor()) {
+            initializeCHWRegister();
+        } else {
+            initializeAllFamiliesRegister();
+            initializeAncRegisters();
+            initializePncRegisters();
+        }
     }
 
 
@@ -285,7 +302,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 .setRegisterRowOptions(AllFamiliesRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
-                .setToolbarOptions(ToolbarOptions.class)
+                .setNavigationOptions(AllFamiliesNavigationOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(true,
                 Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
@@ -313,7 +330,7 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 .setRegisterRowOptions(AncRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
-                .setToolbarOptions(AncPncToolbarOptions.class)
+                .setNavigationOptions(AncPncNavigationOptions.class)
                 .setMemberProfileOptionsClass(AncMemberProfileOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(false,
@@ -341,13 +358,50 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
                 .setRegisterRowOptions(PncRegisterRowOptions.class)
                 .setJsonFormActivity(FamilyWizardFormActivity.class)
                 .setBottomNavigationEnabled(false)
-                .setToolbarOptions(AncPncToolbarOptions.class)
+                .setNavigationOptions(AncPncNavigationOptions.class)
                 .setMemberProfileOptionsClass(PncMemberProfileOptions.class)
                 .build();
         CoreLibrary.getInstance().addModuleConfiguration(
                 false,
                 Constants.RegisterViewConstants.ModuleOptions.PNC,
                 pncModuleConfiguration);
+    }
+
+    public void initializeCHWRegister() {
+        if (isSupervisor()) {
+            // Reset modules
+            // TODO -> Move this to CORE
+            CoreLibrary instance = CoreLibrary.getInstance();
+            String[] moduleNames = {Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
+                    Constants.RegisterViewConstants.ModuleOptions.ANC,
+                    Constants.RegisterViewConstants.ModuleOptions.PNC};
+            for (String module : moduleNames) {
+                instance.removeModuleConfiguration(module);
+            }
+        }
+        ModuleConfiguration chwModuleConfiguration = new ModuleConfiguration.Builder(
+                Constants.RegisterViewConstants.ModuleOptions.CHW,
+                CHWRegisterQueryProvider.class,
+                new ConfigViewsLib(),
+                CHWRegisterActivityStarter.class
+        ).setModuleMetadata(new ModuleMetadata(
+                new ModuleRegister("",
+                        Constants.TableName.CHW_PRACTITIONER,
+                        null, null, // We're not processing any of these events?
+                        Constants.RegisterViewConstants.ModuleOptions.CHW),
+                locationTagsConfiguration,
+                FormActivity.class,
+                null,
+                false,
+                ""
+        )).setRegisterRowOptions(CHWRegisterRowOptions.class)
+                .setBottomNavigationEnabled(true)
+                .setNavigationOptions(ChwRegisterNavigationOptions.class)
+                .build();
+        CoreLibrary.getInstance().addModuleConfiguration(
+                true, // This is the only module in Supervisor mode
+                Constants.RegisterViewConstants.ModuleOptions.CHW,
+                chwModuleConfiguration);
     }
 
     public void setOpenSRPUrl() {
@@ -420,6 +474,12 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
         // Do nothing for now
     }
 
+    public AppExecutors getAppExecutors() {
+        if (appExecutors == null) {
+            appExecutors = new AppExecutors();
+        }
+        return appExecutors;
+    }
 
     static class ConfigViewsLib implements ModuleConfiguration.ConfigurableViewsLibrary {
 
