@@ -85,7 +85,7 @@ public class PerformanceDashboardFragment extends Fragment implements GoldsmithR
 
     @Override
     public void buildVisualization(ViewGroup viewGroup) {
-        GoldsmithReportUtils.showIndicatorVisualisations(viewGroup, indicatorTallies);
+        GoldsmithReportUtils.showIndicatorVisualisations(viewGroup, indicatorTallies, true);
     }
 
     @Override

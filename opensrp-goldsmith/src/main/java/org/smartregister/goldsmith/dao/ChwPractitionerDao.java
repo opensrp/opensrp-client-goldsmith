@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeysConstants.COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS;
+import static org.smartregister.goldsmith.util.ReportingConstants.ThirtyDayIndicatorKeysConstants.COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS;
+
 public class ChwPractitionerDao extends AbstractDao {
 
     public static String TASKS = "tasks";
@@ -55,12 +58,15 @@ public class ChwPractitionerDao extends AbstractDao {
     }
 
     public static List<Map<String, IndicatorTally>> getPregnanciesRegisteredLast30Days(String identifier) {
-        String sql = "select count(ec_anc_register.base_entity_id) from ec_anc_register\n" +
+        String sql = "select count(ec_anc_register.base_entity_id) as count from ec_anc_register\n" +
                 "                     inner join ec_anc_log on ec_anc_register.base_entity_id  = ec_anc_log.base_entity_id\n" +
                 "                     WHERE ec_anc_register.practitioner_identifier = '" + identifier + "' and STRFTIME('%Y-%m-%d %H:%M:%S', ec_anc_log.date_created) >= date('now', '-1 month')";
 
         DataMap<Map<String, IndicatorTally>> dataMap = cursor -> {
             Map<String, IndicatorTally> tallyMap = new HashMap<>();
+            IndicatorTally tally = new IndicatorTally();
+            tally.setCount(getCursorIntValue(cursor, "count"));
+            tallyMap.put(COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS, tally);
             return tallyMap;
         };
         List<Map<String, IndicatorTally>> results = readData(sql, dataMap);
@@ -71,7 +77,7 @@ public class ChwPractitionerDao extends AbstractDao {
     }
 
     public static List<Map<String, IndicatorTally>> getNewBornVisitsLast30Days(String identifier) {
-        String sql = "select count(DISTINCT ec.base_entity_id) from ec_child ec\n" +
+        String sql = "select count(DISTINCT ec.base_entity_id) as count from ec_child ec\n" +
                 "                      inner join (\n" +
                 "                        select e.baseEntityId\n" +
                 "                        from event e\n" +
@@ -84,6 +90,9 @@ public class ChwPractitionerDao extends AbstractDao {
 
         DataMap<Map<String, IndicatorTally>> dataMap = cursor -> {
             Map<String, IndicatorTally> tallyMap = new HashMap<>();
+            IndicatorTally tally = new IndicatorTally();
+            tally.setCount(getCursorIntValue(cursor, "count"));
+            tallyMap.put(COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS, tally);
             return tallyMap;
         };
         List<Map<String, IndicatorTally>> results = readData(sql, dataMap);
