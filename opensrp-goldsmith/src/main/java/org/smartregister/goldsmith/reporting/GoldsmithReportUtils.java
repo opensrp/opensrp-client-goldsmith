@@ -30,7 +30,7 @@ public class GoldsmithReportUtils {
     private static int inProgressColor;
     private static int pregRegistration30DayTarget = 1;
     private static int newBornVisits30DayTarget = 1;
-    private static ReportContract.IndicatorView.CountType countTpe = ReportContract.IndicatorView.CountType.LATEST_COUNT;
+    private static ReportContract.IndicatorView.CountType countType;
 
     public static void showIndicatorVisualisations(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies, Boolean showLatestCounts) {
         defaultBackgroundColor = mainLayout.getResources().getColor(R.color.progressbar_grey);
@@ -39,9 +39,8 @@ public class GoldsmithReportUtils {
         inProgressColor = mainLayout.getResources().getColor(R.color.progressbar_amber);
         initTargets();
 
-        if (!showLatestCounts) {
-            countTpe = ReportContract.IndicatorView.CountType.TOTAL_COUNT;
-        }
+        countType = showLatestCounts ? ReportContract.IndicatorView.CountType.LATEST_COUNT : ReportContract.IndicatorView.CountType.TOTAL_COUNT;
+
         show30DayTotalPregnanciesIndicator(mainLayout, indicatorTallies);
         show30DayTotalNewBornVisits(mainLayout, indicatorTallies);
 
@@ -49,7 +48,7 @@ public class GoldsmithReportUtils {
 
     public static void show30DayTotalPregnanciesIndicator(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
         String indicatorLabel = mainLayout.getContext().getString(R.string.pregnancies_registered_last_30_label);
-        int count = (int) ReportingUtil.getCount(countTpe, COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS, indicatorTallies);
+        int count = (int) ReportingUtil.getCount(countType, COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS, indicatorTallies);
         int percentage = getPercentage(count, pregRegistration30DayTarget);
         int progressColor = getBarColor(percentage);
         ProgressIndicatorDisplayOptions displayOptions = getProgressIndicatorDisplayOptions(indicatorLabel, count, percentage, progressColor);
@@ -59,7 +58,7 @@ public class GoldsmithReportUtils {
 
     public static void show30DayTotalNewBornVisits(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
         String indicatorLabel = mainLayout.getContext().getString(R.string.new_born_visits_last_30_label);
-        int count = (int) ReportingUtil.getCount(countTpe, COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS, indicatorTallies);
+        int count = (int) ReportingUtil.getCount(countType, COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS, indicatorTallies);
         int percentage = getPercentage(count, newBornVisits30DayTarget);
         int progressColor = getBarColor(percentage);
         ProgressIndicatorDisplayOptions displayOptions = getProgressIndicatorDisplayOptions(indicatorLabel, count, percentage, progressColor);

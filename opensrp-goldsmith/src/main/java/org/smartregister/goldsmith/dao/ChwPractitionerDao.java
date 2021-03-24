@@ -66,7 +66,7 @@ public class ChwPractitionerDao extends AbstractDao {
             Map<String, IndicatorTally> tallyMap = new HashMap<>();
             IndicatorTally tally = new IndicatorTally();
             tally.setCount(getCursorIntValue(cursor, "count"));
-            tallyMap.put(COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS, tally);
+            tallyMap.put(COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS, tally);
             return tallyMap;
         };
         List<Map<String, IndicatorTally>> results = readData(sql, dataMap);
@@ -92,7 +92,7 @@ public class ChwPractitionerDao extends AbstractDao {
             Map<String, IndicatorTally> tallyMap = new HashMap<>();
             IndicatorTally tally = new IndicatorTally();
             tally.setCount(getCursorIntValue(cursor, "count"));
-            tallyMap.put(COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS, tally);
+            tallyMap.put(COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS, tally);
             return tallyMap;
         };
         List<Map<String, IndicatorTally>> results = readData(sql, dataMap);
