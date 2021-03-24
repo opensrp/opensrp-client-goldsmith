@@ -368,6 +368,17 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
     }
 
     public void initializeCHWRegister() {
+        if (isSupervisor()) {
+            // Reset modules
+            // TODO -> Move this to CORE
+            CoreLibrary instance = CoreLibrary.getInstance();
+            String[] moduleNames = {Constants.RegisterViewConstants.ModuleOptions.ALL_FAMILIES,
+                    Constants.RegisterViewConstants.ModuleOptions.ANC,
+                    Constants.RegisterViewConstants.ModuleOptions.PNC};
+            for (String module : moduleNames) {
+                instance.removeModuleConfiguration(module);
+            }
+        }
         ModuleConfiguration chwModuleConfiguration = new ModuleConfiguration.Builder(
                 Constants.RegisterViewConstants.ModuleOptions.CHW,
                 CHWRegisterQueryProvider.class,
