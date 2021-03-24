@@ -378,30 +378,32 @@ public class GoldsmithApplication extends CoreChwApplication implements Validate
             for (String module : moduleNames) {
                 instance.removeModuleConfiguration(module);
             }
+
+            ModuleConfiguration chwModuleConfiguration = new ModuleConfiguration.Builder(
+                    Constants.RegisterViewConstants.ModuleOptions.CHW,
+                    CHWRegisterQueryProvider.class,
+                    new ConfigViewsLib(),
+                    CHWRegisterActivityStarter.class
+            ).setModuleMetadata(new ModuleMetadata(
+                    new ModuleRegister("",
+                            Constants.TableName.CHW_PRACTITIONER,
+                            null, null, // We're not processing any of these events?
+                            Constants.RegisterViewConstants.ModuleOptions.CHW),
+                    locationTagsConfiguration,
+                    FormActivity.class,
+                    null,
+                    false,
+                    ""
+            )).setRegisterRowOptions(CHWRegisterRowOptions.class)
+                    .setBottomNavigationEnabled(true)
+                    .setNavigationOptions(ChwRegisterNavigationOptions.class)
+                    .build();
+            CoreLibrary.getInstance().addModuleConfiguration(
+                    true, // This is the only module in Supervisor mode
+                    Constants.RegisterViewConstants.ModuleOptions.CHW,
+                    chwModuleConfiguration);
+
         }
-        ModuleConfiguration chwModuleConfiguration = new ModuleConfiguration.Builder(
-                Constants.RegisterViewConstants.ModuleOptions.CHW,
-                CHWRegisterQueryProvider.class,
-                new ConfigViewsLib(),
-                CHWRegisterActivityStarter.class
-        ).setModuleMetadata(new ModuleMetadata(
-                new ModuleRegister("",
-                        Constants.TableName.CHW_PRACTITIONER,
-                        null, null, // We're not processing any of these events?
-                        Constants.RegisterViewConstants.ModuleOptions.CHW),
-                locationTagsConfiguration,
-                FormActivity.class,
-                null,
-                false,
-                ""
-        )).setRegisterRowOptions(CHWRegisterRowOptions.class)
-                .setBottomNavigationEnabled(true)
-                .setNavigationOptions(ChwRegisterNavigationOptions.class)
-                .build();
-        CoreLibrary.getInstance().addModuleConfiguration(
-                true, // This is the only module in Supervisor mode
-                Constants.RegisterViewConstants.ModuleOptions.CHW,
-                chwModuleConfiguration);
     }
 
     public void setOpenSRPUrl() {
