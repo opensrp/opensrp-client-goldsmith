@@ -11,7 +11,7 @@ import org.smartregister.goldsmith.activity.GoldsmithTaskRegisterActivity;
 import org.smartregister.goldsmith.activity.MyPerformanceActivity;
 import org.smartregister.view.activity.BaseConfigurableRegisterActivity;
 
-public class Utils {
+public class GoldsmithUtils {
 
     public static void handleBottomNavigationSelection(Activity activity, MenuItem menuItem) {
         int menuItemId = menuItem.getItemId();
@@ -25,9 +25,9 @@ public class Utils {
             intent.putExtra(AllConstants.IntentExtra.MODULE_NAME, moduleName);
         } else if (menuItemId == R.id.action_performance) {
             intent = new Intent(activity, MyPerformanceActivity.class);
-        } else if (menuItemId == R.id.action_training) {
+        } /*else if (menuItemId == R.id.action_training) {
             // Do nothing for now
-        }
+        }*/
         if (intent != null) {
             activity.startActivity(intent);
             activity.finish();

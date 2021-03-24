@@ -5,7 +5,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 
-import org.smartregister.goldsmith.util.Utils;
+import org.smartregister.goldsmith.util.GoldsmithUtils;
 import org.smartregister.listener.BottomNavigationListener;
 
 public class SupervisorBottomNavigationLister extends BottomNavigationListener {
@@ -19,7 +19,7 @@ public class SupervisorBottomNavigationLister extends BottomNavigationListener {
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Utils.handleBottomNavigationSelection(activityContext, item);
+        GoldsmithUtils.handleBottomNavigationSelection(activityContext, item);
         return true;
     }
 

@@ -30,7 +30,6 @@ public class ChwProfileActivity extends BaseProfileActivity implements ChwProfil
     private TextView tvAddress;
     private TextView tvHouseholds;
     private TextView tvLastSyncDay;
-    private String identifier;
 
     @Override
     protected void onCreation() {
@@ -124,7 +123,7 @@ public class ChwProfileActivity extends BaseProfileActivity implements ChwProfil
     @Override
     protected void initializePresenter() {
         CommonPersonObjectClient client = (CommonPersonObjectClient) getIntent().getSerializableExtra(AllConstants.INTENT_KEY.COMMON_PERSON_CLIENT);
-        identifier = client.getDetails().get("identifier");
+        String identifier = client.getDetails().get("identifier");
         presenter = new ChwProfilePresenter(this, identifier);
     }
 

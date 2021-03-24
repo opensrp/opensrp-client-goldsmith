@@ -16,9 +16,6 @@ import java.util.Map;
 
 public class SupervisorPerformanceFragment extends PerformanceDashboardFragment {
 
-    private String identifier;
-    private TextView tvPercentage;
-
     public static SupervisorPerformanceFragment newInstance() {
         return new SupervisorPerformanceFragment();
     }
@@ -28,9 +25,9 @@ public class SupervisorPerformanceFragment extends PerformanceDashboardFragment 
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.supervisor_performance_dashboard, container, false);
         progressBar = rootView.findViewById(R.id.progress_bar);
-        tvPercentage = rootView.findViewById(R.id.tv_percentage);
+        TextView tvPercentage = rootView.findViewById(R.id.tv_percentage);
 
-        identifier = CoreLibrary.getInstance().context().allSharedPreferences().getUserPractitionerIdentifier();
+        String identifier = CoreLibrary.getInstance().context().allSharedPreferences().getUserPractitionerIdentifier();
 
         fetchIndicatorDailyTallies(tvPercentage, identifier);
         return rootView;
