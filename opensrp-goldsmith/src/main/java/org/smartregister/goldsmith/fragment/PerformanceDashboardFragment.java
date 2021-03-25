@@ -56,10 +56,7 @@ public class PerformanceDashboardFragment extends Fragment implements GoldsmithR
 
     @Override
     public GoldsmithReportingContract.Presenter getPresenter() {
-        if (presenter == null) {
-            presenter = new MyPerformanceFragmentPresenter(this);
-        }
-        return presenter;
+            return new MyPerformanceFragmentPresenter(this);
     }
 
     @Override
