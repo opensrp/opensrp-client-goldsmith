@@ -12,7 +12,7 @@ import org.smartregister.chw.core.dao.VisitDao;
 import org.smartregister.chw.core.domain.BaseScheduleTask;
 import org.smartregister.chw.core.rule.AncVisitAlertRule;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class ANCVisitScheduler extends BaseTaskExecutor {
     @Override
     public void resetSchedule(String baseEntityID, String scheduleName) {
         super.resetSchedule(baseEntityID, scheduleName);
-        ChwApplication.getInstance().getScheduleRepository().deleteScheduleByGroup(getScheduleGroup(), baseEntityID);
+        GoldsmithApplication.getInstance().getScheduleRepository().deleteScheduleByGroup(getScheduleGroup(), baseEntityID);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ANCVisitScheduler extends BaseTaskExecutor {
         LocalDate dateCreated = StringUtils.isNotBlank(create_date) ? (new DateTime(create_date)).toLocalDate() : new LocalDate(eventDate);
 
         AncVisitAlertRule alertRule = new AncVisitAlertRule(
-                ChwApplication.getInstance().getApplicationContext()
+                GoldsmithApplication.getInstance().getApplicationContext()
                 , DateTimeFormat.forPattern("dd-MM-yyyy").print(dateCreated),
                 visitDate,
                 lastVisitNotDone,

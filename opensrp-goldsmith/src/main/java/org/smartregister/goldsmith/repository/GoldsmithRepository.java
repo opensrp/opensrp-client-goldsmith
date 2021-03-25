@@ -14,6 +14,7 @@ import org.smartregister.chw.core.repository.ScheduleRepository;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.domain.db.Column;
 import org.smartregister.goldsmith.BuildConfig;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.util.RepositoryUtils;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
@@ -35,6 +36,7 @@ import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.ManifestRepository;
 import org.smartregister.repository.PlanDefinitionRepository;
 import org.smartregister.repository.PlanDefinitionSearchRepository;
+import org.smartregister.repository.PractitionerRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.SettingsRepository;
 import org.smartregister.repository.StructureRepository;
@@ -55,7 +57,6 @@ public class GoldsmithRepository extends Repository {
 
     protected SQLiteDatabase readableDatabase;
     protected SQLiteDatabase writableDatabase;
-
 
     public GoldsmithRepository(Context context, org.smartregister.Context openSRPContext) {
         super(context,
@@ -114,6 +115,10 @@ public class GoldsmithRepository extends Repository {
         DailyIndicatorCountRepository.createTable(database);
         MonthlyTalliesRepository.createTable(database);
 
+        // Add practitioner table
+        if (((GoldsmithApplication) (GoldsmithApplication.getInstance())).isSupervisor())
+            PractitionerRepository.createTable(database);
+
         onUpgrade(database, 1, BuildConfig.DATABASE_VERSION);
     }
 
@@ -141,6 +146,10 @@ public class GoldsmithRepository extends Repository {
 
                 case 6:
                     upgradeToVersion6(DrishtiApplication.getInstance().getApplicationContext(), db);
+                    break;
+
+                case 7:
+                    upgradeToVersion7(db);
                     break;
 
                 default:
@@ -225,7 +234,7 @@ public class GoldsmithRepository extends Repository {
 
             // Setup reporting
             ReportingLibrary reportingLibraryInstance = ReportingLibrary.getInstance();
-            String indicatorsConfigFile = "config/indicator-definitions.yml";
+            String indicatorsConfigFile = (((GoldsmithApplication) (GoldsmithApplication.getInstance())).isSupervisor()) ? "config/supervisor-indicator-definitions.yml" : "config/indicator-definitions.yml";
             reportingLibraryInstance.readConfigFile(indicatorsConfigFile, db);
         } catch (Exception e) {
             Timber.e(e, "upgradeToVersion2 ");
@@ -267,6 +276,16 @@ public class GoldsmithRepository extends Repository {
             IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(context, db);
         } catch (Exception e) {
             Timber.e(e);
+        }
+    }
+
+    private static void upgradeToVersion7(SQLiteDatabase db) {
+        try {
+            for (String sql : RepositoryUtils.ADD_PRACTITIONER_IDENTIFIER_COL) {
+                db.execSQL(sql);
+            }
+        } catch (Exception e) {
+            Timber.e(e, "UpgradeToVersion7");
         }
     }
 }

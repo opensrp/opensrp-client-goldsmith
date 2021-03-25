@@ -19,11 +19,11 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.EventClient;
 import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
-import org.smartregister.goldsmith.BuildConfig;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.util.PncRegistrationUtils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,12 +43,12 @@ public class PncFormProcessor implements ModuleFormProcessor {
     @Override
     public HashMap<Client, List<Event>> extractEventClient(@NonNull String jsonString, @Nullable Intent data, @Nullable FormTag formTag) throws JSONException {
 
-        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        AllSharedPreferences allSharedPreferences = GoldsmithApplication.getInstance().getContext().allSharedPreferences();
         EventClient pncRegistrationEventClient = JsonFormUtils.processRegistrationForm(allSharedPreferences, jsonString, Constants.TABLES.PREGNANCY_OUTCOME);
 
         ArrayList<Event> eventList = new ArrayList<>();
         Event pregnancyOutcomeEvent = pncRegistrationEventClient.getEvent();
-        pregnancyOutcomeEvent.addDetails(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
+        pregnancyOutcomeEvent.addDetails(PLAN_IDENTIFIER, ((GoldsmithApplication) DrishtiApplication.getInstance()).getPlanId());
         eventList.add(pregnancyOutcomeEvent);
 
         List<EventClient> childrenEventClientList = getChildrenEventClients(jsonString);
@@ -68,7 +68,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
 
         // Inject the field values
         JSONObject details = new JSONObject();
-        details.put(PLAN_IDENTIFIER, BuildConfig.PNC_PLAN_ID);
+        details.put(PLAN_IDENTIFIER, ((GoldsmithApplication) DrishtiApplication.getInstance()).getPlanId());
         form.put(DETAILS, details);
 
         if (injectedFieldValues != null && injectedFieldValues.size() > 0) {
@@ -121,7 +121,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
     private List<EventClient> generateEventClientForEachChild(Map<String, List<JSONObject>> jsonObjectMap,
                                                               String motherBaseId, String familyBaseEntityId,
                                                               String dob, String familyName) {
-        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        AllSharedPreferences allSharedPreferences = GoldsmithApplication.getInstance().getContext().allSharedPreferences();
         List<EventClient> childrenEventClientList = new ArrayList<>();
         JSONArray childFields;
         for (Map.Entry<String, List<JSONObject>> entry : jsonObjectMap.entrySet()) {
@@ -136,7 +136,7 @@ public class PncFormProcessor implements ModuleFormProcessor {
                         Timber.e(e);
                     }
                 }
-                String uniqueChildID = ChwApplication.getInstance().getUniqueIdRepository().getNextUniqueId().getOpenmrsId();
+                String uniqueChildID = GoldsmithApplication.getInstance().getUniqueIdRepository().getNextUniqueId().getOpenmrsId();
 
                 if (StringUtils.isNotBlank(uniqueChildID)) {
                     String childBaseEntityId = JsonFormUtils.generateRandomUUIDString();
@@ -151,10 +151,11 @@ public class PncFormProcessor implements ModuleFormProcessor {
                         JsonFormUtils.getRegistrationForm(pncForm, childBaseEntityId, PncRegistrationUtils.getLocationID());
 
                         pncForm = JsonFormUtils.populatePNCForm(pncForm, childFields, familyBaseEntityId, motherBaseId, uniqueChildID, dob, lastName);
-                        EventClient childEventClient = PncRegistrationUtils.processPncChild(pncForm, childFields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId, uniqueChildID, lastName, dob);
+                        String practitionerIdentifier = GoldsmithApplication.getInstance().getContext().allSharedPreferences().getUserPractitionerIdentifier();
+                        EventClient childEventClient = PncRegistrationUtils.processPncChild(pncForm, childFields,
+                                allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId, uniqueChildID, lastName, dob, practitionerIdentifier);
                         childrenEventClientList.add(childEventClient);
                         if (pncForm != null) {
-                            // TODO -> Check if okay now that we're saving vaccines prior to saving the child client
                             PncRegistrationUtils.saveVaccineEvents(childFields, childBaseEntityId, dob);
                         }
                     } catch (Exception e) {

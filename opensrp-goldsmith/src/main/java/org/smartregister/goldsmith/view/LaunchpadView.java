@@ -99,6 +99,7 @@ public class LaunchpadView extends LinearLayout {
 
     public void setItemTitle(String itemTitle) {
         this.itemTitle = itemTitle;
+        renderDetails();
     }
 
     public int getItemIcon() {

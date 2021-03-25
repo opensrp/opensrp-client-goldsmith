@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by samuelgithengi on 10/19/18.
  */
-public class ChwSyncConfiguration extends SyncConfiguration {
+public class GoldsmithSyncConfiguration extends SyncConfiguration {
 
     @Override
     public int getSyncMaxRetries() {

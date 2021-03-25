@@ -19,7 +19,7 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.configuration.ModuleMetadata;
 import org.smartregister.domain.form.FormLocation;
 import org.smartregister.family.util.Constants;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.util.AssetHandler;
@@ -224,7 +224,7 @@ public class FormProcessorJsonFormUtils extends JsonFormUtils {
             details = new HashMap<>();
         }
 
-        details.put(org.smartregister.goldsmith.util.Constants.EventDetails.TASK_ID, ((ChwApplication) ChwApplication.getInstance()).getEventTaskIdProvider().getLastStartedTask());
+        details.put(org.smartregister.goldsmith.util.Constants.EventDetails.TASK_ID, ((GoldsmithApplication) GoldsmithApplication.getInstance()).getEventTaskIdProvider().getLastStartedTask());
 
         event.setDetails(details);
     }

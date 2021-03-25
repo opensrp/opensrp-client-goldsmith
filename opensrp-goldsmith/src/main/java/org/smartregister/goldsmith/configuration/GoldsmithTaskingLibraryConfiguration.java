@@ -31,7 +31,7 @@ import org.smartregister.domain.Location;
 import org.smartregister.domain.PlanDefinition;
 import org.smartregister.domain.Task;
 import org.smartregister.goldsmith.BuildConfig;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.activity.AncHomeVisitActivity;
 import org.smartregister.goldsmith.activity.PncHomeVisitActivity;
@@ -58,6 +58,7 @@ import org.smartregister.tasking.util.TaskingMapHelper;
 import org.smartregister.tasking.viewholder.PrioritizedTaskRegisterViewHolder;
 import org.smartregister.util.AppExecutors;
 import org.smartregister.util.Utils;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -213,7 +214,12 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public String generateTaskRegisterSelectQuery(String mainCondition) {
-        return String.format("SELECT * FROM %s INNER JOIN %s ON %s.for = %s.baseEntityId WHERE %s", Constants.DatabaseKeys.TASK_TABLE, "client", Constants.DatabaseKeys.TASK_TABLE, "client", mainCondition);
+        if (((GoldsmithApplication) GoldsmithApplication.getInstance()).isSupervisor()) {
+            String chwUsername = CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
+            return String.format("SELECT task.*, task2.code AS missed_task_code, task2.owner AS chw_username, client.* FROM task INNER JOIN task AS task2 ON task2._id = task.for INNER JOIN client ON task2.for = client.baseEntityId WHERE task.owner = '%s' AND %s", chwUsername, mainCondition);
+        } else {
+            return String.format("SELECT * FROM %s INNER JOIN %s ON %s.for = %s.baseEntityId WHERE %s", Constants.DatabaseKeys.TASK_TABLE, "client", Constants.DatabaseKeys.TASK_TABLE, "client", mainCondition);
+        }
     }
 
     @Override
@@ -248,7 +254,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
     @Override
     public String getCurrentPlanId() {
-        return BuildConfig.PNC_PLAN_ID;
+        return ((GoldsmithApplication) DrishtiApplication.getInstance()).getPlanId();
     }
 
     @Override
@@ -319,7 +325,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
             String taskTitle = "";
 
             taskTitle = taskDetails.getTaskCode();
-            if (taskTitle != null && taskTitle.toLowerCase().startsWith("pnc day")) {
+            if (taskTitle != null && (taskTitle.toLowerCase().startsWith("pnc day")) || taskTitle.toLowerCase().startsWith("pnc task")) {
 
                 int iconResource;
                 switch (taskDetails.getPriority()) {
@@ -347,10 +353,13 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                     taskViewHolder.setTaskIcon(iconResource);
                 }
 
+                if (isSupervisor()) {
+                    taskTitle = "High Risk PNC missed";
+                }
             }
 
 
-            if (taskTitle != null && taskTitle.toLowerCase().startsWith("anc contact")) {
+            if (taskTitle != null && (taskTitle.toLowerCase().startsWith("anc contact")) || taskTitle.toLowerCase().startsWith("anc task") ) {
 
                 int iconResource;
                 switch (taskDetails.getPriority()) {
@@ -378,22 +387,40 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
                 if (iconResource != -1) {
                     taskViewHolder.setTaskIcon(iconResource);
                 }
+
+                if (isSupervisor()) {
+                    taskTitle = "High Risk ANC missed";
+                }
             }
 
-            // TODO: Fix dob for birth approximations
-            String dob = taskDetails.getClient().getDetails().get("birthdate");
-            /*if (TextUtils.isEmpty(dob)) {
-                dob = taskDetails.getClient().getDetails().get("dob");
-            }*/
 
-            int entityAgeInYrs = Utils.getAgeFromDate(dob);
             /*String entityName = taskDetails.getClient().getDetails().get("first_name")+ " "
                     + taskDetails.getClient().getDetails().get("last_name") + ", " + entityAgeInYrs;*/
             String firstName = StringUtils.capitalize(taskDetails.getClient().getDetails().get("firstName"));
             String lastName = StringUtils.capitalize(taskDetails.getClient().getDetails().get("lastName"));
-            String entityName = String.format("%s %s, %d", firstName, lastName, entityAgeInYrs);
-            taskViewHolder.setTaskEntityName(entityName);
-            taskViewHolder.setTaskTitle(taskTitle);
+
+            String entityName = "";
+            if (!isSupervisor()) {
+                // TODO: Fix dob for birth approximations
+                String dob = taskDetails.getClient().getDetails().get("birthdate");
+                /*if (TextUtils.isEmpty(dob)) {
+                    dob = taskDetails.getClient().getDetails().get("dob");
+                }*/
+
+                int entityAgeInYrs = Utils.getAgeFromDate(dob);
+                entityName = String.format("%s %s, %d", firstName, lastName, entityAgeInYrs);
+            } else {
+                entityName = String.format("%s %s", firstName, lastName);
+            }
+
+            if (isSupervisor()) {
+                taskViewHolder.setTaskEntityName(taskTitle);
+                taskViewHolder.setTaskTitle(entityName);
+
+            } else {
+                taskViewHolder.setTaskEntityName(entityName);
+                taskViewHolder.setTaskTitle(taskTitle);
+            }
 
             Calendar authoredOn = Calendar.getInstance();
             authoredOn.setTimeInMillis(taskDetails.getAuthoredOn());
@@ -401,8 +428,11 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
 
             // TODO: Show the calculated distance in metres or KM
             // TODO: Switch between the call icon & the walk icon
-
-            taskViewHolder.setAction(R.drawable.ic_directions_walk, "3 km", onClickListener);
+            if (isSupervisor()) {
+                taskViewHolder.setAction(R.drawable.ic_action_call, "Contact", onClickListener);
+            } else {
+                taskViewHolder.setAction(R.drawable.ic_directions_walk, "3 km", onClickListener);
+            }
             taskViewHolder.setTaskDetails(taskDetails);
         } else {
             Timber.i("The RecyclerView.ViewHolder is not an instance of PrioritizedTaskRegisterViewHolder");
@@ -413,7 +443,7 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
     public void onTaskRegisterItemClicked(@NonNull Activity activity, @NonNull TaskDetails taskDetails) {
         String taskCode = taskDetails.getTaskCode().toLowerCase();
 
-        ((ChwApplication) ChwApplication.getInstance()).getEventTaskIdProvider()
+        ((GoldsmithApplication) GoldsmithApplication.getInstance()).getEventTaskIdProvider()
                 .setLastStartedTask(taskDetails.getTaskId());
 
         if (taskCode.startsWith("pnc day")) {
@@ -678,6 +708,11 @@ public class GoldsmithTaskingLibraryConfiguration extends DefaultTaskingLibraryC
     @Override
     public boolean showCurrentLocationButton() {
         return true;
+    }
+
+    @Override
+    public boolean isSupervisor() {
+        return ((GoldsmithApplication) GoldsmithApplication.getInstance()).isSupervisor();
     }
 
     public class TaskingLibBaseDrawerContractImpl implements BaseDrawerContract.View {

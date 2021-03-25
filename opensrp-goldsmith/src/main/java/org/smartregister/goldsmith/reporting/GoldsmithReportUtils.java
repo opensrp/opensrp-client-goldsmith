@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.util.ReportingConstants;
 import org.smartregister.reporting.contract.ReportContract;
@@ -30,13 +30,16 @@ public class GoldsmithReportUtils {
     private static int inProgressColor;
     private static int pregRegistration30DayTarget = 1;
     private static int newBornVisits30DayTarget = 1;
+    private static ReportContract.IndicatorView.CountType countType;
 
-    public static void showIndicatorVisualisations(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
+    public static void showIndicatorVisualisations(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies, Boolean showLatestCounts) {
         defaultBackgroundColor = mainLayout.getResources().getColor(R.color.progressbar_grey);
         positiveColor = mainLayout.getResources().getColor(R.color.progressbar_green);
         negativeColor = mainLayout.getResources().getColor(R.color.progressbar_red);
         inProgressColor = mainLayout.getResources().getColor(R.color.progressbar_amber);
         initTargets();
+
+        countType = showLatestCounts ? ReportContract.IndicatorView.CountType.LATEST_COUNT : ReportContract.IndicatorView.CountType.TOTAL_COUNT;
 
         show30DayTotalPregnanciesIndicator(mainLayout, indicatorTallies);
         show30DayTotalNewBornVisits(mainLayout, indicatorTallies);
@@ -45,7 +48,7 @@ public class GoldsmithReportUtils {
 
     public static void show30DayTotalPregnanciesIndicator(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
         String indicatorLabel = mainLayout.getContext().getString(R.string.pregnancies_registered_last_30_label);
-        int count = (int) ReportingUtil.getCount(ReportContract.IndicatorView.CountType.LATEST_COUNT, COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS, indicatorTallies);
+        int count = (int) ReportingUtil.getCount(countType, COUNT_TOTAL_PREGNANCIES_LAST_30_DAYS, indicatorTallies);
         int percentage = getPercentage(count, pregRegistration30DayTarget);
         int progressColor = getBarColor(percentage);
         ProgressIndicatorDisplayOptions displayOptions = getProgressIndicatorDisplayOptions(indicatorLabel, count, percentage, progressColor);
@@ -55,7 +58,7 @@ public class GoldsmithReportUtils {
 
     public static void show30DayTotalNewBornVisits(ViewGroup mainLayout, List<Map<String, IndicatorTally>> indicatorTallies) {
         String indicatorLabel = mainLayout.getContext().getString(R.string.new_born_visits_last_30_label);
-        int count = (int) ReportingUtil.getCount(ReportContract.IndicatorView.CountType.LATEST_COUNT, COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS, indicatorTallies);
+        int count = (int) ReportingUtil.getCount(countType, COUNT_TOTAL_NEW_BORN_VISITS_LAST_30_DAYS, indicatorTallies);
         int percentage = getPercentage(count, newBornVisits30DayTarget);
         int progressColor = getBarColor(percentage);
         ProgressIndicatorDisplayOptions displayOptions = getProgressIndicatorDisplayOptions(indicatorLabel, count, percentage, progressColor);
@@ -96,7 +99,7 @@ public class GoldsmithReportUtils {
     // TODO -> Call this only once when server settings are updated
     public static void initTargets() {
         try {
-            JSONArray targetsArray = (JSONArray) ChwApplication.getInstance().getServerConfigs().get(ReportingConstants.ProgressTargetsConstants.INDICATOR_TARGETS_KEY);
+            JSONArray targetsArray = (JSONArray) GoldsmithApplication.getInstance().getServerConfigs().get(ReportingConstants.ProgressTargetsConstants.INDICATOR_TARGETS_KEY);
             if (targetsArray != null && targetsArray.length() > 0) {
                 JSONObject thirtyDayTargetsObject;
                 JSONArray thirtyDayTargetsArray;

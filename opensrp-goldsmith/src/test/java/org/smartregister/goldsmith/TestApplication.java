@@ -22,7 +22,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Created by samuelgithengi on 12/30/19.
  */
-public class TestApplication extends ChwApplication {
+public class TestApplication extends GoldsmithApplication {
 
     private P2PClassifier<JSONObject> p2PClassifier;
 

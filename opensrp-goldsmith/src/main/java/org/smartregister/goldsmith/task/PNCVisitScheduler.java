@@ -9,7 +9,7 @@ import org.smartregister.chw.core.domain.BaseScheduleTask;
 import org.smartregister.chw.core.rule.PncVisitAlertRule;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.HomeVisitUtil;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.util.Constants;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class PNCVisitScheduler extends BaseTaskExecutor {
     public List<ScheduleTask> generateTasks(String baseEntityID, String eventName, Date eventDate) {
         BaseScheduleTask baseScheduleTask = prepareNewTaskObject(baseEntityID);
 
-        Rules rules = ChwApplication.getInstance().getRulesEngineHelper().rules(Constants.RULE_FILE.PNC_HOME_VISIT);
+        Rules rules = GoldsmithApplication.getInstance().getRulesEngineHelper().rules(Constants.RULE_FILE.PNC_HOME_VISIT);
         Date deliveryDate = PNCDao.getPNCDeliveryDate(baseEntityID);
 
         if (deliveryDate == null)

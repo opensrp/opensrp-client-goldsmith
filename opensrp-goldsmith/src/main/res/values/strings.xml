@@ -114,14 +114,18 @@
 
     <!-- My perfomance -->
     <string name="my_performance_title">My Performance</string>
-    <string name="thirty_day_tab_title">30 DAY</string>
-    <string name="three_month_tab_title">3 MONTH</string>
+    <string name="thirty_day_performance_tab_title">30 DAY</string>
+    <string name="three_month_performance_tab_title">3 MONTH</string>
+    <string name="supervisor_performance_tab_title">Myself</string>
+    <string name="team_performance_tab_title">My Team</string>
     <string name="indicators_updating">Updating&#8230;</string>
     <string name="indicators_updating_complete">Update complete</string>
     <string name="performance_completed_percentage">{0}%</string>
     <string name="performance_completed_fraction">Tasks completed: {0}/{1}</string>
+    <string name="chw_row_performance_completed_fraction">{0}/{1} tasks</string>
     <string name="performance_trending_down">Trending down</string>
     <string name="performance_health_indicators_title">KEY HEALTH INDICATORS</string>
+    <string name="performance_tasks_title">TASKS</string>
     <string name="pregnancies_registered_last_30_label">Pregnancies registered last 30 days</string>
     <string name="new_born_visits_last_30_label">New born visits last 30 days</string>
     <!-- End of My performance -->
@@ -175,8 +179,21 @@
     <string name="delivery_at_facilty_counselling">Delivery at health facility counseling</string>
     <string name="nutrition_counselling">Nutrition counseling</string>
     <string name="llitn_label">Is the woman sleeping under a Long Lasting Insecticide-Treated Net (LLITN)?</string>
+    <string name="my_chws">My CHWs</string>
 
 
     <!-- END OF ANC STRINGS -->
+
+
+    <!-- CWH PROFILE STRINGS-->
+    <string name="menu_add_task">Add task \'Come in for stock pickup\'</string>
+    <string name="menu_view_client_list">View client list</string>
+    <!-- END OF CHW PROFILE STRINGS-->
+
+    <!-- Bottom nav -->
+    <string name="my_tasks">My Tasks</string>
+    <string name="performance">Performance</string>
+    <string name="training">Training</string>
+    <!-- End of bottom nav strings -->
 
 </resources>

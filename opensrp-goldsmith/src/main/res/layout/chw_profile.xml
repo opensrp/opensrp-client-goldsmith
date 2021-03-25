@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ChwProfileActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_appbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/supervisor_scheme_blue">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/chw_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/supervisor_scheme_blue"
+            android:contentInsetStart="0dp"
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
+            android:theme="@style/FamilyTheme.AppBarOverlay"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/tv_chw_name"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingLeft="0dp"
+                android:text="Charity Otala"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/register_member_name_size" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/family_two_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/supervisor_scheme_blue"
+            app:theme="@style/FamilyTheme.PopupOverlay">
+
+            <RelativeLayout
+                android:id="@+id/profile_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/supervisor_scheme_blue">
+
+                <LinearLayout
+                    android:id="@+id/details_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginEnd="@dimen/register_member_toolbar_margin"
+                    android:layout_marginRight="@dimen/register_member_toolbar_margin"
+                    android:layout_marginBottom="@dimen/register_member_nav_margin"
+                    android:orientation="horizontal">
+
+                    <org.smartregister.view.customcontrols.CustomFontTextView
+                        android:id="@+id/tv_distance"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:paddingStart="0dp"
+                        android:paddingLeft="0dp"
+                        android:text="5 min"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/register_member_village_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/profile_dot_separator_margin"
+                        android:layout_marginRight="@dimen/profile_dot_separator_margin"
+                        android:text="\u00b7"
+                        android:textColor="@color/white" />
+
+                    <org.smartregister.view.customcontrols.CustomFontTextView
+                        android:id="@+id/tv_address"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingStart="0dp"
+                        android:paddingLeft="0dp"
+                        android:text="Kilimani"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/register_member_village_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/profile_dot_separator_margin"
+                        android:layout_marginRight="@dimen/profile_dot_separator_margin"
+                        android:text="\u00b7"
+                        android:textColor="@color/white" />
+
+                    <org.smartregister.view.customcontrols.CustomFontTextView
+                        android:id="@+id/tv_households"
+                        style="@style/CustomFontTextViewStyle.ClientList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:paddingStart="0dp"
+                        android:paddingLeft="0dp"
+                        android:text="1 household"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/register_member_village_size" />
+                </LinearLayout>
+
+                <org.smartregister.view.customcontrols.CustomFontTextView
+                    android:id="@+id/tv_last_sync_day"
+                    style="@style/CustomFontTextViewStyle.ClientList.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/details_layout"
+                    android:layout_marginBottom="@dimen/register_member_nav_margin"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="0dp"
+                    android:paddingLeft="0dp"
+                    android:text="Last sync today"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/register_member_village_size" />
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorHeight="4dp"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/CustomFontTextViewStyle.tabIndicator.sub.white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ViewStub
+        android:id="@+id/dashboard_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp" />
+
+    <include layout="@layout/content_base_profile" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

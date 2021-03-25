@@ -20,7 +20,7 @@ import org.smartregister.chw.anc.util.VisitUtils;
 import org.smartregister.chw.core.model.VaccineTaskModel;
 import org.smartregister.chw.core.utils.RecurringServiceUtil;
 import org.smartregister.chw.core.utils.VaccineScheduleUtil;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.actionhelper.ANCCardAction;
 import org.smartregister.goldsmith.actionhelper.ANCCounselingAction;
@@ -83,7 +83,7 @@ public abstract class DefaultAncHomeVisitInteractorFlv implements AncHomeVisitIn
         }
 
         try {
-            Constants.JSON_FORM.setLocaleAndAssetManager(ChwApplication.getCurrentLocale(), ChwApplication.getInstance().getApplicationContext().getAssets());
+            Constants.JSON_FORM.setLocaleAndAssetManager(GoldsmithApplication.getCurrentLocale(), GoldsmithApplication.getInstance().getApplicationContext().getAssets());
             evaluateDangerSigns();
             evaluateANCCounseling(dateMap);
             evaluateSleepingUnderLLITN();

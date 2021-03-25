@@ -7,14 +7,17 @@ public class Constants extends CoreConstants {
     public interface RegisterViewConstants {
 
         interface ModuleOptions {
-            String ANC =  "ANC";
+            String ANC = "ANC";
             String PNC = "PNC";
             String ALL_FAMILIES = "All Families";
+            String CHW = "My CHWs";
         }
 
         interface Provider {
             String CLIENT_COLUMN = "client_column";
+            String CHW_COLUMN = "chw_column";
             String ACTION_BUTTON_COLUMN = "action_button_column";
+            String PERFORMANCE_COLUMN = "performance_column";
         }
     }
 
@@ -27,6 +30,10 @@ public class Constants extends CoreConstants {
     public static class IntentKeysConstants {
         public static String GENDER = "gender";
         public static String DOB = "dob";
+    }
+
+    public static class TableName extends CoreConstants.TABLE_NAME {
+        public static final String CHW_PRACTITIONER = "practitioner";
     }
 
     public static class SyncConstants {
@@ -51,5 +58,14 @@ public class Constants extends CoreConstants {
 
     public interface EventDetails {
         String TASK_ID = "taskIdentifier";
+    }
+
+    public interface DBConstants extends DB_CONSTANTS {
+        String IS_ACTIVE = "is_active";
+        String NAME = "name";
+        String USER_ID = "user_id";
+        String USERNAME = "username";
+        String IDENTIFIER = "identifier";
+        String RELATIONAL_ID = "relationalid";
     }
 }

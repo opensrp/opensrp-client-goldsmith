@@ -14,7 +14,7 @@ import org.smartregister.dao.AbstractDao;
 import org.smartregister.domain.Alert;
 import org.smartregister.domain.AlertStatus;
 import org.smartregister.domain.ConfigurableMemberProfileRowData;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.goldsmith.R;
 import org.smartregister.goldsmith.dao.ChwANCDao;
 import org.smartregister.goldsmith.dao.FamilyDao;
@@ -32,7 +32,7 @@ import timber.log.Timber;
 
 public class AncMemberProfileRowDataProvider implements ConfigurableMemberProfileRowDataProvider {
 
-    private final Context context = ChwApplication.getInstance().getApplicationContext();
+    private final Context context = GoldsmithApplication.getInstance().getApplicationContext();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
     private CommonPersonObjectClient commonPersonClient;
     private ConfigurableMemberProfileRowData rowData;

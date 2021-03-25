@@ -19,13 +19,14 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.EventClient;
 import org.smartregister.configuration.ModuleFormProcessor;
 import org.smartregister.domain.tag.FormTag;
-import org.smartregister.goldsmith.ChwApplication;
+import org.smartregister.goldsmith.GoldsmithApplication;
 import org.smartregister.repository.AllSharedPreferences;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.smartregister.AllConstants.PRACTITIONER_IDENTIFIER;
 import static org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID;
 import static org.smartregister.family.util.JsonFormUtils.METADATA;
 import static org.smartregister.goldsmith.util.FormProcessorJsonFormUtils.populateInjectedFields;
@@ -35,7 +36,6 @@ public class AncFormProcessor implements ModuleFormProcessor {
 
     @Override
     public HashMap<Client, List<Event>> extractEventClient(@NonNull String jsonString, @Nullable Intent data, @Nullable FormTag formTag) throws JSONException {
-
         JSONObject form = new JSONObject(jsonString);
         JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
         JSONObject lmp = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.LAST_MENSTRUAL_PERIOD);
@@ -49,12 +49,14 @@ public class AncFormProcessor implements ModuleFormProcessor {
             lmp.put(JsonFormUtils.VALUE, dateTimeFormat.print(lmpDate));
         }
 
-        AllSharedPreferences allSharedPreferences = ChwApplication.getInstance().getContext().allSharedPreferences();
+        AllSharedPreferences allSharedPreferences = GoldsmithApplication.getInstance().getContext().allSharedPreferences();
         EventClient registrationEventClient = JsonFormUtils.processRegistrationForm(allSharedPreferences, jsonString, org.smartregister.chw.anc.util.Constants.TABLES.ANC_MEMBERS);
 
         HashMap<Client, List<Event>> clientEventHashMap = new HashMap<>();
         ArrayList<Event> eventList = new ArrayList<>();
-        eventList.add(registrationEventClient.getEvent());
+        Event event = registrationEventClient.getEvent();
+        event.addDetails(PRACTITIONER_IDENTIFIER, allSharedPreferences.getUserPractitionerIdentifier()); // Should we use providerId instead?
+        eventList.add(event);
         clientEventHashMap.put(registrationEventClient.getClient(), eventList);
         return clientEventHashMap;
     }
